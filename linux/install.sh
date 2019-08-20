@@ -7,12 +7,12 @@ TARGET="$HOME/dotfiles"
 INSTALL="git clone $SOURCE $TARGET"
 UPDATE="git pull"
 
-if [ -d "$TARGET" ]
+if [ -d "$TARGET" ]; then
   echo "Updating dotfiles"
   cd $TARGET
   eval "$UPDATE"
 else
-  echo "Installing dotfiles..."
+  echo "Installing dotfiles
   mkdir -p "$TARGET"
   eval "$CMD"
 fi
