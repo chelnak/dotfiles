@@ -14,5 +14,5 @@ if [ -d "$TARGET" ]; then
 else
   echo "Installing dotfiles"
   mkdir -p "$TARGET"
-  eval "$CMD"
+  eval "$INSTALL"
 fi
