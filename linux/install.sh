@@ -12,7 +12,7 @@ if [ -d "$TARGET" ]; then
   cd $TARGET
   eval "$UPDATE"
 else
-  echo "Installing dotfiles
+  echo "Installing dotfiles"
   mkdir -p "$TARGET"
   eval "$CMD"
 fi
