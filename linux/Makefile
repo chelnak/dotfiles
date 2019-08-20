@@ -1,11 +1,14 @@
 SHELL = /bin/bash
 
-all: core k8s helm fish powershell azcli keybase hub wsl
+all: core k8s helm fish powershell azcli keybase hub wsl clean
 
 core:
 	sudo apt update
 	sudo apt upgrade -y
 	sudo apt dist-upgrade -f
+
+	sudo usermod -aG docker $USER
+
 
 k8s:
 	sudo apt-get update && sudo apt-get install -y apt-transport-https
@@ -47,3 +50,7 @@ hub:
 
 wsl:
 	sudo mv -f etc/wsl.conf /etc/wsl.conf
+
+clean:
+	rm -f get_helm.sh
+	rm -f keybase*.deb
