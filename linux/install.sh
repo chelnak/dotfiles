@@ -2,7 +2,7 @@
 
 SOURCE="https://github.com/chelnak/dotfiles"
 TARBALL="$SOURCE/tarball/master"
-TARGET="$HOME/dotfiles"
+TARGET="$HOME/.dotfiles"
 
 INSTALL="git clone $SOURCE $TARGET"
 UPDATE="git pull"
