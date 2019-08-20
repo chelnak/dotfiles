@@ -7,7 +7,7 @@ core:
 	sudo apt upgrade -y
 	sudo apt dist-upgrade -f
 
-	sudo usermod -aG docker $USER
+	sudo usermod -aG docker $(USER)
 
 
 k8s:
