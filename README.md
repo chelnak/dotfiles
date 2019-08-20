@@ -13,6 +13,8 @@ cd dotfiles/linux
 
 make
 ```
+* Don't run as `sudo`
+* Enter your password when asked
 
 ### Requires
 * git
