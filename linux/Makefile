@@ -32,7 +32,7 @@ fish:
 
 powershell:
 	sudo apt install -y powershell
-	mv -f config/powershell/ $(HOME)/.config/powershell
+	rsync -zavh --progress config/powershell $(HOME)/.config/powershell
 
 azcli:
 	curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
