@@ -35,6 +35,68 @@ make
 
 ## Windows
 
+```PowerShell
+Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chelnak/dotfiles/master/windows/install.sh'))
+
+Set-Location $ENV:USERPROFILE\.dotfiles\windows
+
+Invoke-PSake .\PSake.ps1
+
+```
+
+* Run in an elevated PowerShell session
+
+### Requires
+* git
+* Psake
+
+### Things that the PSake file does
+* Installs the following applications
+```
+git
+chrome
+7zip
+nodejs
+vscode
+kubectl
+helm
+azure storage explorer
+azure cli
+azure data studio
+dotnetcore sdk
+powershell core
+```
+* Installs the following vscode extensions
+```javascript
+gitlens
+EditorConfig
+azure-pipelines
+remote-containers
+remote-ssh
+remote-ssh-edit
+remote-ssh-explorer
+emote-wsl
+vscode-remote-extensionpack
+csharp
+powershell
+vsliveshare
+azurerm-vscode-tools
+vscode-yaml
+vscodeintellicode
+vscode-pull-request-githu
+```
+* Installs the following PowerShell modules
+```
+Az
+Pester
+PSScriptAnalyzer
+```
+* Adds the PowerShell profile to the core path from [here](linux/config/powershell)
+* Adds the following az cli extensions
+```
+azure-devops
+```
+
 ### Terminal
 
 The Windows Terminal profile [here](windows/terminal/profile.json) has a custom theme based on the [Dracula](https://github.com/dracula/iterm) iterm2 theme.
