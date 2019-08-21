@@ -63,7 +63,6 @@ task Configure_PowerShell {
 
     $Modules = @(
         "Az",
-        "Pester"
         "PSScriptAnalyzer"
     )
 
