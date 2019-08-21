@@ -49,7 +49,7 @@ hub:
 	git config --global hub.protocol https
 
 wsl:
-	sudo mv -f etc/wsl.conf /etc/wsl.conf
+	rsync -zavh --progress etc/wsl.conf /etc/wsl.conf
 
 clean:
 	rm -f get_helm.sh
