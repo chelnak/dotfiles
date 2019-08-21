@@ -8,6 +8,8 @@ core:
 	sudo apt dist-upgrade -f
 
 	sudo usermod -aG docker $(USER)
+	
+	sudo apt install -y unzip
 
 k8s:
 	sudo apt-get update && sudo apt-get install -y apt-transport-https
