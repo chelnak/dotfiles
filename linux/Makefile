@@ -57,7 +57,16 @@ hub:
 wsl:
 	sudo rsync -zavh --progress ./etc/wsl.conf /etc/wsl.conf
 
+sqlpackage:	
+	wget "https://go.microsoft.com/fwlink/?linkid=2087431" -O sqlpackage.zip
+	sudo mkdir -p /opt/microsoft/sqlpackage
+	sudo unzip sqlpackage.zip -d /opt/microsoft/sqlpackage
+	sudo chmod a+x /opt/microsoft/sqlpackage/sqlpackage
+	sudo ln -s /opt/microsoft/sqlpackage/sqlpackage /usr/bin/sqlpackage
+
+
 clean:
 	rm -f get_helm.sh
 	rm -f keybase*.deb
 	rm -f packages-microsoft-prod.deb
+	rm -f sqlpackage.zip
