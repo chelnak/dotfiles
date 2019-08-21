@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 SOURCE="https://github.com/chelnak/dotfiles"
 TARBALL="$SOURCE/tarball/master"
