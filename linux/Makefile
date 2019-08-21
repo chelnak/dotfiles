@@ -9,11 +9,10 @@ core:
 
 	sudo usermod -aG docker $(USER)
 
-
 k8s:
 	sudo apt-get update && sudo apt-get install -y apt-transport-https
 	curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-	echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+	echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 	sudo apt-get update
 	sudo apt-get install -y kubectl
 
@@ -33,8 +32,10 @@ fish:
 powershell:
 	wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
 	sudo dpkg -i packages-microsoft-prod.deb
-	sudo apt-get update
-	sudo apt-get install -y powershell
+	sudo apt update
+	sudo add-apt-repository universe
+	sudo apt install -y powershell
+
 	rsync -zavh --progress config/powershell $(HOME)/.config/powershell
 
 azcli:
