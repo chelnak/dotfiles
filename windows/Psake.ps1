@@ -61,22 +61,22 @@ task Configure_VSCode {
 
 task Configure_PowerShell {
 
-    $Modules = @(
-        "Az",
-        "PSScriptAnalyzer"
-    )
+    # $Modules = @(
+    #     "Az",
+    #     "PSScriptAnalyzer"
+    # )
 
-    $Modules | ForEach-Object {
-        Write-Host "Installing Windows Powershell module $_"
-        Install-Module $_ -Scope CurrentUser -Force -SkipPublisherCheck
-    }
+    # $Modules | ForEach-Object {
+    #     Write-Host "Installing Windows Powershell module $_"
+    #     Install-Module $_ -Scope CurrentUser -Force -SkipPublisherCheck
+    # }
 
-    if (!$ENV:HOMESHARE) {
-        $Modules | ForEach-Object {
-            Write-Host "Installing PowerShell Core module"
-            pwsh -Command Install-Module $USING:_ -Scope CurrentUser -Force
-        }
-    }
+    # if (!$ENV:HOMESHARE) {
+    #     $Modules | ForEach-Object {
+    #         Write-Host "Installing PowerShell Core module"
+    #         pwsh -Command Install-Module $USING:_ -Scope CurrentUser -Force
+    #     }
+    # }
 
     Write-Host "Copying PowerShell Profile"
 
