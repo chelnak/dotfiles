@@ -96,16 +96,7 @@ PSScriptAnalyzer
 ```
 azure-devops
 ```
-
-### Terminal
-
-The Windows Terminal profile [here](windows/terminal/profile.json) has a custom theme based on the [Dracula](https://github.com/dracula/iterm) iterm2 theme.
-
-Add the profile and associated `party_parrot.png` image to:
-
-``` PowerShell
-$ENV:LOCALAPPDATA/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/RoamingState
-```
+* Configures the Windows Terminal profile
 
 ## Sources
 
