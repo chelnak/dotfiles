@@ -74,7 +74,7 @@ task Configure_PowerShell {
     if (!$ENV:HOMESHARE) {
         $Modules | ForEach-Object {
             Write-Host "Installing PowerShell Core module"
-            pwsh -Command ({Install-Module $_ -Scope CurrentUser -Force})
+            pwsh -Command Install-Module $USING:_ -Scope CurrentUser -Force
         }
     }
 
@@ -103,9 +103,9 @@ task Configure_AzCli {
 }
 
 task Configure_Terminal {
-    Write-Host "Configuring Terminal profile"
     $TerminalAppDataPath = "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\RoamingState"
     if (Test-Path -Path $TerminalAppDataPath) {
+        Write-Host "Configuring Terminal profile"
         Copy-Item -Path $PSScriptRoot\terminal\* -Destination $TerminalAppDataPath -Force -Recurse
     }
 }
