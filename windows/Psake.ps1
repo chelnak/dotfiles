@@ -68,8 +68,15 @@ task Configure_PowerShell {
     )
 
     $Modules | ForEach-Object {
-        Write-Host "Installing module $_"
-        Install-Module $_ -Scope CurrentUser -Force
+        Write-Host "Installing Windows Powershell module $_"
+        Install-Module $_ -Scope CurrentUser -Force -SkipPublisherCheck
+    }
+
+    if (!$ENV:HOMESHARE) {
+        $Modules | ForEach-Object {
+            Write-Host "Installing PowerShell Core module"
+            pwsh -Command ({Install-Module $_ -Scope CurrentUser -Force})
+        }
     }
 
     Write-Host "Copying PowerShell Profile"
