@@ -36,7 +36,7 @@ make
 ## Windows
 
 ```PowerShell
-Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chelnak/dotfiles/master/windows/install.sh'))
+Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chelnak/dotfiles/master/windows/install.ps1'))
 
 Set-Location $ENV:USERPROFILE\.dotfiles\windows
 
