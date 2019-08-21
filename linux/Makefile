@@ -31,7 +31,10 @@ fish:
 	rsync -zavh --progress config/fish $(HOME)/.config/fish
 
 powershell:
-	sudo apt install -y powershell
+	wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
+	sudo dpkg -i packages-microsoft-prod.deb
+	sudo apt-get update
+	sudo apt-get install -y powershell
 	rsync -zavh --progress config/powershell $(HOME)/.config/powershell
 
 azcli:
@@ -54,3 +57,4 @@ wsl:
 clean:
 	rm -f get_helm.sh
 	rm -f keybase*.deb
+	rm -f packages-microsoft-prod.deb
