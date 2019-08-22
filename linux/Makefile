@@ -29,7 +29,7 @@ fish:
 	chsh -s /usr/bin/fish
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 	fish -c fisher add oh-my-fish/theme-robbyrussell
-	rsync -zavh --progress config/fish $(HOME)/.config/fish
+	rsync -zavhr --progress config/fish $(HOME)/.config
 
 powershell:
 	wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
@@ -38,7 +38,7 @@ powershell:
 	sudo add-apt-repository universe
 	sudo apt install -y powershell
 
-	rsync -zavh --progress config/powershell $(HOME)/.config/powershell
+	rsync -zavh --progress config/powershell $(HOME)/.config
 
 azcli:
 	curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
@@ -63,7 +63,6 @@ sqlpackage:
 	sudo unzip sqlpackage.zip -d /opt/microsoft/sqlpackage
 	sudo chmod a+x /opt/microsoft/sqlpackage/sqlpackage
 	sudo ln -s /opt/microsoft/sqlpackage/sqlpackage /usr/bin/sqlpackage
-
 
 clean:
 	rm -f get_helm.sh
