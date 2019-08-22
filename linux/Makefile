@@ -42,6 +42,7 @@ powershell:
 
 azcli:
 	curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+	rsync -zavh azure/config $(HOME)/.azure/config
 
 keybase:
 	curl --remote-name https://prerelease.keybase.io/keybase_amd64.deb
