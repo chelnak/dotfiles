@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 
-all: core mate k8s helm fish powershell azcli keybase hub wsl sqlpackage clean
+all: core mate rdp docker k8s fish powershell azcli keybase git wsl sqlpackage clean
 
 core:
 
@@ -17,18 +17,31 @@ core:
 	sudo apt install -y build-essential
 	sudo apt install -y apt-transport-https
 	sudo apt install ubuntu-restricted-extras
-	sudo apt install -y docker.io
 	sudo apt install -y unzip
-	sudo apt install -y sudo xrdp
 
-	sudo usermod -aG docker $(USER)
-	sudo ufw allow 3389/tcp
-	sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n mate-session \n' /etc/xrdp/startwm.sh
+git:
+	sudo apt install -y git
+
+	sudo add-apt-repository -y ppa:cpick/hub
+	sudo apt update
+	sudo apt install -y hub
+
+	cat .gitconfig | keybase pgp decrypt > $(HOME)/.gitconfig
+	git config credential.helper store
 
 mate:
 	sudo apt install -y ubuntu-mate-desktop
 	sudo apt install mate-desktop-environment-extras
 	sudo apt install gnome-icon-theme
+
+rdp:
+	sudo apt install -y sudo xrdp
+	sudo ufw allow 3389/tcp
+	sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n mate-session \n' /etc/xrdp/startwm.sh
+
+docker:
+	sudo apt install -y docker.io
+	sudo usermod -aG docker $(USER)
 
 k8s:
 	curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -36,7 +49,9 @@ k8s:
 	sudo apt-get update
 	sudo apt-get install -y kubectl
 
-helm:
+	git clone https://github.com/ahmetb/kubectl-aliases.git /tmp/make/kubectl-aliases
+	mv /tmp/make/kubectl-aliases/.kubectl_aliases $(HOME)/.kubectl_aliases
+
 	wget "https://git.io/get_helm.sh" -O /tmp/make/get_helm.sh
 	chmod 700 /tmp/make/get_helm.sh
 	/tmp/make/get_helm.sh
@@ -47,9 +62,11 @@ fish:
 	sudo sed --in-place -e '/auth.*required.*pam_shells.so/s/required/sufficient/g' /etc/pam.d/chsh
 	chsh -s /usr/bin/fish
 	sudo sed --in-place -e '/auth.*sufficient.*pam_shells.so/s/sufficient/required/g' /etc/pam.d/chsh
+
+	rsync -zavhr --progress config/fish $(HOME)/.config
+
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 	fish -c fisher add oh-my-fish/theme-robbyrussell
-	rsync -zavhr --progress config/fish $(HOME)/.config
 
 chrome:
 	sudo apt install xdg-utils
@@ -95,23 +112,19 @@ azcli:
 keybase:
 	wget https://prerelease.keybase.io/keybase_amd64.deb -O /tmp/make/keybase_amd64.deb
 	sudo apt install /tmp/make/keybase_amd64.deb
-	run_keybase
 
-hub:
-	sudo add-apt-repository -y ppa:cpick/hub
-	sudo apt update
-	sudo apt -y install hub
-	git config --global hub.protocol https
-
+	keybase login
+	keybase pgp export | gpg --import
+	keybase pgp export --secret | gpg --allow-secret-key-import --import
 wsl:
 	sudo rsync -zavh --progress ./etc/wsl.conf /etc/wsl.conf
 
 sqlpackage:
 	wget "https://go.microsoft.com/fwlink/?linkid=2087431" -O /tmp/make/sqlpackage.zip
 	sudo mkdir -p /opt/microsoft/sqlpackage
-	sudo unzip /tmp/make/sqlpackage.zip -d /opt/microsoft/sqlpackage
+	sudo unzip -o /tmp/make/sqlpackage.zip -d /opt/microsoft/sqlpackage
 	sudo chmod a+x /opt/microsoft/sqlpackage/sqlpackage
-	sudo ln -s /opt/microsoft/sqlpackage/sqlpackage /usr/bin/sqlpackage
+	sudo ln -s /opt/microsoft/sqlpackage/sqlpackage /usr/bin/sqlpackage -f
 
 clean:
 	rm -rf /tmp/make
