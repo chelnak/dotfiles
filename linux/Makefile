@@ -1,18 +1,34 @@
 SHELL = /bin/bash
 
-all: core k8s helm fish powershell azcli keybase hub wsl clean
+all: core mate k8s helm fish powershell azcli keybase hub wsl sqlpackage clean
 
 core:
+
+	rm -rf /tmp/make
+	mkdir -p /tmp/make
+
+	echo "Europe/London" | sudo tee /etc/timezone
+	sudo dpkg-reconfigure --frontend noninteractive tzdata
+
 	sudo apt update
 	sudo apt upgrade -y
 	sudo apt dist-upgrade -f
 
 	sudo apt install -y build-essential
 	sudo apt install -y apt-transport-https
+	sudo apt install ubuntu-restricted-extras
 	sudo apt install -y docker.io
 	sudo apt install -y unzip
+	sudo apt install -y sudo xrdp
 
 	sudo usermod -aG docker $(USER)
+	sudo ufw allow 3389/tcp
+	sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n mate-session \n' /etc/xrdp/startwm.sh
+
+mate:
+	sudo apt install -y ubuntu-mate-desktop
+	sudo apt install mate-desktop-environment-extras
+	sudo apt install gnome-icon-theme
 
 k8s:
 	curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -21,21 +37,28 @@ k8s:
 	sudo apt-get install -y kubectl
 
 helm:
-	curl -LO https://git.io/get_helm.sh
-	chmod 700 get_helm.sh
-	./get_helm.sh
+	wget "https://git.io/get_helm.sh" -O /tmp/make/get_helm.sh
+	chmod 700 /tmp/make/get_helm.sh
+	/tmp/make/get_helm.sh
 	helm init --client-only
 
 fish:
 	sudo apt install fish
+	sudo sed --in-place -e '/auth.*required.*pam_shells.so/s/required/sufficient/g' /etc/pam.d/chsh
 	chsh -s /usr/bin/fish
+	sudo sed --in-place -e '/auth.*sufficient.*pam_shells.so/s/sufficient/required/g' /etc/pam.d/chsh
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 	fish -c fisher add oh-my-fish/theme-robbyrussell
 	rsync -zavhr --progress config/fish $(HOME)/.config
 
+chrome:
+	sudo apt install xdg-utils
+	wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O /tmp/make/google-chrome-stable_current_amd64.deb
+	sudo apt install /tmp/make/google-chrome-stable_current_amd64.deb
+
 vscode:
-	wget "https://go.microsoft.com/fwlink/?LinkID=760868" -O /tmp/vscode.deb
-	sudo apt install /tmp/vscode.deb
+	wget "https://go.microsoft.com/fwlink/?LinkID=760868" -O /tmp/make/vscode.deb
+	sudo apt install /tmp/make/vscode.deb
 
 	code --install-extension eamodio.gitlens
 	code --install-extension EditorConfig.EditorConfig
@@ -54,10 +77,9 @@ vscode:
 	code --install-extension VisualStudioExptTeam.vscodeintellicode
 	code --install-extension github.vscode-pull-request-github
 
-
 powershell:
-	wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
-	sudo dpkg -i packages-microsoft-prod.deb
+	wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O /tmp/make/packages-microsoft-prod.deb
+	sudo dpkg -i /tmp/make/packages-microsoft-prod.deb
 	sudo apt update
 	sudo add-apt-repository universe
 	sudo apt install -y powershell
@@ -65,12 +87,14 @@ powershell:
 	rsync -zavh --progress config/powershell $(HOME)/.config
 
 azcli:
-	curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+	wget "https://aka.ms/InstallAzureCLIDeb" -O /tmp/make/azcli.sh
+	chmod 700 /tmp/make/azcli.sh
+	sudo /tmp/make/azcli.sh
 	rsync -zavh azure/config $(HOME)/.azure/config
 
 keybase:
-	curl --remote-name https://prerelease.keybase.io/keybase_amd64.deb
-	sudo apt install ./keybase_amd64.deb
+	wget https://prerelease.keybase.io/keybase_amd64.deb -O /tmp/make/keybase_amd64.deb
+	sudo apt install /tmp/make/keybase_amd64.deb
 	run_keybase
 
 hub:
@@ -82,15 +106,12 @@ hub:
 wsl:
 	sudo rsync -zavh --progress ./etc/wsl.conf /etc/wsl.conf
 
-sqlpackage:	
-	wget "https://go.microsoft.com/fwlink/?linkid=2087431" -O sqlpackage.zip
+sqlpackage:
+	wget "https://go.microsoft.com/fwlink/?linkid=2087431" -O /tmp/make/sqlpackage.zip
 	sudo mkdir -p /opt/microsoft/sqlpackage
-	sudo unzip sqlpackage.zip -d /opt/microsoft/sqlpackage
+	sudo unzip /tmp/make/sqlpackage.zip -d /opt/microsoft/sqlpackage
 	sudo chmod a+x /opt/microsoft/sqlpackage/sqlpackage
 	sudo ln -s /opt/microsoft/sqlpackage/sqlpackage /usr/bin/sqlpackage
 
 clean:
-	rm -f get_helm.sh
-	rm -f keybase*.deb
-	rm -f packages-microsoft-prod.deb
-	rm -f sqlpackage.zip
+	rm -rf /tmp/make
