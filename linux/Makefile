@@ -1,5 +1,3 @@
-SHELL = /bin/bash
-
 all: core mate rdp docker k8s fish powershell azcli keybase git wsl sqlpackage clean
 
 core:
