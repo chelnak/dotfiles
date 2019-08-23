@@ -1,3 +1,6 @@
+SHELL=/bin/bash
+GPG=$(SHELL gpg --list-secret-keys --keyid-format LONG | grep AC2291CF29056C5C)
+
 all: core mate rdp docker k8s fish powershell azcli keybase git wsl sqlpackage clean
 
 core:
@@ -91,6 +94,7 @@ vscode:
 	code --install-extension redhat.vscode-yaml
 	code --install-extension VisualStudioExptTeam.vscodeintellicode
 	code --install-extension github.vscode-pull-request-github
+	code --install-extension oderwat.indent-rainbow
 
 powershell:
 	wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O /tmp/make/packages-microsoft-prod.deb
@@ -111,9 +115,12 @@ keybase:
 	wget https://prerelease.keybase.io/keybase_amd64.deb -O /tmp/make/keybase_amd64.deb
 	sudo apt install /tmp/make/keybase_amd64.deb
 
-	keybase login
-	keybase pgp export | gpg --import
-	keybase pgp export --secret | gpg --allow-secret-key-import --import
+	if ! test -z $(GPG);then\
+		keybase login;\
+		keybase pgp export | gpg --import;\
+		keybase pgp export --secret | gpg --allow-secret-key-import --import;\
+	fi
+
 wsl:
 	sudo rsync -zavh --progress ./etc/wsl.conf /etc/wsl.conf
 
