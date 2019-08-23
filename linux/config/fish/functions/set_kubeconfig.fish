@@ -9,5 +9,4 @@ function set_kubeconfig
       end
     end
   end
-  echo "KUBECONFIG updated:" $KUBECONFIG
 end
