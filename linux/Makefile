@@ -7,12 +7,14 @@ core:
 	sudo apt upgrade -y
 	sudo apt dist-upgrade -f
 
-	sudo usermod -aG docker $(USER)
-	
+	sudo apt install -y build-essential
+	sudo apt install -y apt-transport-https
+	sudo apt install -y docker.io
 	sudo apt install -y unzip
 
+	sudo usermod -aG docker $(USER)
+
 k8s:
-	sudo apt-get update && sudo apt-get install -y apt-transport-https
 	curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 	echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 	sudo apt-get update
@@ -30,6 +32,28 @@ fish:
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 	fish -c fisher add oh-my-fish/theme-robbyrussell
 	rsync -zavhr --progress config/fish $(HOME)/.config
+
+vscode:
+	wget "https://go.microsoft.com/fwlink/?LinkID=760868" -O /tmp/vscode.deb
+	sudo apt install /tmp/vscode.deb
+
+	code --install-extension eamodio.gitlens
+	code --install-extension EditorConfig.EditorConfig
+	code --install-extension ms-azure-devops.azure-pipelines
+	code --install-extension ms-vscode-remote.remote-containers
+	code --install-extension ms-vscode-remote.remote-ssh
+	code --install-extension ms-vscode-remote.remote-ssh-edit
+	code --install-extension ms-vscode-remote.remote-ssh-explorer
+	code --install-extension ms-vscode-remote.remote-wsl
+	code --install-extension ms-vscode-remote.vscode-remote-extensionpack
+	code --install-extension ms-vscode.csharp
+	code --install-extension ms-vscode.powershell
+	code --install-extension ms-vsliveshare.vsliveshare
+	code --install-extension msazurermtools.azurerm-vscode-tools
+	code --install-extension redhat.vscode-yaml
+	code --install-extension VisualStudioExptTeam.vscodeintellicode
+	code --install-extension github.vscode-pull-request-github
+
 
 powershell:
 	wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
