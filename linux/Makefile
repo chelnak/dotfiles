@@ -40,11 +40,11 @@ mate:
 		# https://gist.github.com/reavon/0bbe99150810baa5623e5f601aa93afc
 		dconf dump /org/mate/terminal/profiles/default/ < mate-terminal-default-profile.dconf;\
 
-		sudo ufw enable
+		sudo ufw enable;\
 
-		sudo apt install -y sudo xrdp
-		sudo ufw allow 3389/tcp
-		sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n mate-session \n' /etc/xrdp/startwm.sh
+		sudo apt install -y sudo xrdp;\
+		sudo ufw allow 3389/tcp;\
+		sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n mate-session \n' /etc/xrdp/startwm.sh;\
 	fi
 
 docker:
