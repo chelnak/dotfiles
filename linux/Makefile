@@ -17,7 +17,7 @@ core:
 
 	sudo apt install -y build-essential
 	sudo apt install -y apt-transport-https
-	sudo apt install ubuntu-restricted-extras
+	sudo apt install -y ubuntu-restricted-extras
 	sudo apt install -y unzip
 
 git:
