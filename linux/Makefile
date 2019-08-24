@@ -19,6 +19,7 @@ core:
 	sudo apt install -y apt-transport-https
 	sudo apt install -y ubuntu-restricted-extras
 	sudo apt install -y unzip
+	sudo apt install -y containerd
 
 git:
 	sudo apt install -y git
@@ -120,12 +121,9 @@ azcli:
 keybase:
 	wget https://prerelease.keybase.io/keybase_amd64.deb -O /tmp/make/keybase_amd64.deb
 	sudo apt install /tmp/make/keybase_amd64.deb
-
-	if test -z $(GPG);then\
-		keybase login;\
-		keybase pgp export | gpg --import;\
-		keybase pgp export --secret | gpg --allow-secret-key-import --import;\
-	fi
+	keybase login
+	keybase pgp export | gpg --import
+	keybase pgp export --secret --unencrypted | gpg --import
 
 wsl:
 	if test $(WSL_DISTRO_NAME);then\
@@ -142,3 +140,4 @@ sqlpackage:
 
 clean:
 	rm -rf /tmp/make
+	sudo apt autoremove -y
