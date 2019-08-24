@@ -37,7 +37,6 @@ mate:
 		sudo apt install mate-desktop-environment-extras;\
 		sudo apt install gnome-icon-theme;\
 
-		# https://gist.github.com/reavon/0bbe99150810baa5623e5f601aa93afc;\
 		dconf dump /org/mate/terminal/profiles/default/ < mate-terminal-default-profile.dconf;\
 
 		sudo ufw enable;\
