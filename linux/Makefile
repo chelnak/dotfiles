@@ -11,6 +11,8 @@ core:
 	echo "Europe/London" | sudo tee /etc/timezone
 	sudo dpkg-reconfigure --frontend noninteractive tzdata
 
+	sudo ufw enable
+
 	sudo apt update
 	sudo apt upgrade -y
 	sudo apt dist-upgrade -f
@@ -31,9 +33,15 @@ git:
 	git config credential.helper store
 
 mate:
-	sudo apt install -y ubuntu-mate-desktop
-	sudo apt install mate-desktop-environment-extras
-	sudo apt install gnome-icon-theme
+
+	if test -z $(WSL_DISTRO_NAME);then\
+		sudo apt install -y ubuntu-mate-desktop;\
+		sudo apt install mate-desktop-environment-extras;\
+		sudo apt install gnome-icon-theme;\
+
+		# https://gist.github.com/reavon/0bbe99150810baa5623e5f601aa93afc
+		dconf dump /org/mate/terminal/profiles/default/ < mate-terminal-default-profile.dconf;\
+	fi
 
 rdp:
 	sudo apt install -y sudo xrdp
@@ -105,6 +113,9 @@ powershell:
 
 	rsync -zavh --progress config/powershell $(HOME)/.config
 
+	pwsh -C Install-Module -Name posh-git -Scope CurrentUser -AllowPreRelease -Force -Verbose
+	pwsh -C Install-Module -Name Az -Scope CurrentUser -Force -Verbose
+
 azcli:
 	wget "https://aka.ms/InstallAzureCLIDeb" -O /tmp/make/azcli.sh
 	chmod 700 /tmp/make/azcli.sh
@@ -122,7 +133,10 @@ keybase:
 	fi
 
 wsl:
-	sudo rsync -zavh --progress ./etc/wsl.conf /etc/wsl.conf
+	if test $(WSL_DISTRO_NAME);then\
+		echo "WSL detected. Updating wsl.conf";\
+		sudo rsync -zavh --progress ./etc/wsl.conf /etc/wsl.conf;\
+	fi
 
 sqlpackage:
 	wget "https://go.microsoft.com/fwlink/?linkid=2087431" -O /tmp/make/sqlpackage.zip
