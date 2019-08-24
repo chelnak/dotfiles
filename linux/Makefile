@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 GPG=$(SHELL gpg --list-secret-keys --keyid-format LONG | grep AC2291CF29056C5C)
 
-all: core mate rdp docker k8s fish powershell azcli keybase git wsl sqlpackage clean
+all: core mate docker k8s fish powershell azcli keybase git wsl sqlpackage clean
 
 core:
 
@@ -10,8 +10,6 @@ core:
 
 	echo "Europe/London" | sudo tee /etc/timezone
 	sudo dpkg-reconfigure --frontend noninteractive tzdata
-
-	sudo ufw enable
 
 	sudo apt update
 	sudo apt upgrade -y
@@ -41,12 +39,13 @@ mate:
 
 		# https://gist.github.com/reavon/0bbe99150810baa5623e5f601aa93afc
 		dconf dump /org/mate/terminal/profiles/default/ < mate-terminal-default-profile.dconf;\
-	fi
 
-rdp:
-	sudo apt install -y sudo xrdp
-	sudo ufw allow 3389/tcp
-	sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n mate-session \n' /etc/xrdp/startwm.sh
+		sudo ufw enable
+
+		sudo apt install -y sudo xrdp
+		sudo ufw allow 3389/tcp
+		sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n mate-session \n' /etc/xrdp/startwm.sh
+	fi
 
 docker:
 	sudo apt install -y docker.io
