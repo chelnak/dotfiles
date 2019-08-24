@@ -1,29 +1,25 @@
-$CurrentTitle = $Host.UI.RawUI.WindowTitle
-$Host.UI.RawUI.WindowTitle =  "Loading Az ..."
+Import-Module posh-git
 
-$SubScriptionName = (Get-AzContext).Subscription.Name
-
-if ($SubScriptionName) {
-    $WindowTitle = "PowerShell | Az - [$($SubscriptionName)]"
-} else {
-    $WindowTitle = $CurrentTitle
+if (Get-Module -Name Az.Profile -ListAvailable) {
+    $Host.UI.RawUI.WindowTitle =  "Loading Az ..."
+    $SubScriptionName = (Get-AzContext).Subscription.Name
 }
 
-$Host.UI.RawUI.WindowTitle =  $WindowTitle
+function prompt {
 
-function Prompt {
+    if ($SubScriptionName) {
+        $WindowTitle = "pwsh $((Get-Location).path) | Az - [$($SubscriptionName)]"
+    } else {
+        $WindowTitle = "pwsh $((Get-Location).path)"
 
-    $IsElevated = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
-    if ($IsElevated) {
-        Write-Host "$([char]9788) " -ForegroundColor Red -NoNewline
-    }else {
-        Write-Host "$([char]9788) " -ForegroundColor Yellow -NoNewline
     }
-    Write-Host "$ENV:USERNAME " -ForegroundColor Green -NoNewline
-    Write-Host "[$((Get-Location).path)]" -NoNewline
-    Write-Host
-    Write-Output '# '
 
+    $Host.UI.RawUI.WindowTitle =  $WindowTitle
+
+    $prompt = Write-Prompt "➜ " -ForegroundColor ([ConsoleColor]::Green)
+
+    $prompt += & $GitPromptScriptBlock
+    if ($prompt) { "$prompt " } else { " " }
 }
 
-Set-Location -Path $ENV:USERPROFILE/code -ErrorAction stop
+Set-Location -Path $ENV:HOME/code -ErrorAction stop
