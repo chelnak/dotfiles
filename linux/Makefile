@@ -32,15 +32,12 @@ git:
 
 mate:
 
-	if test -z $(WSL_DISTRO_NAME);then
+	if test -z $(WSL_DISTRO_NAME);then\
 		sudo apt install -y ubuntu-mate-desktop;\
 		sudo apt install mate-desktop-environment-extras;\
 		sudo apt install gnome-icon-theme;\
-
 		dconf dump /org/mate/terminal/profiles/default/ < mate-terminal-default-profile.dconf;\
-
 		sudo ufw enable;\
-
 		sudo apt install -y sudo xrdp;\
 		sudo ufw allow 3389/tcp;\
 		sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n mate-session \n' /etc/xrdp/startwm.sh;\
