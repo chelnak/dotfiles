@@ -106,10 +106,10 @@ powershell:
 	sudo add-apt-repository universe
 	sudo apt install -y powershell
 
-	rsync -zavh --progress config/powershell $(HOME)/.config
-
 	pwsh -C Install-Module -Name posh-git -Scope CurrentUser -AllowPreRelease -Force -Verbose
 	pwsh -C Install-Module -Name Az -Scope CurrentUser -Force -Verbose
+
+	rsync -zavh --progress config/powershell $(HOME)/.config
 
 azcli:
 	wget "https://aka.ms/InstallAzureCLIDeb" -O /tmp/make/azcli.sh
@@ -121,7 +121,7 @@ keybase:
 	wget https://prerelease.keybase.io/keybase_amd64.deb -O /tmp/make/keybase_amd64.deb
 	sudo apt install /tmp/make/keybase_amd64.deb
 
-	if ! test -z $(GPG);then\
+	if test -z $(GPG);then\
 		keybase login;\
 		keybase pgp export | gpg --import;\
 		keybase pgp export --secret | gpg --allow-secret-key-import --import;\
