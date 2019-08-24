@@ -2,7 +2,7 @@ properties {
 
 }
 
-task default -depends InstallDependencies, InstallApplications, Configure_VSCode, Configure_PowerShell, Configure_AzCli
+task default -depends InstallDependencies, InstallApplications, Configure_VSCode, Configure_PowerShell, Configure_AzCli, Configure_Keybase, Configure_Git
 
 task InstallDependencies {
     Set-ExecutionPolicy Bypass -Scope Process -Force
@@ -15,18 +15,21 @@ task InstallDependencies {
 }
 
 task InstallApplications {
-    choco upgrade googlechrome -fy
-    choco upgrade 7zip.install -fy
-    choco upgrade git.install -fy
-    choco upgrade nodejs.install -fy
-    choco upgrade vscode -fy
-    choco upgrade kubernetes-cli -fy
-    choco upgrade kubernetes-helm -fy
-    choco upgrade microsoftazurestorageexplorer -fy
-    choco upgrade azure-cli -fy
-    choco upgrade azure-data-studio -fy
-    choco upgrade dotnetcore-sdk -fy
-    choco upgrade powershell-core --install-arguments='"ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1"' -fy
+    choco upgrade googlechrome -y
+    choco upgrade 7zip.install -y
+    choco upgrade git.install -y
+    choco upgrade git-credential-manager-for-windows -y
+    choco upgrade nodejs.install -y
+    choco upgrade vscode -y
+    choco upgrade kubernetes-cli -y
+    choco upgrade kubernetes-helm -y
+    choco upgrade microsoftazurestorageexplorer -y
+    choco upgrade azure-cli -y
+    choco upgrade azure-data-studio -y
+    choco upgrade dotnetcore-sdk -y
+    choco upgrade powershell-core --install-arguments='"ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1"' -y
+    choco upgrade gpg4win-vanilla -y
+    choco install keybase -y
 
     refreshenv
 }
@@ -50,7 +53,8 @@ task Configure_VSCode {
         "msazurermtools.azurerm-vscode-tools",
         "redhat.vscode-yaml",
         "VisualStudioExptTeam.vscodeintellicode",
-        "github.vscode-pull-request-github"
+        "github.vscode-pull-request-github",
+        "oderwat.indent-rainbow"
 
     )
     $Extensions | ForEach-Object {
@@ -61,30 +65,13 @@ task Configure_VSCode {
 
 task Configure_PowerShell {
 
-    # $Modules = @(
-    #     "Az",
-    #     "PSScriptAnalyzer"
-    # )
-
-    # $Modules | ForEach-Object {
-    #     Write-Host "Installing Windows Powershell module $_"
-    #     Install-Module $_ -Scope CurrentUser -Force -SkipPublisherCheck
-    # }
-
-    # if (!$ENV:HOMESHARE) {
-    #     $Modules | ForEach-Object {
-    #         Write-Host "Installing PowerShell Core module"
-    #         pwsh -Command Install-Module $USING:_ -Scope CurrentUser -Force
-    #     }
-    # }
+    if (!$ENV:HOMESHARE) {
+        pwsh -Command Install-Module posh-git -AllowPrerelease -Scope CurrentUser -Force -Verbose
+        pwsh -Command Install-Module Az -Scope CurrentUser -Force -Verbose
+    }
 
     Write-Host "Copying PowerShell Profile"
-
     $DocumentsPath = "$ENV:USERPROFILE\Documents"
-
-    if ($ENV:OneDrive ) {
-        $DocumentsPath = "$ENV:OneDrive\Documents"
-    }
 
     Copy-Item -Path "$PSScriptRoot\..\linux\config\powershell\Microsoft.PowerShell_profile.ps1" -Destination "$DocumentsPath\PowerShell\Microsoft.PowerShell_profile.ps1" -Force
 }
@@ -108,4 +95,16 @@ task Configure_Terminal {
         Write-Host "Configuring Terminal profile"
         Copy-Item -Path $PSScriptRoot\terminal\* -Destination $TerminalAppDataPath -Force -Recurse
     }
+}
+
+task Configure_Keybase {
+    refreshenv
+    keybase login
+    keybase pgp export | gpg --import
+    keybase pgp export --secret --unencrypted | gpg --import
+}
+
+task Configure_git {
+    Get-Content -Raw $PSScriptRoot\..\linux\.gitconfig | keybase pgp decrypt > $ENVLUSERPROFILE\.gitconfig
+    git config --global credential.helper manager
 }

@@ -45,6 +45,7 @@ Invoke-PSake .\PSake.ps1
 ```
 
 * Run in an elevated PowerShell session
+* Does not support PowerShell Core (but it configures it)
 
 ### Requires
 * git
@@ -65,6 +66,8 @@ azure cli
 azure data studio
 dotnetcore sdk
 powershell core
+gpg4win
+keybase
 ```
 * Installs the following vscode extensions
 ```javascript
@@ -83,13 +86,13 @@ vsliveshare
 azurerm-vscode-tools
 vscode-yaml
 vscodeintellicode
-vscode-pull-request-githu
+vscode-pull-request-github
+oderwat.indent-rainbow
 ```
 * Installs the following PowerShell modules
 ```
 Az
-Pester
-PSScriptAnalyzer
+posh-git
 ```
 * Adds the PowerShell profile to the core path from [here](linux/config/powershell)
 * Adds the following az cli extensions
@@ -97,6 +100,7 @@ PSScriptAnalyzer
 azure-devops
 ```
 * Configures the Windows Terminal profile
+* Configures git with windows cred manager and gpg
 
 ## Sources
 
