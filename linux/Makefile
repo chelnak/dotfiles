@@ -3,9 +3,9 @@ GPG=$(SHELL gpg --list-secret-keys --keyid-format LONG | grep AC2291CF29056C5C)
 PLATFORM := $(shell [[ -z $(WSL_DISTRO_NAME) ]] && echo "nonwsl" || echo "wsl")
 
 all:$(PLATFORM)
-standard: core docker k8s fish powershell azcli keybase git sqlpackage
-nonwsl: standard mate chrome vscode clean
-wsl: standard wslconfig clean
+standard: docker k8s fish powershell azcli keybase git sqlpackage
+nonwsl: core standard mate chrome vscode clean
+wsl: core wslconfig standard clean
 
 core:
 	echo "Setting up platform [ $(PLATFORM) ]"
@@ -24,6 +24,9 @@ core:
 	sudo apt install -y ubuntu-restricted-extras
 	sudo apt install -y unzip
 	sudo apt install -y containerd
+
+	WINUSER=$(python3 -c "print('${WSLENV}'.split('/')[-1])")
+	ln -s /mnt/c/Users/$(WINUSER)/code ~/
 
 git:
 	sudo apt install -y git
