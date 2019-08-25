@@ -1,9 +1,10 @@
 SHELL=/bin/bash
 GPG=$(SHELL gpg --list-secret-keys --keyid-format LONG | grep AC2291CF29056C5C)
-PLATFORM := $(shell [[ -z $(WSL_DISTRO_NAME) ]] && echo "nonwsl" || echo "wsl")
+WINUSER=$(SHELL python3 -c 'print("${WSLENV}".split("/")[-1])')
+PLATFORM := $(SHELL [[ -z $(WSL_DISTRO_NAME) ]] && echo "nonwsl" || echo "wsl")
 
 all:$(PLATFORM)
-standard: docker k8s fish powershell azcli keybase git sqlpackage
+standard: docker k8s powershell azcli keybase git sqlpackage fish
 nonwsl: core standard mate chrome vscode clean
 wsl: core wslconfig standard clean
 
@@ -24,9 +25,9 @@ core:
 	sudo apt install -y ubuntu-restricted-extras
 	sudo apt install -y unzip
 	sudo apt install -y containerd
+	sudo apt install -y jq
 
-	WINUSER=$(python3 -c "print('${WSLENV}'.split('/')[-1])")
-	ln -s /mnt/c/Users/$(WINUSER)/code ~/
+	ln -sf "/mnt/c/Users/$(WINUSER)/code" ~/
 
 git:
 	sudo apt install -y git
@@ -103,8 +104,8 @@ powershell:
 		| while read -r name prerelease; \
 		do \
 			[[ $${prerelease} = true ]] && p="\$$True" || p="\$$False";\
-			echo "Install-Module -Name $${name} -Scope CurrentUser -AllowPreRelease:$${p} -Verbose";\
-			pwsh -C Install-Module -Name $${name} -Scope CurrentUser -AllowPreRelease:$${p} -Verbose;\
+			echo "Install-Module -Name $${name} -Scope CurrentUser -AllowPreRelease:$${p} -Verbose  -Confirm:$$false";\
+			pwsh -C Install-Module -Name $${name} -Scope CurrentUser -AllowPreRelease:$${p} -Verbose -Confirm:$$false;\
 		done;\
 
 	rsync -zavh --progress config/powershell $(HOME)/.config
@@ -123,6 +124,7 @@ keybase:
 	keybase pgp export --secret --unencrypted | gpg --import
 
 wslconfig:
+	@echo "You will need to restart the distro for this to take effect (wsl --shutdown)"
 	sudo rsync -zavh --progress ./etc/wsl.conf /etc/wsl.conf
 
 sqlpackage:
