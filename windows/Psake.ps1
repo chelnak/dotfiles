@@ -18,6 +18,7 @@ task InstallApplications {
     choco upgrade googlechrome -y
     choco upgrade 7zip.install -y
     choco upgrade git.install -y
+    choco upgrade hub -y
     choco upgrade git-credential-manager-for-windows -y
     choco upgrade nodejs.install -y
     choco upgrade vscode -y
@@ -101,10 +102,10 @@ task Configure_Keybase {
     refreshenv
     keybase login
     keybase pgp export | gpg --import
-    keybase pgp export --secret --unencrypted | gpg --import
+    keybase pgp export --secret --unencrypted | gpg --allow-secret-key-import --import
 }
 
 task Configure_git {
-    Get-Content -Raw $PSScriptRoot\..\linux\.gitconfig | keybase pgp decrypt > $ENVLUSERPROFILE\.gitconfig
+    Get-Content -Raw $PSScriptRoot\..\linux\.gitconfig | keybase pgp decrypt | Set-Content -Path $ENV:USERPROFILE\.gitconfig
     git config --global credential.helper manager
 }

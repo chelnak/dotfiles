@@ -55,6 +55,7 @@ Invoke-PSake .\PSake.ps1
 * Installs the following applications
 ```
 git
+hub
 chrome
 7zip
 nodejs
