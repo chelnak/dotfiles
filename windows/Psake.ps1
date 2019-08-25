@@ -108,4 +108,5 @@ task Configure_Keybase {
 task Configure_git {
     Get-Content -Raw $PSScriptRoot\..\linux\.gitconfig | keybase pgp decrypt | Set-Content -Path $ENV:USERPROFILE\.gitconfig
     git config --global credential.helper manager
+    git config --global gpg.program "C:/Program Files (x86)/GNU/GnuPG/pub/gpg.exe"
 }
