@@ -1,10 +1,14 @@
 SHELL=/bin/bash
 GPG=$(SHELL gpg --list-secret-keys --keyid-format LONG | grep AC2291CF29056C5C)
+PLATFORM := $(shell [[ -z $(WSL_DISTRO_NAME) ]] && echo "nonwsl" || echo "wsl")
 
-all: core mate docker k8s fish powershell azcli keybase git wsl sqlpackage clean
+all:$(PLATFORM)
+standard: core docker k8s fish powershell azcli keybase git sqlpackage
+nonwsl: standard mate chrome vscode clean
+wsl: standard wslconfig clean
 
 core:
-
+	echo "Setting up platform [ $(PLATFORM) ]"
 	rm -rf /tmp/make
 	mkdir -p /tmp/make
 
@@ -28,21 +32,18 @@ git:
 	sudo apt update
 	sudo apt install -y hub
 
-	cat .gitconfig | keybase pgp decrypt > $(HOME)/.gitconfig
+	cat ../shared/gitconfig | keybase pgp decrypt > $(HOME)/.gitconfig
 	git config credential.helper store
 
 mate:
-
-	if test -z $(WSL_DISTRO_NAME);then\
-		sudo apt install -y ubuntu-mate-desktop;\
-		sudo apt install mate-desktop-environment-extras;\
-		sudo apt install gnome-icon-theme;\
-		dconf dump /org/mate/terminal/profiles/default/ < mate-terminal-default-profile.dconf;\
-		sudo ufw enable;\
-		sudo apt install -y sudo xrdp;\
-		sudo ufw allow 3389/tcp;\
-		sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n mate-session \n' /etc/xrdp/startwm.sh;\
-	fi
+	sudo apt install -y ubuntu-mate-desktop;\
+	sudo apt install mate-desktop-environment-extras
+	sudo apt install gnome-icon-theme
+	dconf dump /org/mate/terminal/profiles/default/ < mate-terminal-default-profile.dconf
+	sudo ufw enable
+	sudo apt install -y sudo xrdp
+	sudo ufw allow 3389/tcp
+	sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n mate-session \n' /etc/xrdp/startwm.sh
 
 docker:
 	sudo apt install -y docker.io
@@ -80,25 +81,13 @@ chrome:
 
 vscode:
 	wget "https://go.microsoft.com/fwlink/?LinkID=760868" -O /tmp/make/vscode.deb
-	sudo apt install /tmp/make/vscode.deb
-
-	code --install-extension eamodio.gitlens
-	code --install-extension EditorConfig.EditorConfig
-	code --install-extension ms-azure-devops.azure-pipelines
-	code --install-extension ms-vscode-remote.remote-containers
-	code --install-extension ms-vscode-remote.remote-ssh
-	code --install-extension ms-vscode-remote.remote-ssh-edit
-	code --install-extension ms-vscode-remote.remote-ssh-explorer
-	code --install-extension ms-vscode-remote.remote-wsl
-	code --install-extension ms-vscode-remote.vscode-remote-extensionpack
-	code --install-extension ms-vscode.csharp
-	code --install-extension ms-vscode.powershell
-	code --install-extension ms-vsliveshare.vsliveshare
-	code --install-extension msazurermtools.azurerm-vscode-tools
-	code --install-extension redhat.vscode-yaml
-	code --install-extension VisualStudioExptTeam.vscodeintellicode
-	code --install-extension github.vscode-pull-request-github
-	code --install-extension oderwat.indent-rainbow
+	sudo apt install -y /tmp/make/vscode.deb
+	cat ../shared/vscode/plugins.json | jq -r  ".[]" \
+	| while read -r name; \
+	do \
+		echo "code --install-extension $${name}";\
+		code --install-extension $${name};\
+	done;\
 
 powershell:
 	wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O /tmp/make/packages-microsoft-prod.deb
@@ -107,8 +96,13 @@ powershell:
 	sudo add-apt-repository universe
 	sudo apt install -y powershell
 
-	pwsh -C Install-Module -Name posh-git -Scope CurrentUser -AllowPreRelease -Force -Verbose
-	pwsh -C Install-Module -Name Az -Scope CurrentUser -Force -Verbose
+	cat ../shared/powershell/modules.json | jq -r  ".[] | .name, .prerelease" \
+		| while read -r name prerelease; \
+		do \
+			[[ $${prerelease} = true ]] && p="\$$True" || p="\$$False";\
+			echo "Install-Module -Name $${name} -Scope CurrentUser -AllowPreRelease:$${p} -Verbose";\
+			pwsh -C Install-Module -Name $${name} -Scope CurrentUser -AllowPreRelease:$${p} -Verbose;\
+		done;\
 
 	rsync -zavh --progress config/powershell $(HOME)/.config
 
@@ -116,7 +110,7 @@ azcli:
 	wget "https://aka.ms/InstallAzureCLIDeb" -O /tmp/make/azcli.sh
 	chmod 700 /tmp/make/azcli.sh
 	sudo /tmp/make/azcli.sh
-	rsync -zavh azure/config $(HOME)/.azure/config
+	rsync -zavh ../shared/az-cli/config $(HOME)/.azure/config
 
 keybase:
 	wget https://prerelease.keybase.io/keybase_amd64.deb -O /tmp/make/keybase_amd64.deb
@@ -125,11 +119,8 @@ keybase:
 	keybase pgp export | gpg --import
 	keybase pgp export --secret --unencrypted | gpg --import
 
-wsl:
-	if test $(WSL_DISTRO_NAME);then\
-		echo "WSL detected. Updating wsl.conf";\
-		sudo rsync -zavh --progress ./etc/wsl.conf /etc/wsl.conf;\
-	fi
+wslconfig:
+	sudo rsync -zavh --progress ./etc/wsl.conf /etc/wsl.conf
 
 sqlpackage:
 	wget "https://go.microsoft.com/fwlink/?linkid=2087431" -O /tmp/make/sqlpackage.zip

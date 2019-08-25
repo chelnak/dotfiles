@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Az",
+    "prerelease": false
+  },
+  {
+    "name":"posh-git",
+    "prerelease": true
+  }
+]

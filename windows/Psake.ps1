@@ -2,9 +2,10 @@ properties {
 
 }
 
-task default -depends InstallDependencies, InstallApplications, Configure_VSCode, Configure_PowerShell, Configure_AzCli, Configure_Keybase, Configure_Git
+task default -depends core, vscode, powershell, azcli, keybase, git
 
-task InstallDependencies {
+task core {
+
     Set-ExecutionPolicy Bypass -Scope Process -Force
     Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
     $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).path)\..\.."
@@ -12,72 +13,65 @@ task InstallDependencies {
 
     Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-}
 
-task InstallApplications {
     choco upgrade googlechrome -y
     choco upgrade 7zip.install -y
-    choco upgrade git.install -y
-    choco upgrade hub -y
-    choco upgrade git-credential-manager-for-windows -y
     choco upgrade nodejs.install -y
-    choco upgrade vscode -y
     choco upgrade kubernetes-cli -y
     choco upgrade kubernetes-helm -y
     choco upgrade microsoftazurestorageexplorer -y
-    choco upgrade azure-cli -y
     choco upgrade azure-data-studio -y
     choco upgrade dotnetcore-sdk -y
-    choco upgrade powershell-core --install-arguments='"ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1"' -y
     choco upgrade gpg4win-vanilla -y
-    choco install keybase -y
 
     refreshenv
 }
 
-task Configure_VSCode {
+task wsl {
 
-    $Extensions = @(
-
-        "eamodio.gitlens",
-        "EditorConfig.EditorConfig",
-        "ms-azure-devops.azure-pipelines",
-        "ms-vscode-remote.remote-containers",
-        "ms-vscode-remote.remote-ssh",
-        "ms-vscode-remote.remote-ssh-edit",
-        "ms-vscode-remote.remote-ssh-explorer",
-        "ms-vscode-remote.remote-wsl",
-        "ms-vscode-remote.vscode-remote-extensionpack",
-        "ms-vscode.csharp",
-        "ms-vscode.powershell",
-        "ms-vsliveshare.vsliveshare",
-        "msazurermtools.azurerm-vscode-tools",
-        "redhat.vscode-yaml",
-        "VisualStudioExptTeam.vscodeintellicode",
-        "github.vscode-pull-request-github",
-        "oderwat.indent-rainbow"
-
+    $Features = @(
+        "Microsoft-Windows-Subsystem-Linux",
+        "VirtualMachinePlatform"
     )
+    Enable-WindowsOptionalFeature -Online -FeatureName $Features
+    # Invoke-WebRequest -Uri "https://aka.ms/wsl-ubuntu-1804" -OutFile "$ENV:TEMP\Ubuntu.appx" -UseBasicParsing
+    wsl --set-default-version 2
+    Add-AppxPackage -Path "$ENV:TEMP\Ubuntu.appx" -Confirm:$false
+}
+
+task vscode {
+
+    choco upgrade vscode -y
+    $Extensions = Get-Content -Path $PSScriptRoot/../shared/vscode/plugins.json | ConvertFrom-Json
     $Extensions | ForEach-Object {
         Write-Host "Installing VSCode extension $_"
         code --install-extension $_
     }
 }
 
-task Configure_PowerShell {
+task powershell {
 
     if (!$ENV:HOMESHARE) {
-        pwsh -Command Install-Module posh-git -AllowPrerelease -Scope CurrentUser -Force -Verbose
-        pwsh -Command Install-Module Az -Scope CurrentUser -Force -Verbose
+        choco upgrade powershell-core --install-arguments='"ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1"' -y
+        $Modules =  Get-Content -Path $PSScriptRoot/../shared/powershell/modules.json | ConvertFrom-Json
+        $Modules | ForEach-Object {
+            [bool]$PreRelease = $_.prerelease
+            pwsh -Command Install-Module $_.name -AllowPrerelease:`$$PreRelease -Scope CurrentUser -Confirm:`$$False -Verbose
+            PowerShell -Command Install-Module $_.name -AllowPrerelease:`$$PreRelease -Scope CurrentUser -Confirm:`$$False -Verbose
+        }
     }
 
     Write-Host "Copying PowerShell Profile"
     $DocumentsPath = "$ENV:USERPROFILE\Documents"
-
-    Copy-Item -Path "$PSScriptRoot\..\linux\config\powershell\Microsoft.PowerShell_profile.ps1" -Destination "$DocumentsPath\PowerShell\Microsoft.PowerShell_profile.ps1" -Force
+    Remove-Item -Path "$DocumentsPath\PowerShell\Microsoft.PowerShell_profile.ps1" -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "$DocumentsPath\\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" -Force -ErrorAction SilentlyContinue
+    cmd /c mklink "$DocumentsPath\PowerShell\Microsoft.PowerShell_profile.ps1" "$PSScriptRoot\..\shared\powershell\Microsoft.PowerShell_profile.ps1"
+    cmd /c mklink "$DocumentsPath\\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" "$PSScriptRoot\..\shared\powershell\Microsoft.PowerShell_profile.ps1"
 }
 
-task Configure_AzCli {
+task azcli {
+
+    choco upgrade azure-cli -y
 
     $Extensions = @(
         "azure-devops"
@@ -87,26 +81,34 @@ task Configure_AzCli {
         Write-Host "Adding az-cli extension $_"
         az extension add --name $_
     }
-
+    Remove-Item -Path "$ENV:USERPROFILE\.azure\config" -Force -ErrorAction SilentlyContinue
+    cmd /c mklink "$ENV:USERPROFILE\.azure\config" "$PSScriptRoot\..\shared\az-cli\config"
 }
 
-task Configure_Terminal {
+task terminal {
+
     $TerminalAppDataPath = "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\RoamingState"
-    if (Test-Path -Path $TerminalAppDataPath) {
-        Write-Host "Configuring Terminal profile"
-        Copy-Item -Path $PSScriptRoot\terminal\* -Destination $TerminalAppDataPath -Force -Recurse
-    }
+    Write-Host "Configuring Terminal profile"
+    Remove-Item -Path $TerminalAppDataPath -Force -Recurse -ErrorAction SilentlyContinue
+    cmd /c mklink /D "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\RoamingState" "$PSScriptRoot\terminal"
 }
 
-task Configure_Keybase {
+task keybase {
+
+    choco install keybase -y
     refreshenv
     keybase login
     keybase pgp export | gpg --import
     keybase pgp export --secret --unencrypted | gpg --allow-secret-key-import --import
 }
 
-task Configure_git {
-    Get-Content -Raw $PSScriptRoot\..\linux\.gitconfig | keybase pgp decrypt | Set-Content -Path $ENV:USERPROFILE\.gitconfig
+task git {
+
+    choco upgrade git.install -y
+    choco upgrade hub -y
+    choco upgrade git-credential-manager-for-windows -y
+
+    Get-Content -Raw $PSScriptRoot\..\shared\.gitconfig | keybase pgp decrypt | Set-Content -Path $ENV:USERPROFILE\.gitconfig
     git config --global credential.helper manager
     git config --global gpg.program "C:/Program Files (x86)/GNU/GnuPG/pub/gpg.exe"
 }

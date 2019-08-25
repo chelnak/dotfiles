@@ -22,4 +22,9 @@ function prompt {
     if ($prompt) { "$prompt " } else { " " }
 }
 
+function Update-Dotfiles {
+    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chelnak/dotfiles/master/windows/install.ps1'))
+    Invoke-PSake -buildFile $ENV:USERPROFILE/.dotfiles/windows/Psake.ps1
+}
+
 Set-Location -Path $ENV:HOME/code -ErrorAction stop
