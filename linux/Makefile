@@ -1,7 +1,7 @@
 SHELL=/bin/bash
-GPG=$(SHELL gpg --list-secret-keys --keyid-format LONG | grep AC2291CF29056C5C)
-WINUSER=$(SHELL python3 -c 'print("${WSLENV}".split("/")[-1])')
-PLATFORM := $(SHELL [[ -z $(WSL_DISTRO_NAME) ]] && echo "nonwsl" || echo "wsl")
+GPG=$(shell gpg --list-secret-keys --keyid-format LONG | grep AC2291CF29056C5C)
+WINUSER=$(shell python3 -c 'print("${WSLENV}".split("/")[-1])')
+PLATFORM := $(shell [[ -z $(WSL_DISTRO_NAME) ]] && echo "nonwsl" || echo "wsl")
 
 all:$(PLATFORM)
 standard: docker k8s powershell azcli keybase git sqlpackage fish
@@ -99,16 +99,17 @@ powershell:
 	sudo apt update
 	sudo add-apt-repository universe
 	sudo apt install -y powershell
-
-	cat ../shared/powershell/modules.json | jq -r  ".[] | .name, .prerelease" \
+	pwsh -C Install-Module -Name PackageManagement -Force -Verbose
+	pwsh -C Install-Module -Name PowerShellGet -Force -Verbose
+	pwsh -C Set-PSRepository -Name PSGallery -Install
+	cat ../shared/powershell/modules.json | jq -r  '.[] | "\(.name) \(.prerelease)"' \
 		| while read -r name prerelease; \
 		do \
 			[[ $${prerelease} = true ]] && p="\$$True" || p="\$$False";\
-			echo "Install-Module -Name $${name} -Scope CurrentUser -AllowPreRelease:$${p} -Verbose  -Confirm:$$false";\
-			pwsh -C Install-Module -Name $${name} -Scope CurrentUser -AllowPreRelease:$${p} -Verbose -Confirm:$$false;\
+			echo "Install-Module -Name $${name} -Scope CurrentUser -AllowPreRelease:$${p} -Verbose  -Confirm:\$$False";\
 		done;\
 
-	rsync -zavh --progress config/powershell $(HOME)/.config
+	rsync -zavh --progress ../shared/powershell $(HOME)/.config
 
 azcli:
 	wget "https://aka.ms/InstallAzureCLIDeb" -O /tmp/make/azcli.sh
