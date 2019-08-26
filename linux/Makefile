@@ -36,7 +36,7 @@ git:
 	sudo apt update
 	sudo apt install -y hub
 
-	cat ../shared/gitconfig | keybase pgp decrypt > $(HOME)/.gitconfig
+	cat ../shared/.gitconfig | keybase pgp decrypt > $(HOME)/.gitconfig
 	git config credential.helper store
 
 mate:
@@ -73,10 +73,10 @@ fish:
 	chsh -s /usr/bin/fish
 	sudo sed --in-place -e '/auth.*sufficient.*pam_shells.so/s/sufficient/required/g' /etc/pam.d/chsh
 
-	rsync -zavhr --progress config/fish $(HOME)/.config
+	rsync -zavhr --progress ./config/fish $(HOME)/.config
 
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
-	fish -c fisher add oh-my-fish/theme-robbyrussell
+	fish -c 'fisher add oh-my-fish/theme-robbyrussell'
 
 chrome:
 	sudo apt install xdg-utils
@@ -115,11 +115,12 @@ azcli:
 	wget "https://aka.ms/InstallAzureCLIDeb" -O /tmp/make/azcli.sh
 	chmod 700 /tmp/make/azcli.sh
 	sudo /tmp/make/azcli.sh
-	rsync -zavh ../shared/az-cli/config $(HOME)/.azure/config
+	mkdir -p $(HOME)/.azure
+	rsync -zavh ../shared/az-cli/config $(HOME)/.azure
 
 keybase:
 	wget https://prerelease.keybase.io/keybase_amd64.deb -O /tmp/make/keybase_amd64.deb
-	sudo apt install /tmp/make/keybase_amd64.deb
+	sudo apt install -y /tmp/make/keybase_amd64.deb
 	keybase login
 	keybase pgp export | gpg --import
 	keybase pgp export --secret --unencrypted | gpg --import
@@ -127,6 +128,7 @@ keybase:
 wslconfig:
 	@echo "You will need to restart the distro for this to take effect (wsl --shutdown)"
 	sudo rsync -zavh --progress ./etc/wsl.conf /etc/wsl.conf
+	sudo service hwclock.sh start
 
 sqlpackage:
 	wget "https://go.microsoft.com/fwlink/?linkid=2087431" -O /tmp/make/sqlpackage.zip
