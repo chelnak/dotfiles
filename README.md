@@ -4,15 +4,14 @@ A collection of shell and tool configuration files.
 
 ![](https://cultofthepartyparrot.com/parrots/hd/laptop_parrot.gif)
 
-## Ubuntu (WSL)
+## Ubuntu
 
 ```bash
-bash -c "`curl -fsSL https://raw.githubusercontent.com/chelnak/dotfiles/master/linux/install.sh`"
-
-cd dotfiles/linux
-
+curl -fsSL -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/chelnak/dotfiles/master/linux/install.sh | bash
+cd ~/.dotfiles/linux
 make
 ```
+* Supports setup of WSL and standard Ubuntu
 * Don't run as `sudo`
 * Enter your password when asked
 
@@ -27,10 +26,11 @@ make
 * Installs `kubectl`
 * Installs `helm`
 * Installs `fish`, sets it as the default shell, adds `oh-my-fish/theme-robbyrussell` and syncs fish config
-* Installs `PowerShell` and copies the profile
-* Installs `Az` cli
+* Installs `PowerShell` and these [modules](shared/powershell/modules.json)
+* Installs `VSCode` and these [plugins](shared/vscode/plugins.json)
+* Installs `Az` cli and these [extensions](shared/az-cli/extensions.json)
 * Installs `Keybase`
-* Installs `hub`
+* Installs `hub` and configures git with pgp key
 * Adds a `wsl.conf` to `/etc/wsl.conf`
 
 ## Windows
@@ -70,36 +70,10 @@ powershell core
 gpg4win
 keybase
 ```
-* Installs the following vscode extensions
-```javascript
-gitlens
-EditorConfig
-azure-pipelines
-remote-containers
-remote-ssh
-remote-ssh-edit
-remote-ssh-explorer
-emote-wsl
-vscode-remote-extensionpack
-csharp
-powershell
-vsliveshare
-azurerm-vscode-tools
-vscode-yaml
-vscodeintellicode
-vscode-pull-request-github
-oderwat.indent-rainbow
-```
-* Installs the following PowerShell modules
-```
-Az
-posh-git
-```
-* Adds the PowerShell profile to the core path from [here](linux/config/powershell)
-* Adds the following az cli extensions
-```
-azure-devops
-```
+* Installs these [vscode extensions](shared/vscode/plugins.json)
+* Installs these [PowerShell modules](shared/powershell/modules.json)
+* Adds the PowerShell profile to the core path from [here](shared/powershell/Microsoft.PowerShell_profile.ps1)
+* Adds the following az cli extensions from [here](shared/az-cli/extensions.json)
 * Configures the Windows Terminal profile
 * Configures git with windows cred manager and gpg
 
@@ -112,6 +86,7 @@ azure-devops
 * [Dracula iTerm](https://github.com/dracula/iterm)
 * [Dracula Windows Terminal](https://github.com/dracula/windows-terminal)
 * [Keybase Linux](https://keybase.io/docs/the_app/install_linux)
+* [Keybase/GitHub setup](https://github.com/pstadler/keybase-gpg-github)
 * [Hub](https://hub.github.com/)
 * [Az cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest)
 * [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-6)
