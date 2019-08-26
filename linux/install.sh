@@ -1,4 +1,3 @@
-#!/bin/bash
 SOURCE="https://github.com/chelnak/dotfiles"
 TARGET="$HOME/.dotfiles"
 
