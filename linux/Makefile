@@ -101,7 +101,7 @@ powershell:
 	sudo apt install -y powershell
 	pwsh -C Install-Module -Name PackageManagement -Force -Verbose
 	pwsh -C Install-Module -Name PowerShellGet -Force -Verbose
-	pwsh -C Set-PSRepository -Name PSGallery -Install
+	pwsh -C Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 	cat ../shared/powershell/modules.json | jq -r  '.[] | "\(.name) \(.prerelease)"' \
 		| while read -r name prerelease; \
 		do \
