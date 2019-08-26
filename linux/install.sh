@@ -14,5 +14,5 @@ else
   echo "Installing dotfiles"
   mkdir -p "$TARGET"
   eval "$INSTALL"
-  sudo apt-install make
+  sudo apt install make
 fi
