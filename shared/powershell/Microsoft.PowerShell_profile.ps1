@@ -1,5 +1,7 @@
 Import-Module posh-git
-$GitPromptSettings.WindowTitle = $false
+if ($GitPromptSettings.WindowTitle) {
+    $GitPromptSettings.WindowTitle = $false
+}
 
 if (Get-Module -Name Az.Profile -ListAvailable) {
     $Host.UI.RawUI.WindowTitle =  "Loading Az ..."
@@ -34,6 +36,7 @@ function Update-Dotfiles {
             Start-Process -FilePath pwsh.exe -ArgumentList '-c Invoke-PSake -buildFile $ENV:USERPROFILE/.dotfiles/windows/Psake.ps1 ; Start-SLeep 20' -Verb RunAs -Wait
         }
     } else {
+        Write-Host "Running fish: update_dotfiles"
         fish -c 'update_dotfiles'
     }
 }
