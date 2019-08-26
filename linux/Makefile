@@ -118,6 +118,13 @@ azcli:
 	mkdir -p $(HOME)/.azure
 	rsync -zavh ../shared/az-cli/config $(HOME)/.azure
 
+	cat ../shared/az-cli/extensions.json | jq -r  ".[]" \
+	| while read -r name; \
+	do \
+		echo "az extension add --name $${name}";\
+		az extension add --name $${name};\
+	done;\
+
 keybase:
 	wget https://prerelease.keybase.io/keybase_amd64.deb -O /tmp/make/keybase_amd64.deb
 	sudo apt install -y /tmp/make/keybase_amd64.deb

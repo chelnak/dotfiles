@@ -72,11 +72,7 @@ task powershell {
 task azcli {
 
     choco upgrade azure-cli -y
-
-    $Extensions = @(
-        "azure-devops"
-    )
-
+    $Extensions =  Get-Content -Path $PSScriptRoot/../shared/az-cli/extensions.json | ConvertFrom-Json
     $Extensions | ForEach-Object {
         Write-Host "Adding az-cli extension $_"
         az extension add --name $_
