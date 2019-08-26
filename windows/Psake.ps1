@@ -7,11 +7,18 @@ task default -depends core, vscode, powershell, azcli, keybase, git
 task core {
 
     Set-ExecutionPolicy Bypass -Scope Process -Force
-    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+    if (!(Get-Command -Name choco)) {
+        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    }
+
     $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).path)\..\.."
     Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 
-    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+    if (!(Get-PackageProvider -Name Nuget -ErrorAction SilentlyContinue)){
+        Install-PackageProvider -Name NuGet -Force
+    }
+
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
     choco upgrade googlechrome -y

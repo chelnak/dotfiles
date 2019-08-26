@@ -1,4 +1,5 @@
 Import-Module posh-git
+$GitPromptSettings.WindowTitle = $false
 
 if (Get-Module -Name Az.Profile -ListAvailable) {
     $Host.UI.RawUI.WindowTitle =  "Loading Az ..."
@@ -23,8 +24,18 @@ function prompt {
 }
 
 function Update-Dotfiles {
-    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chelnak/dotfiles/master/windows/install.ps1'))
-    Invoke-PSake -buildFile $ENV:USERPROFILE/.dotfiles/windows/Psake.ps1
+    if ($ENV:OS -eq "Windows_NT") {
+        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chelnak/dotfiles/master/windows/install.ps1'))
+        $AdminRole = [Security.Principal.WindowsBuiltInRole]::Administrator
+        $CurrentRole = [Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()
+        if ($CurrentRole.IsInRole($AdminRole)){
+            Invoke-PSake -buildFile $ENV:USERPROFILE/.dotfiles/windows/Psake.ps1
+        } else {
+            Start-Process -FilePath pwsh.exe -ArgumentList '-c Invoke-PSake -buildFile $ENV:USERPROFILE/.dotfiles/windows/Psake.ps1 ; Start-SLeep 20' -Verb RunAs -Wait
+        }
+    } else {
+        fish -c 'update_dotfiles'
+    }
 }
 
 Set-Location -Path $ENV:HOME/code -ErrorAction stop
