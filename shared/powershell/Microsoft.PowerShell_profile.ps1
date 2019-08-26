@@ -19,7 +19,7 @@ function prompt {
 
     $Host.UI.RawUI.WindowTitle =  $WindowTitle
 
-    $prompt = Write-Prompt "❯ " -ForegroundColor ([ConsoleColor]::Green)
+    $prompt = Write-Prompt "› " -ForegroundColor ([ConsoleColor]::Green)
     $GitPromptSettings.DefaultPromptPath.Text = "$(Split-Path (Get-Location).Path -Leaf)"
     $GitPromptSettings.DefaultPromptPath.ForegroundColor = "Cyan"
     $GitPromptSettings.DefaultPromptSuffix = ''

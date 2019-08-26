@@ -107,6 +107,7 @@ powershell:
 		do \
 			[[ $${prerelease} = true ]] && p="\$$True" || p="\$$False";\
 			echo "Install-Module -Name $${name} -Scope CurrentUser -AllowPreRelease:$${p} -Verbose  -Confirm:\$$False";\
+			pwsh -c Install-Module -Name $${name} -Scope CurrentUser -AllowPreRelease:$${p} -Verbose  -Confirm:\$$False;\
 		done;\
 
 	rsync -zavh --progress ../shared/powershell $(HOME)/.config
