@@ -10,6 +10,7 @@ cursor-shape='ibeam'
 use-custom-default-size=true
 use-system-font=false
 background-type='transparent'
+default-show-menubar=false
 use-theme-colors=false
 font='Ubuntu Mono 12'
 allow-bold=false
