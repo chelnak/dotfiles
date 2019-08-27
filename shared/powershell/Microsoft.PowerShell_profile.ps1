@@ -17,6 +17,7 @@ function prompt {
 
     $Prompt = Write-Prompt "🗲  " -ForegroundColor ([ConsoleColor]::Yellow)
     $GitPromptSettings.DefaultPromptPath.Text = "$(Split-Path (Get-Location).Path -Leaf)"
+    $GitPromptSettings.BranchColor.ForegroundColor = "DarkRed"
     $GitPromptSettings.DefaultPromptPath.ForegroundColor = "Cyan"
     $GitPromptSettings.DefaultPromptSuffix = ''
     $Prompt += & $GitPromptScriptBlock
