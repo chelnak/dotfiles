@@ -90,10 +90,12 @@ task azcli {
 
 task terminal {
 
-    $TerminalAppDataPath = "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\RoamingState"
+    $TerminalAppDataPath = "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
     Write-Host "Configuring Terminal profile"
-    Remove-Item -Path $TerminalAppDataPath -Force -Recurse -ErrorAction SilentlyContinue
-    cmd /c mklink /D "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\RoamingState" "$PSScriptRoot\terminal"
+    Remove-Item -Path $TerminalAppDataPath\* -Force -Recurse -ErrorAction SilentlyContinue
+    cmd /c mklink "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\profiles.json" "$PSScriptRoot\terminal\profiles.json"
+    cmd /c mklink "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\party_parrot.json" "$PSScriptRoot\terminal\party_parrot.json"
+
 }
 
 task keybase {
