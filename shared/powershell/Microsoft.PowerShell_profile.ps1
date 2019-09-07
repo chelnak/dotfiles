@@ -1,28 +1,9 @@
-Import-Module posh-git
-$GitPromptSettings.WindowTitle = $false
+Import-Module -Name oh-my-posh
+Import-Module -Name posh-git
 
-if (Get-Module -Name Az.Profile -ListAvailable) {
-    $Host.UI.RawUI.WindowTitle = "Loading Az ..."
-    $SubScriptionName = (Get-AzContext).Subscription.Name
-}
+$GitPromptSettings.WindowTitle = "pwsh $((Get-Location).path)"
 
-function prompt {
-    if ($SubScriptionName) {
-        $WindowTitle = "pwsh $((Get-Location).path) | Az - [$($SubscriptionName)]"
-    }
-    else {
-        $WindowTitle = "pwsh $((Get-Location).path)"
-    }
-    $Host.UI.RawUI.WindowTitle = $WindowTitle
-
-    $Prompt = Write-Prompt "🗲  " -ForegroundColor ([ConsoleColor]::Yellow)
-    $GitPromptSettings.DefaultPromptPath.Text = "$(Split-Path (Get-Location).Path -Leaf)"
-    $GitPromptSettings.BranchColor.ForegroundColor = "DarkRed"
-    $GitPromptSettings.DefaultPromptPath.ForegroundColor = "Cyan"
-    $GitPromptSettings.DefaultPromptSuffix = ''
-    $Prompt += & $GitPromptScriptBlock
-    if ($Prompt) { "$Prompt " } else { " " }
-}
+Set-Theme -Name robbyrussell
 
 function Get-EnvironmentVariable {
     Get-Item -Path Env:\

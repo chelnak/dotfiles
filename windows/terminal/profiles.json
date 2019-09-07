@@ -181,7 +181,7 @@
       "backgroundImageOpacity": 50.0,
       "backgroundImageStretchMode": "none",
       "closeOnExit": true,
-      "colorScheme": "Campbell",
+      "colorScheme": "Dracula",
       "commandline": "C:\\Program Files\\PowerShell\\6\\pwsh.exe -nologo",
       "cursorColor": "#FFFFFF",
       "cursorShape": "bar",
