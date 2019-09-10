@@ -52,7 +52,7 @@ task vscode {
     $Extensions = Get-Content -Path $PSScriptRoot/../shared/vscode/plugins.json | ConvertFrom-Json
     $Extensions | ForEach-Object {
         Write-Host "Installing VSCode extension $_"
-        code --install-extension $_
+        code --install-extension $_ --force
     }
 }
 
