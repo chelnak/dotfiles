@@ -1,7 +1,9 @@
 SHELL=/bin/bash
 GPG=$(shell gpg --list-secret-keys --keyid-format LONG | grep AC2291CF29056C5C)
-WINUSER=$(shell python3 -c 'print("${WSLENV}".split("/")[-1])')
+WSLENV_USER=$(shell python3 -c 'print("${WSLENV}".split("/")[-1])')
+WINUSER := $(if $(WSLENV_USER),$(WSLENV),$(USER))
 PLATFORM := $(shell [ -z $(WSL_DISTRO_NAME) ] && echo "nonwsl" || echo "wsl")
+
 
 all:$(PLATFORM)
 standard: docker k8s powershell azcli git sqlpackage fish
@@ -136,6 +138,7 @@ keybase:
 
 wslconfig:
 	@echo "You will need to restart the distro for this to take effect (wsl --shutdown)"
+
 	ln -sf "/mnt/c/Users/$(WINUSER)/code" ~/
 	sudo rsync -zavh --progress ./etc/wsl.conf /etc/wsl.conf
 	sudo service hwclock.sh start
