@@ -2,7 +2,7 @@ properties {
 
 }
 
-task default -depends core, vscode, powershell, azcli, terminal, keybase, git
+task default -depends core, vscode, powershell, azcli, terminal, git
 
 task core {
 

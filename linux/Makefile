@@ -4,7 +4,7 @@ WINUSER=$(shell python3 -c 'print("${WSLENV}".split("/")[-1])')
 PLATFORM := $(shell [ -z $(WSL_DISTRO_NAME) ] && echo "nonwsl" || echo "wsl")
 
 all:$(PLATFORM)
-standard: docker k8s powershell azcli keybase git sqlpackage fish
+standard: docker k8s powershell azcli git sqlpackage fish
 nonwsl: core standard mate chrome vscode clean
 wsl: core wslconfig standard clean
 
