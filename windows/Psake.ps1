@@ -63,8 +63,8 @@ task powershell {
         $Modules =  Get-Content -Path $PSScriptRoot/../shared/powershell/modules.json | ConvertFrom-Json
         $Modules | ForEach-Object {
             [bool]$PreRelease = $_.prerelease
-            pwsh -Command Install-Module $_.name -AllowPrerelease:`$$PreRelease -Scope CurrentUser -Confirm:`$$False -Verbose
-            PowerShell -Command Install-Module $_.name -AllowPrerelease:`$$PreRelease -Scope CurrentUser -Confirm:`$$False -Verbose
+            pwsh -Command Install-Module $_.name -AllowPrerelease:`$$PreRelease -Scope CurrentUser -Confirm:`$$False -AllowClobber -Verbose
+            PowerShell -Command Install-Module $_.name -AllowPrerelease:`$$PreRelease -Scope CurrentUser -Confirm:`$$False -AllowClobber -Verbose
         }
     }
 

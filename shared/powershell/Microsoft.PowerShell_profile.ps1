@@ -1,9 +1,10 @@
 Import-Module -Name oh-my-posh
 Import-Module -Name posh-git
-
-$GitPromptSettings.WindowTitle = "pwsh $((Get-Location).path)"
+Import-Module -Name Get-ChildItemColor
 
 Set-Theme -Name robbyrussell
+
+$GitPromptSettings.WindowTitle = "pwsh $((Get-Location).path)"
 
 function Get-EnvironmentVariable {
     Get-Item -Path Env:\

@@ -14,5 +14,9 @@
   {
     "name":"psreadline",
     "prerelease": true
+  },
+  {
+    "name":"Get-ChildItemColor",
+    "prerelease": true
   }
 ]
