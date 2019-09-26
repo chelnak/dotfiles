@@ -1,4 +1,5 @@
 {
+    "$schema": "https://aka.ms/terminal-profiles-schema",
   "globals": {
     "alwaysShowTabs": true,
     "defaultProfile": "{6e9fa4d2-a4aa-562d-b1fa-0789dc1f83d7}",
@@ -185,8 +186,8 @@
       "commandline": "C:\\Program Files\\PowerShell\\6\\pwsh.exe -nologo",
       "cursorColor": "#FFFFFF",
       "cursorShape": "bar",
-      "fontFace": "Consolas",
-      "fontSize": 10,
+      "fontFace": "Cascadia Code",
+      "fontSize": 8,
       "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
       "historySize": 9001,
       "icon": "ms-appx:///ProfileIcons/{574e775e-4f2a-5b96-ac1e-a2962a402336}.png",
@@ -207,8 +208,8 @@
       "commandline": "wsl.exe ~ -d Ubuntu-18.04",
       "cursorColor": "#FFFFFF",
       "cursorShape": "bar",
-      "fontFace": "Consolas",
-      "fontSize": 10,
+      "fontFace": "Cascadia Code",
+      "fontSize": 8,
       "guid": "{6e9fa4d2-a4aa-562d-b1fa-0789dc1f83d7}",
       "historySize": 9001,
       "icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
@@ -216,7 +217,19 @@
       "padding": "0, 0, 0, 0",
       "snapOnInput": true,
       "useAcrylic": false
-    }
+    },
+        {
+            "guid": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
+            "hidden": true,
+            "name": "Ubuntu-18.04",
+            "source": "Windows.Terminal.Wsl"
+        },
+        {
+            "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+            "hidden": true,
+            "name": "Azure Cloud Shell",
+            "source": "Windows.Terminal.Azure"
+        }
   ],
   "schemes": [
     {
