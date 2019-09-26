@@ -36,7 +36,7 @@ git:
 	sudo apt update
 	sudo apt install -y hub
 
-	cat ../shared/.gitconfig | keybase pgp decrypt > $(HOME)/.gitconfig
+	# cat ../shared/.gitconfig | keybase pgp decrypt > $(HOME)/.gitconfig
 	git config credential.helper store
 
 mate:

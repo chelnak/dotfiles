@@ -113,7 +113,7 @@ task git {
     choco upgrade hub -y
     choco upgrade git-credential-manager-for-windows -y
 
-    Get-Content -Raw $PSScriptRoot\..\shared\.gitconfig | keybase pgp decrypt | Set-Content -Path $ENV:USERPROFILE\.gitconfig
+    # Get-Content -Raw $PSScriptRoot\..\shared\.gitconfig | keybase pgp decrypt | Set-Content -Path $ENV:USERPROFILE\.gitconfig
     git config --global credential.helper manager
     git config --global gpg.program "C:/Program Files (x86)/GNU/GnuPG/pub/gpg.exe"
 }
