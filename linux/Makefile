@@ -70,6 +70,9 @@ k8s:
 	wget "https://github.com/vmware/octant/releases/download/v0.6.0/octant_0.7.0_Linux-64bit.deb" -O /tmp/make/octant.deb
 	sudo dpkg -i /tmp/make/octant.deb
 
+	sudo wget "https://raw.githubusercontent.com/AvitalTamir/kubeselect/master/kubeselect" -O /usr/local/bin/kubeselect
+	sudo chmod +x /usr/local/bin/kubeselect
+
 fish:
 	sudo apt install fish
 	sudo sed --in-place -e '/auth.*required.*pam_shells.so/s/required/sufficient/g' /etc/pam.d/chsh
