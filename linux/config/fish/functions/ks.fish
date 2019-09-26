@@ -1,0 +1,3 @@
+function ks
+    kubeselect
+end
