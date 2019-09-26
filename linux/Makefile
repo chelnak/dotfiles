@@ -67,7 +67,7 @@ k8s:
 	/tmp/make/get_helm.sh
 	helm init --client-only
 
-	wget "https://github.com/vmware/octant/releases/download/v0.6.0/octant_0.6.0_Linux-64bit.deb" -O /tmp/make/octant.deb
+	wget "https://github.com/vmware/octant/releases/download/v0.6.0/octant_0.7.0_Linux-64bit.deb" -O /tmp/make/octant.deb
 	sudo dpkg -i /tmp/make/octant.deb
 
 fish:
