@@ -15,5 +15,6 @@
   "redhat.vscode-yaml",
   "VisualStudioExptTeam.vscodeintellicode",
   "github.vscode-pull-request-github",
-  "oderwat.indent-rainbow"
+  "oderwat.indent-rainbow",
+  "skyapps.fish-vscode"
 ]
