@@ -72,8 +72,13 @@ task powershell {
     $DocumentsPath = "$ENV:USERPROFILE\Documents"
     Remove-Item -Path "$DocumentsPath\PowerShell\Microsoft.PowerShell_profile.ps1" -Force -ErrorAction SilentlyContinue
     Remove-Item -Path "$DocumentsPath\\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "$DocumentsPath\\WindowsPowerShell\PoshThemes" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "$DocumentsPath\\PowerShell\PoshThemes" -Recurse -Force -ErrorAction SilentlyContinue
     cmd /c mklink "$DocumentsPath\PowerShell\Microsoft.PowerShell_profile.ps1" "$PSScriptRoot\..\shared\powershell\Microsoft.PowerShell_profile.ps1"
     cmd /c mklink "$DocumentsPath\\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" "$PSScriptRoot\..\shared\powershell\Microsoft.PowerShell_profile.ps1"
+    cmd /c mklink /D "$DocumentsPath\\PowerShell\PoshThemes" "$PSScriptRoot\..\shared\powershell\PoshThemes"
+    cmd /c mklink /D "$DocumentsPath\\WindowsPowerShell\PoshThemes" "$PSScriptRoot\..\shared\powershell\PoshThemes"
+
 }
 
 task azcli {
