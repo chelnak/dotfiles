@@ -1,13 +1,12 @@
 SHELL=/bin/bash
 GPG=$(shell gpg --list-secret-keys --keyid-format LONG | grep AC2291CF29056C5C)
 WSLENV_USER=$(shell python3 -c 'print("${WSLENV}".split("/")[-1])')
-WINUSER := $(if $(WSLENV_USER),$(WSLENV),$(USER))
+WINUSER := $(if $(WSLENV_USER),$(WSLENV_USER),$(USER))
 PLATFORM := $(shell [ -z $(WSL_DISTRO_NAME) ] && echo "nonwsl" || echo "wsl")
 
 
 all:$(PLATFORM)
 standard: docker k8s powershell azcli git sqlpackage fish
-nonwsl: core standard mate chrome vscode clean
 wsl: core wslconfig standard clean
 
 core:
@@ -83,21 +82,6 @@ fish:
 
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 	fish -c 'fisher add oh-my-fish/theme-robbyrussell'
-
-chrome:
-	sudo apt install xdg-utils
-	wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O /tmp/make/google-chrome-stable_current_amd64.deb
-	sudo apt install /tmp/make/google-chrome-stable_current_amd64.deb
-
-vscode:
-	wget "https://go.microsoft.com/fwlink/?LinkID=760868" -O /tmp/make/vscode.deb
-	sudo apt install -y /tmp/make/vscode.deb
-	cat ../shared/vscode/plugins.json | jq -r  ".[]" \
-	| while read -r name; \
-	do \
-		echo "code --install-extension $${name}";\
-		code --install-extension $${name};\
-	done;\
 
 powershell:
 	wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O /tmp/make/packages-microsoft-prod.deb
