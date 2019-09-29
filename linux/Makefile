@@ -66,7 +66,7 @@ k8s:
 	/tmp/make/get_helm.sh
 	helm init --client-only
 
-	wget "https://github.com/vmware/octant/releases/download/v0.6.0/octant_0.7.0_Linux-64bit.deb" -O /tmp/make/octant.deb
+	wget "https://github.com/vmware/octant/releases/download/v0.7.0/octant_0.7.0_Linux-64bit.deb" -O /tmp/make/octant.deb
 	sudo dpkg -i /tmp/make/octant.deb
 
 	sudo wget "https://raw.githubusercontent.com/AvitalTamir/kubeselect/master/kubeselect" -O /usr/local/bin/kubeselect
