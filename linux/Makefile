@@ -27,6 +27,7 @@ core:
 	sudo apt install -y unzip
 	sudo apt install -y containerd
 	sudo apt install -y jq
+	sudo apt install -y httpie
 
 git:
 	sudo apt install -y git
