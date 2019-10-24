@@ -2,7 +2,7 @@
     "$schema": "https://aka.ms/terminal-profiles-schema",
   "globals": {
     "alwaysShowTabs": true,
-    "defaultProfile": "{6e9fa4d2-a4aa-562d-b1fa-0789dc1f83d7}",
+    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
     "initialCols": 120,
     "initialRows": 30,
     "keybindings": [
@@ -205,7 +205,7 @@
       "backgroundImageStretchMode": "none",
       "closeOnExit": true,
       "colorScheme": "Dracula",
-      "commandline": "wsl.exe ~ -d Ubuntu-18.04",
+      "commandline": "wsl.exe ~ -d Ubuntu",
       "cursorColor": "#FFFFFF",
       "cursorShape": "bar",
       "fontFace": "Cascadia Code",
@@ -229,6 +229,12 @@
             "hidden": true,
             "name": "Azure Cloud Shell",
             "source": "Windows.Terminal.Azure"
+        },
+        {
+            "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+            "hidden": true,
+            "name": "Ubuntu",
+            "source": "Windows.Terminal.Wsl"
         }
   ],
   "schemes": [
