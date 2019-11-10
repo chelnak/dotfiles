@@ -5,8 +5,8 @@ if status is-interactive
 
 end
 
-set -x GOPATH $HOME/work
-set PATH $PATH:/usr/local/go/bin:$GOPATH/bin
+#set -x GOPATH $HOME/work
+#set PATH $PATH:/usr/local/go/bin:$GOPATH/bin
 
 # Merge kubeconfig files
 set_kubeconfig
