@@ -2,6 +2,8 @@ Import-Module -Name oh-my-posh
 Import-Module -Name posh-git
 Import-Module -Name Get-ChildItemColor
 
+$ErrorView = 'ConciseView'
+
 Set-Theme -Name robbyrussell_custom
 
 function Get-EnvironmentVariable {
@@ -28,4 +30,12 @@ function Update-Dotfiles {
     }
 }
 
-Set-Location -Path $ENV:HOME/code -ErrorAction stop
+if ($ENV:TERM_PROGRAM -ne "vscode") {
+    Set-Location -Path $ENV:HOME/code -ErrorAction stop
+}
+
+# Chocolatey profile
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}
