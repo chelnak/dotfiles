@@ -13,10 +13,10 @@
   },
   {
     "name":"psreadline",
-    "prerelease": true
+    "prerelease": false
   },
   {
     "name":"Get-ChildItemColor",
-    "prerelease": true
+    "prerelease": false
   }
 ]
