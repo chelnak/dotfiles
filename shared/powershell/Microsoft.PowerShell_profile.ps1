@@ -12,6 +12,10 @@ function Get-EnvironmentVariable {
 
 Set-Alias -Name env -Value Get-EnvironmentVariable
 
+function Edit-Dofiles {
+    & code "$ENV:USERPROFILE/.dotfiles"
+}
+
 function Update-Dotfiles {
     if ($ENV:OS -eq "Windows_NT") {
         Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chelnak/dotfiles/master/windows/install.ps1'))
