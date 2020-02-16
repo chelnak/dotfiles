@@ -7,7 +7,7 @@ PLATFORM := $(shell [ -z $(WSL_DISTRO_NAME) ] && echo "nonwsl" || echo "wsl")
 
 all:$(PLATFORM)
 standard: docker k8s powershell azcli git sqlpackage fish
-nowsl: core vscode standard clean
+nonwsl: core vscode standard clean
 wsl: core wslconfig standard clean
 
 core:
