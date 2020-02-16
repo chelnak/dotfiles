@@ -7,6 +7,7 @@ PLATFORM := $(shell [ -z $(WSL_DISTRO_NAME) ] && echo "nonwsl" || echo "wsl")
 
 all:$(PLATFORM)
 standard: docker k8s powershell azcli git sqlpackage fish
+nowsl: core vscode standard clean
 wsl: core wslconfig standard clean
 
 core:
@@ -29,6 +30,9 @@ core:
 	sudo apt install -y jq
 	sudo apt install -y httpie
 
+vscode: 
+	sudo snap install --classic code
+
 git:
 	sudo apt install -y git
 
@@ -38,16 +42,6 @@ git:
 
 	# cat ../shared/.gitconfig | keybase pgp decrypt > $(HOME)/.gitconfig
 	git config credential.helper store
-
-mate:
-	sudo apt install -y ubuntu-mate-desktop;\
-	sudo apt install mate-desktop-environment-extras
-	sudo apt install gnome-icon-theme
-	dconf dump /org/mate/terminal/profiles/default/ < mate-terminal-default-profile.dconf
-	sudo ufw enable
-	sudo apt install -y sudo xrdp
-	sudo ufw allow 3389/tcp
-	sudo sed -i.bak '/fi/a #xrdp multiple users configuration \n mate-session \n' /etc/xrdp/startwm.sh
 
 docker:
 	sudo apt install -y docker.io
