@@ -24,9 +24,8 @@ function Get-DotFilesUpdateStatus {
     $CurrentSha = Get-Content -Path $ENV:USERPROFILE/.dotfiles/.latest -ErrorAction SilentlyContinue
     if ($CurrentSha) {
         $Response = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/chelnak/dotfiles/compare/$CurrentSha...master"
-
-        if ($Response.status -eq "behind") {
-            Write-Host -Message "Your dotfiles configuration is behind by $($Response.behind_by) commit(s)."
+        if ($Response.status -eq "ahead") {
+            Write-Host -Message "Your dotfiles configuration is behind by $($Response.ahead_by) commit(s)."
             Write-Host -Message "Run Update-DotFiles to get the latest configuration" -ForegroundColor Yellow
         }
     }
