@@ -17,5 +17,6 @@
   "github.vscode-pull-request-github",
   "oderwat.indent-rainbow",
   "skyapps.fish-vscode",
-  "github.github-vscode-theme"
+  "github.github-vscode-theme",
+  "davidanson.vscode-markdownlint"
 ]
