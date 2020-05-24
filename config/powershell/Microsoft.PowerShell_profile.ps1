@@ -5,6 +5,7 @@ Import-Module -Name Get-ChildItemColor
 $ErrorView = 'ConciseView'
 
 Set-Theme -Name robbyrussell_custom
+Get-DotFilesUpdateStatus
 
 function Get-EnvironmentVariable {
     Get-Item -Path Env:\
@@ -17,20 +18,16 @@ function Edit-Dofiles {
 }
 
 function Update-Dotfiles {
-    if ($ENV:OS -eq "Windows_NT") {
-        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chelnak/dotfiles/master/windows/install.ps1'))
-        $AdminRole = [Security.Principal.WindowsBuiltInRole]::Administrator
-        $CurrentRole = [Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()
-        if ($CurrentRole.IsInRole($AdminRole)) {
-            Invoke-PSake -buildFile $ENV:USERPROFILE/.dotfiles/windows/Psake.ps1
-        }
-        else {
-            Start-Process -FilePath pwsh.exe -ArgumentList '-c Invoke-PSake -buildFile $ENV:USERPROFILE/.dotfiles/windows/Psake.ps1 ; Start-SLeep 20' -Verb RunAs -Wait
-        }
-    }
-    else {
-        Write-Host "Running fish: update_dotfiles"
-        fish -c 'update_dotfiles'
+    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chelnak/dotfiles/master/install.ps1'))
+}
+
+function Get-DotFilesUpdateStatus {
+    $CurrentSha = Get-Content -Path $ENV:USERPROFILE/.dotfiles/.latest
+    $Response = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/chelnak/dotfiles/compare/$CurrentSha...master"
+
+    if ($Response.status -eq "behind") {
+        Write-Host -Message "Your dotfiles configuration is behind by $($Response.behind_by) commit(s)."
+        Write-Host -Message "Run Update-DotFiles to get the latest configuration" -ForegroundColor Yellow
     }
 }
 
