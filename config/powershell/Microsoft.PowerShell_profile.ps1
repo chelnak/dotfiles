@@ -35,11 +35,6 @@ function Update-Dotfiles {
 }
 
 if ($ENV:TERM_PROGRAM -ne "vscode") {
-    Set-Location -Path $ENV:HOME/code -ErrorAction stop
+    Set-Location -Path $ENV:USERPROFILE/code -ErrorAction stop
 }
 
-# Chocolatey profile
-$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-if (Test-Path($ChocolateyProfile)) {
-  Import-Module "$ChocolateyProfile"
-}
