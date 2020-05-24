@@ -18,11 +18,11 @@ try {
     Write-Host -Message " -> Installing Psake.."
     Install-Module -Name Psake -Scope CurrentUser -Force
 
-    $LatestCommit = Invoke-RestMethod -Method Get -Uri $ApiUri
-    $LatestCommit.sha | Set-Content -Path $DotFilesPath/.latest -Force
-
     Invoke-Psake -NoLogo -buildFile $DotFilesPath/psakefile.ps1
 
+    Write-Host -Messaging "Saving latest sha: $($LatestCommit.sha)"
+    $LatestCommit = Invoke-RestMethod -Method Get -Uri $ApiUri
+    $LatestCommit.sha | Set-Content -Path $DotFilesPath/.latest -Force
 } catch {
     Write-Error -Message $_
 }

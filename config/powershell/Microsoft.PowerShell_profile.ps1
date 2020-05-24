@@ -5,7 +5,6 @@ Import-Module -Name Get-ChildItemColor
 $ErrorView = 'ConciseView'
 
 Set-Theme -Name robbyrussell_custom
-Get-DotFilesUpdateStatus
 
 function Get-EnvironmentVariable {
     Get-Item -Path Env:\
@@ -30,6 +29,9 @@ function Get-DotFilesUpdateStatus {
         Write-Host -Message "Run Update-DotFiles to get the latest configuration" -ForegroundColor Yellow
     }
 }
+
+
+Get-DotFilesUpdateStatus
 
 if ($ENV:TERM_PROGRAM -ne "vscode") {
     Set-Location -Path $ENV:USERPROFILE/code -ErrorAction stop
