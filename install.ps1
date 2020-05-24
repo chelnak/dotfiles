@@ -2,6 +2,7 @@
 $ErrorActionPreference = "Stop"
 $TempFile = New-TemporaryFile
 $Uri = "https://github.com/chelnak/dotfiles/archive/master.zip"
+$ApiUri = "https://api.github.com/repos/chelnak/dotfiles/commits/master"
 $DotFilesPath = "$ENV:USERPROFILE/.dotfiles"
 
 try {
@@ -11,13 +12,16 @@ try {
     Remove-Item -Path $DotFilesPath -Recurse -Force -ErrorAction SilentlyContinue
     Expand-Archive -Path $TempFile.FullName -DestinationPath $DotFilesPath
 
-    Move-Item -Path $DotFilesPath/dotfiles-master/* -Destination $DotFilesPath
+    Move-Item -Path $DotFilesPath/dotfiles-master/* -Destination $DotFilesPath -Force
     Remove-Item -Path $DotFilesPath/dotfiles-master -Force
 
     Write-Host -Message " -> Installing Psake.."
     Install-Module -Name Psake -Scope CurrentUser -Force
 
-    Invoke-Psake -NoLogo -buildFile $DotFilesPath/psakefile.ps1
+    $LatestCommit = Invoke-RestMethod -Method Get -Uri $ApiUri
+    $LatestCommit.sha | Set-Content -Path $DotFilesPath/.latest -Force
+
+    #Invoke-Psake -NoLogo -buildFile $DotFilesPath/psakefile.ps1
 
 } catch {
     Write-Error -Message $_
