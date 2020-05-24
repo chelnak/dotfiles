@@ -21,7 +21,7 @@ try {
     $LatestCommit = Invoke-RestMethod -Method Get -Uri $ApiUri
     $LatestCommit.sha | Set-Content -Path $DotFilesPath/.latest -Force
 
-    #Invoke-Psake -NoLogo -buildFile $DotFilesPath/psakefile.ps1
+    Invoke-Psake -NoLogo -buildFile $DotFilesPath/psakefile.ps1
 
 } catch {
     Write-Error -Message $_
