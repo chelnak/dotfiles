@@ -100,7 +100,7 @@ task git -description "Configure Git" {
 
 task jcat -description "Configure jcat" {
     & "$ENV:LOCALAPPDATA/Programs/Python/Python38/python.exe" -m pip install -r "$PSScriptRoot/util/jcat/requirements.txt"
-    & "$ENV:LOCALAPPDATA/Programs/Python/Python38/python.exe" -m pyinstaller $PSScriptRoot/util/jcat/jcat.py --noconfirm
+    & pyinstaller $PSScriptRoot/util/jcat/jcat.py --noconfirm
 
     $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/.dotfiles/util/jcat/dist/jcat"
 
