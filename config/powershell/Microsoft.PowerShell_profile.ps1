@@ -30,14 +30,7 @@ function Get-DotFilesUpdateStatus {
     }
 }
 
-function Get-ContentJson {
-    param(
-        [Parameter(Position=0)]
-        [string]$Path
-    )
-    python.exe C:\Users\craig\code\dotfiles\util\syncat\syncat.py "$Path"
-}
-Set-Alias -Name jcat -Value Get-ContentJson
+$ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/.dotfiles/util/jcat/dist"
 
 Get-DotFilesUpdateStatus
 

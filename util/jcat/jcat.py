@@ -17,6 +17,9 @@ try:
         syntax = Syntax(data, 'json', theme='monokai', line_numbers=True)
         console.print(syntax)
 
+except FileNotFoundError:
+        print('Could not find specified file: {0}'.format(args.filename))
+
 except JSONDecodeError as json_error:
     print('Failed to decode json file!')
     print('Error message: {0}'.format(json_error))

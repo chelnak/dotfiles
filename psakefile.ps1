@@ -23,7 +23,8 @@ task install -description "Install applications" {
     }
 
     Write-Host "Installing custom apps"
-    & "$ENV:LOCALAPPDATA/Programs/Python/Python38/python.exe" -m pip install -r "$PSScriptRoot/util/syncat/requirements.txt"
+    & "$ENV:LOCALAPPDATA/Programs/Python/Python38/python.exe" -m pip install -r "$PSScriptRoot/util/jcat/requirements.txt"
+    & "$ENV:LOCALAPPDATA/Programs/Python/Python38/python.exe" -m pyinstaller $PSScriptRoot/util/jcat/jcat.py --noconfirm
 }
 
 task wsl -description "Configure WSL" {
