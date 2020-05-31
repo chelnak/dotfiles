@@ -3,7 +3,7 @@ properties {
     $ConfigDirectory = "$PSScriptRoot\config"
 }
 
-task default -depends core, vscode, powershell, azcli, terminal, git
+task default -depends core, vscode, powershell, azcli, terminal, git, jcat
 
 task core -description "Configure core services" {
 
@@ -22,9 +22,6 @@ task install -description "Install applications" {
         winget install -e -h $_
     }
 
-    Write-Host "Installing custom apps"
-    & "$ENV:LOCALAPPDATA/Programs/Python/Python38/python.exe" -m pip install -r "$PSScriptRoot/util/jcat/requirements.txt"
-    & "$ENV:LOCALAPPDATA/Programs/Python/Python38/python.exe" -m pyinstaller $PSScriptRoot/util/jcat/jcat.py --noconfirm
 }
 
 task wsl -description "Configure WSL" {
@@ -99,4 +96,13 @@ task git -description "Configure Git" {
     git config --global credential.helper manager
     git config --global gpg.program "C:/Program Files (x86)/GnuPG/bin/gpg.exe"
     git config --global core.editor "code -w -n"
+}
+
+task jcat -description "Configure jcat" {
+    & "$ENV:LOCALAPPDATA/Programs/Python/Python38/python.exe" -m pip install -r "$PSScriptRoot/util/jcat/requirements.txt"
+    & "$ENV:LOCALAPPDATA/Programs/Python/Python38/python.exe" -m pyinstaller $PSScriptRoot/util/jcat/jcat.py --noconfirm
+
+    $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/.dotfiles/util/jcat/dist/jcat"
+
+    jcat $PSScriptRoot/util/jcat/jcat-test.json
 }
