@@ -21,6 +21,9 @@ task install -description "Install applications" {
     $Apps | Foreach-Object {
         winget install -e -h $_
     }
+
+    Write-Host "Installing custom apps"
+    & "$ENV:LOCALAPPDATA/Programs/Python/Python38/python.exe" -m pip install -r "$PSScriptRoot/util/syncat/requirements.txt"
 }
 
 task wsl -description "Configure WSL" {
