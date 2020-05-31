@@ -30,7 +30,7 @@ function Get-DotFilesUpdateStatus {
     }
 }
 
-$ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/.dotfiles/util/jcat/dist"
+$ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/.dotfiles/util/jcat/dist/jcat"
 
 Get-DotFilesUpdateStatus
 
