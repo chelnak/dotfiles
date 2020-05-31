@@ -1,2 +1,6 @@
 **/**/*.deb
 **/**/*get_helm.sh
+**/dist
+**/build
+**/__pycache__
+**/*.spec
