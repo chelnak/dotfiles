@@ -9,7 +9,6 @@ Set-Theme -Name robbyrussell_custom
 function Get-EnvironmentVariable {
     Get-Item -Path Env:\
 }
-
 Set-Alias -Name env -Value Get-EnvironmentVariable
 
 function Edit-Dofiles {
@@ -31,6 +30,14 @@ function Get-DotFilesUpdateStatus {
     }
 }
 
+function Get-ContentJson {
+    param(
+        [Parameter(Position=0)]
+        [string]$Path
+    )
+    python.exe C:\Users\craig\code\dotfiles\util\syncat\syncat.py "$Path"
+}
+Set-Alias -Name jcat -Value Get-ContentJson
 
 Get-DotFilesUpdateStatus
 

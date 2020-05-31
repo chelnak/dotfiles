@@ -18,5 +18,6 @@
   "oderwat.indent-rainbow",
   "skyapps.fish-vscode",
   "github.github-vscode-theme",
-  "davidanson.vscode-markdownlint"
+  "davidanson.vscode-markdownlint",
+  "ms-python.python"
 ]
