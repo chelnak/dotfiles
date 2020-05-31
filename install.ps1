@@ -16,7 +16,9 @@ try {
     Remove-Item -Path $DotFilesPath/dotfiles-master -Force
 
     Write-Host -Message " -> Installing Psake.."
-    Install-Module -Name Psake -Scope CurrentUser -Force
+    if (!(Get-Module -Name Psake -ListAvailable)) {
+        Install-Module -Name Psake -Scope CurrentUser -Force
+    }
 
     $LatestCommit = Invoke-RestMethod -Method Get -Uri $ApiUri
     $LatestCommit.sha | Set-Content -Path $DotFilesPath/.latest -Force
