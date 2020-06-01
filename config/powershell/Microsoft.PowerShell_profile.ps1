@@ -27,7 +27,7 @@ function Get-DotFilesUpdateStatus {
     }
 }
 
-$ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/.dotfiles/util/jcat/dist/jcat"
+$ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/.dotfiles/util"
 
 Set-Theme -Name robbyrussell_custom
 
