@@ -46,11 +46,21 @@ task vscode -description "Configure vscode" {
 
 task powershell -description "Configure PowerShell" {
 
-    Write-Host -Message "Installing modules"
     $Modules =  Get-Content -Path $ConfigDirectory/powershell/modules.json | ConvertFrom-Json
+    Write-Host -Message "Installing/updating $($Modules.Count) module(s)"
     $Modules | ForEach-Object {
         [bool]$PreRelease = $_.prerelease
-        pwsh -Command Install-Module $_.name -AllowPrerelease:`$$PreRelease -Scope CurrentUser -Confirm:`$$False -AllowClobber
+
+        pwsh -NoProfile -Command "& {
+            if (Get-Module -Name $($_.name) -ListAvailable) {
+                Write-Host '    -> Updating module [$($_.name)]'
+                Update-Module -Name $($_.name) -AllowPrerelease:`$PreRelease -Scope CurrentUser -Confirm:`$False
+            } else {
+                Write-Host '    -> Installing module [$($_.name)]'
+                Install-Module $($_.name) -AllowPrerelease:`$PreRelease -Scope CurrentUser -Confirm:`$False -AllowClobber
+            }
+        }"
+
     }
 
     Write-Host "Configuring PowerShell Profile"
