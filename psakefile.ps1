@@ -105,7 +105,7 @@ task jcat -description "Configure jcat" {
     & pyinstaller $PSScriptRoot/util/jcat/jcat.py --noconfirm
     Pop-Location
 
-    $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/.dotfiles/util/jcat/dist/jcat"
+    $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/AppData/Local/Programs/Python/Python38;$ENV:USERPROFILE/AppData/Local/Programs/Python/Python38/Scripts;$ENV:USERPROFILE/.dotfiles/util/jcat/dist/jcat"
 
     jcat $PSScriptRoot/util/jcat/jcat-test.json
 }
