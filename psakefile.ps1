@@ -109,13 +109,17 @@ task git -description "Configure Git" {
 }
 
 task jcat -description "Configure jcat" {
-    & "$ENV:LOCALAPPDATA/Programs/Python/Python38/python.exe" -m pip install -r "$PSScriptRoot/util/jcat/requirements.txt"
-    Push-Location
-    Set-Location -Path $PSScriptRoot/util/jcat
-    & pyinstaller $PSScriptRoot/util/jcat/jcat.py --noconfirm
-    Pop-Location
 
-    $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/AppData/Local/Programs/Python/Python38;$ENV:USERPROFILE/AppData/Local/Programs/Python/Python38/Scripts;$ENV:USERPROFILE/.dotfiles/util/jcat/dist/jcat"
+    $UtilDir = "$ENV:USERPROFILE/.dotfiles/util"
 
-    jcat $PSScriptRoot/util/jcat/jcat-test.json
+    $null = New-Item -Path $UtilDir -ItemType Directory -Force -ErrorAction SilentlyContinue
+    $ENV:PATH="$ENV:PATH;$UtilDir"
+
+    if ((Test-Path -Path $UtilDir/jcat.exe)){
+        Remove-Item -Path $UtilDir/jcat.exe -Force -ErrorAction SilentlyContinue
+    }
+
+    $Uri = "https://github.com/chelnak/jcat/releases/latest/download/jcat.exe"
+    Invoke-RestMethod -Method Get -Uri $Uri -OutFile $UtilDir/jcat.exe -FollowRelLink
+    jcat $PSScriptRoot/util/jcat-test.json
 }
