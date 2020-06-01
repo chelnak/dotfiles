@@ -4,12 +4,9 @@ Import-Module -Name Get-ChildItemColor
 
 $ErrorView = 'ConciseView'
 
-Set-Theme -Name robbyrussell_custom
-
 function Get-EnvironmentVariable {
     Get-Item -Path Env:\
 }
-Set-Alias -Name env -Value Get-EnvironmentVariable
 
 function Edit-Dofiles {
     & code "$ENV:USERPROFILE/.dotfiles"
@@ -22,7 +19,7 @@ function Update-Dotfiles {
 function Get-DotFilesUpdateStatus {
     $CurrentSha = Get-Content -Path $ENV:USERPROFILE/.dotfiles/.latest -ErrorAction SilentlyContinue
     if ($CurrentSha) {
-        $Response = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/chelnak/dotfiles/compare/$CurrentSha...master"
+        $Response = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/chelnak/dotfiles/compare/$CurrentSha...master" -TimeoutSec 1
         if ($Response.status -eq "ahead") {
             Write-Host -Message "Your dotfiles configuration is behind by $($Response.ahead_by) commit(s)."
             Write-Host -Message "Run Update-DotFiles to get the latest configuration" -ForegroundColor Yellow
@@ -31,6 +28,12 @@ function Get-DotFilesUpdateStatus {
 }
 
 $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/.dotfiles/util/jcat/dist/jcat"
+
+Set-Theme -Name robbyrussell_custom
+
+Set-Alias -Name touch -Value New-Item
+Set-Alias -Name env -Value Get-EnvironmentVariable
+Set-Alias -Name tf -Value terraform
 
 Get-DotFilesUpdateStatus
 
