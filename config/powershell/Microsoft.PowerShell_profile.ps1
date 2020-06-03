@@ -27,6 +27,47 @@ function Get-DotFilesUpdateStatus {
     }
 }
 
+function Invoke-AwsVaultExecCmd {
+<#
+    .SYNOPSIS
+    A wrapper for aws-vault exec
+
+    .DESCRIPTION
+    A wrapper for aws-vault exec that enables use with PowerShell. This function assumes that aws-vault.exe is available in $ENV:\PATH
+
+    .PARAMETER Profile
+    The name of the profile to use for the command execution
+
+    .PARAMETER Command
+    A script block containing the command that will be executed with the given context
+
+    .EXAMPLE
+    Invoke-AwsVaultExecCmd -Profile hmpps-sl -Command {aws sts get-caller-identity}
+
+    .EXAMPLE
+    Invoke-AwsVaultExecCmd hmpps-sl {aws sts get-caller-identity}
+
+    .EXAMPLE
+    awsv hmpps-sl {aws sts get-caller-identity}
+#>
+    [CmdletBinding()]
+    [Alias("awsv")]
+    param(
+        [Parameter(Position = 0, Mandatory = $True)]
+        [String]$Profile,
+        [Parameter(Position = 1, Mandatory = $True)]
+        [ScriptBlock]$Command
+    )
+
+    try {
+
+        & aws-vault exec $Profile -- pwsh -Command $Command.ToString()
+
+    } catch {
+        Write-Error -Message "$_"
+    }
+}
+
 $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/.dotfiles/util"
 
 Set-Theme -Name robbyrussell_custom
