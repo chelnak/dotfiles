@@ -120,7 +120,5 @@ task jcat -description "Configure jcat" {
 
     Invoke-RestMethod -Method Get -Uri $LatestAsset.browser_download_url -OutFile $ENV:TEMP/$LatestAsset.name -FollowRelLink
 
-    & msiexec /i $ENV:TEMP/$Installer /passive
-
-    jcat $PSScriptRoot/util/jcat-test.json
+    & msiexec /i $ENV:TEMP\$LatestAsset.name /passive
 }
