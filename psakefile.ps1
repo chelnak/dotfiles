@@ -110,16 +110,15 @@ task git -description "Configure Git" {
 
 task jcat -description "Configure jcat" {
 
-    $UtilDir = "$ENV:USERPROFILE/.dotfiles/util"
+    $Installer = "jcat-0.1.1-amd64.msi"
+    $JcatPath = "$ENV:USERPROFILE\AppData\Local\Programs\jcat"
 
-    $null = New-Item -Path $UtilDir -ItemType Directory -Force -ErrorAction SilentlyContinue
-    $ENV:PATH="$ENV:PATH;$UtilDir"
+    $ENV:PATH="$ENV:PATH;$JcatPath"
 
-    if ((Test-Path -Path $UtilDir/jcat.exe)){
-        Remove-Item -Path $UtilDir/jcat.exe -Force -ErrorAction SilentlyContinue
-    }
+    $Uri = "https://github.com/chelnak/jcat/releases/latest/download/$Installer"
+    Invoke-RestMethod -Method Get -Uri $Uri -OutFile $ENV:TEMP/$Installer -FollowRelLink
 
-    $Uri = "https://github.com/chelnak/jcat/releases/latest/download/jcat.exe"
-    Invoke-RestMethod -Method Get -Uri $Uri -OutFile $UtilDir/jcat.exe -FollowRelLink
+    & msiexec /i $ENV:TEMP/$Installer /passive
+
     jcat $PSScriptRoot/util/jcat-test.json
 }
