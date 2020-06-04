@@ -71,6 +71,8 @@ task powershell -description "Configure PowerShell" {
     cmd /c mklink "$DocumentsPath\PowerShell\Microsoft.PowerShell_profile.ps1" "$ConfigDirectory\powershell\Microsoft.PowerShell_profile.ps1"
     cmd /c mklink "$DocumentsPath\PowerShell\Microsoft.VSCode_profile.ps1" "$ConfigDirectory\powershell\Microsoft.VSCode_profile.ps1"
     cmd /c mklink /D "$DocumentsPath\\PowerShell\PoshThemes" "$ConfigDirectory\powershell\PoshThemes"
+
+    . $PROFILE
 }
 
 task azcli -description "Configure Azure Cli" {
@@ -110,13 +112,13 @@ task git -description "Configure Git" {
 
 task jcat -description "Configure jcat" {
 
-    $Installer = "jcat-0.1.1-amd64.msi"
     $JcatPath = "$ENV:USERPROFILE\AppData\Local\Programs\jcat"
-
     $ENV:PATH="$ENV:PATH;$JcatPath"
 
-    $Uri = "https://github.com/chelnak/jcat/releases/latest/download/$Installer"
-    Invoke-RestMethod -Method Get -Uri $Uri -OutFile $ENV:TEMP/$Installer -FollowRelLink
+    $LatestRelease = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/chelnak/jcat/releases/latest"
+    $LatestAsset = $LatestRelease.assets.Where{$_.name -Like "*.msi"}
+
+    Invoke-RestMethod -Method Get -Uri $LatestAsset.browser_download_url -OutFile $ENV:TEMP/$LatestAsset.name -FollowRelLink
 
     & msiexec /i $ENV:TEMP/$Installer /passive
 
