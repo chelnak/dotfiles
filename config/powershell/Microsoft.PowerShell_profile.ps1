@@ -68,7 +68,7 @@ function Invoke-AwsVaultExecCmd {
     }
 }
 
-$ENV:PATH="$ENV:PATH;$ENV:USERPROFILE/.dotfiles/util"
+$ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\AppData\Local\Programs\jcat"
 
 Set-Theme -Name robbyrussell_custom
 
@@ -77,8 +77,3 @@ Set-Alias -Name env -Value Get-EnvironmentVariable
 Set-Alias -Name tf -Value terraform
 
 Get-DotFilesUpdateStatus
-
-if ($ENV:TERM_PROGRAM -ne "vscode") {
-    Set-Location -Path $ENV:USERPROFILE/code -ErrorAction stop
-}
-
