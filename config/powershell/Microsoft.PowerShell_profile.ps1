@@ -61,7 +61,8 @@ function Invoke-AwsVaultExecCmd {
 
     try {
 
-        & aws-vault exec $Profile -- pwsh -Command $Command.ToString()
+        $CurentLocation = Get-Location
+        & aws-vault exec $Profile -- pwsh -WorkingDirectory $CurentLocation.Path -Command $Command.ToString()
 
     } catch {
         Write-Error -Message "$_"
