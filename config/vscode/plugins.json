@@ -19,5 +19,5 @@
   "github.github-vscode-theme",
   "davidanson.vscode-markdownlint",
   "ms-python.python",
-  "mauve.terraform"
+  "hashicorp.terraform"
 ]
