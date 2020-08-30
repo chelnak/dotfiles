@@ -71,6 +71,7 @@ function Invoke-AwsVaultExecCmd {
 
 $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\AppData\Local\Programs\jcat"
 
+Set-PSReadLineOption -PredictionSource History
 Set-Theme -Name robbyrussell_custom
 
 Set-Alias -Name touch -Value New-Item
