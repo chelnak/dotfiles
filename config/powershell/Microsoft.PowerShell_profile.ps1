@@ -78,5 +78,6 @@ Set-Alias -Name touch -Value New-Item
 Set-Alias -Name env -Value Get-EnvironmentVariable
 Set-Alias -Name tf -Value terraform
 Set-Alias -Name tg -Value terragrunt
+Set-Alias -Name find -Value Get-Command
 
 Get-DotFilesUpdateStatus
