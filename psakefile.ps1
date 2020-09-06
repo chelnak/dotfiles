@@ -39,9 +39,8 @@ task wsl -description "Configure WSL" {
 task vscode -description "Configure vscode" {
 
     $Extensions = Get-Content -Path $ConfigDirectory/vscode/plugins.json | ConvertFrom-Json
-    $ExtensionsFormatted = ($Extensions | ForEach-Object {"--install-extension $_"}) -join " "
-
-    & "code $ExtensionsFormatted --force"
+    $Command = "code $(($Extensions | ForEach-Object {"--install-extension $_"}) -join " ") --Force"
+    Invoke-Expression -Command $Command
 }
 
 task powershell -description "Configure PowerShell" {
