@@ -8,15 +8,15 @@ function Get-EnvironmentVariable {
     Get-Item -Path Env:\
 }
 
-function Edit-Dofiles {
+function Edit-Dotfiles {
     Param(
         [Switch]$Clean
     )
 
     if ($Clean.IsPresent) {
         try {
-            Remove-Item "$ENV:USERPROFILE/code/dotfiles" -Recurse -ErrorAction SilentlyContinue
-            git clone https://github.com/chelnak/dotfiles "$ENV:USERPROFILE/code/dotfiles"
+            Remove-Item "$ENV:USERPROFILE/code/dotfiles" -Recurse -Force
+            & git clone "https://github.com/chelnak/dotfiles" "$ENV:USERPROFILE/code/dotfiles"
         } catch {
             Write-Error -Message "Could not clean dotfiles: $_"
         }
