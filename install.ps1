@@ -1,3 +1,8 @@
+Param(
+    [Parameter()]
+    [ValidateSet("core", "vscode", "powershell", "azcli", "terminal", "git")]
+    [String]$Task
+)
 
 $ErrorActionPreference = "Stop"
 $TempFile = New-TemporaryFile
@@ -23,7 +28,11 @@ try {
     $LatestCommit = Invoke-RestMethod -Method Get -Uri $ApiUri
     $LatestCommit.sha | Set-Content -Path $DotFilesPath/.latest -Force
 
-    Invoke-Psake -NoLogo -buildFile $DotFilesPath/psakefile.ps1
+    if ($Task) {
+        Invoke-Psake -NoLogo -buildFile $DotFilesPath/psakefile.ps1 -taskList $Task
+    } else {
+        Invoke-Psake -NoLogo -buildFile $DotFilesPath/psakefile.ps1
+    }
 
     Write-Host -Message "Set latest sha to: $($LatestCommit.sha)"
 
