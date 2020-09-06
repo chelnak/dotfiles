@@ -39,7 +39,7 @@ task wsl -description "Configure WSL" {
 task vscode -description "Configure vscode" {
 
     $Extensions = Get-Content -Path $ConfigDirectory/vscode/plugins.json | ConvertFrom-Json
-    $Command = "code $(($Extensions | ForEach-Object {"--install-extension $_"}) -join " ") --Force"
+    $Command = "code $(($Extensions | ForEach-Object {"--install-extension $_"}) -join " ") --force"
     Invoke-Expression -Command $Command
 }
 
