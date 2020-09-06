@@ -1,6 +1,6 @@
 Import-Module -Name oh-my-posh
 Import-Module -Name posh-git
-Import-Module -Name Get-ChildItemColor
+Import-Module -Name PSColor
 
 $ErrorView = 'ConciseView'
 
@@ -9,7 +9,20 @@ function Get-EnvironmentVariable {
 }
 
 function Edit-Dofiles {
-    & code "$ENV:USERPROFILE/.dotfiles"
+    Param(
+        [Switch]$Clean
+    )
+
+    if ($Clean.IsPresent) {
+        try {
+            Remove-Item "$ENV:USERPROFILE/code/dotfiles" -Recurse -ErrorAction SilentlyContinue
+            git clone https://github.com/chelnak/dotfiles "$ENV:USERPROFILE/code/dotfiles"
+        } catch {
+            Write-Error -Message "Could not clean dotfiles: $_"
+        }
+    }
+
+    & code "$ENV:USERPROFILE/code/dotfiles"
 }
 
 function Update-Dotfiles {
@@ -69,15 +82,12 @@ function Invoke-AwsVaultExecCmd {
     }
 }
 
-$ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\AppData\Local\Programs\jcat"
-
 Set-PSReadLineOption -PredictionSource History
-Set-Theme -Name robbyrussell_custom
+Set-Theme -Name chelnak
 
 Set-Alias -Name touch -Value New-Item
 Set-Alias -Name env -Value Get-EnvironmentVariable
 Set-Alias -Name tf -Value terraform
 Set-Alias -Name tg -Value terragrunt
-Set-Alias -Name find -Value Get-Command
 
 Get-DotFilesUpdateStatus

@@ -9,3 +9,10 @@ A collection of shell and tool configuration files.
 ```PowerShell
 Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chelnak/dotfiles/master/install.ps1'))
 ```
+
+## Configure gpg
+```PowerShell
+keybase login
+keybase pgp export | gpg --import
+keybase pgp export --secret --unencrypted | gpg --allow-secret-key-import --import
+```
