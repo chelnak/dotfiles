@@ -59,27 +59,27 @@ function Write-Theme {
     if ($Status) {
         $Prompt += Write-Prompt -Object " [" -ForegroundColor $Sl.Colors.PromptHighlightColor
         $prompt += Write-Prompt -Object (Get-CustomGitStatus -Status $Status) -ForegroundColor $Sl.Colors.GitDefaultColor
-        $prompt += Write-Prompt -Object "]" -ForegroundColor $sl.Colors.PromptHighlightColor
+        $prompt += Write-Prompt -Object "]" -ForegroundColor $Sl.Colors.PromptHighlightColor
     }
 
     if (Test-VirtualEnv) {
-        $Prompt += Write-Prompt -Object " [" -ForegroundColor $sl.Colors.PromptHighlightColor
+        $Prompt += Write-Prompt -Object " [" -ForegroundColor $Sl.Colors.PromptHighlightColor
         $Prompt += Write-Prompt -Object "$($Sl.PromptSymbols.VirtualEnvSymbol)" -ForegroundColor $Sl.Colors.VirtualEnvForegroundColor
         $Prompt += Write-Prompt -Object " $(Get-VirtualEnvName)" -ForegroundColor $Sl.Colors.VirtualEnvForegroundColor
-        $Prompt += Write-Prompt -Object "]" -ForegroundColor $sl.Colors.PromptHighlightColor
+        $Prompt += Write-Prompt -Object "]" -ForegroundColor $Sl.Colors.PromptHighlightColor
     }
 
     $TerraformVersion = Get-Terraform
     if ($TerraformVersion) {
-        $Prompt += Write-Prompt -Object " [" -ForegroundColor $sl.Colors.PromptHighlightColor
-        $Prompt += Write-Prompt -Object "$($Sl.PromptSymbols.TerraformSymbol)" -ForegroundColor $sl.Colors.PromptForegroundColor
-        $Prompt += Write-Prompt -Object " $TerraformVersion" -ForegroundColor $sl.Colors.PromptForegroundColor
-        $Prompt += Write-Prompt -Object "]" -ForegroundColor $sl.Colors.PromptHighlightColor
+        $Prompt += Write-Prompt -Object " [" -ForegroundColor $Sl.Colors.PromptHighlightColor
+        $Prompt += Write-Prompt -Object "$($Sl.PromptSymbols.TerraformSymbol)" -ForegroundColor $Sl.Colors.PromptForegroundColor
+        $Prompt += Write-Prompt -Object " $TerraformVersion" -ForegroundColor $Sl.Colors.PromptForegroundColor
+        $Prompt += Write-Prompt -Object "]" -ForegroundColor $Sl.Colors.PromptHighlightColor
     }
 
     $TimeStamp = Get-Date -Format T
     $Prompt += Set-CursorForRightBlockWrite -TextLength $Timestamp.Length
-    $Prompt += Write-Prompt $TimeStamp -ForegroundColor [ConsoleColor]::DarkGray
+    $Prompt += Write-Prompt $TimeStamp -ForegroundColor $Sl.Colors.PromptTimeColor
 
     $Prompt += Set-Newline
     $Prompt += Write-Prompt -Object $Sl.PromptSymbols.PromptIndicator -ForegroundColor $PromtSymbolColor
@@ -98,6 +98,7 @@ $Sl = $GLOBAL:ThemeSettings #local settings
 # # General
 $Sl.PromptSymbols.PromptIndicator = [char]::ConvertFromUtf32(0x279C) #[char]::ConvertFromUtf32(0x26A1)
 $Sl.PromptSymbols.HomeSymbol = '🏠'
+$Sl.Colors.PromptTimeColor = [ConsoleColor]::Gray
 
 # $Sl.Colors.PromptForegroundColor = [ConsoleColor]::DarkYellow
 $Sl.Colors.PromptSymbolColor = [ConsoleColor]::Green
