@@ -26,7 +26,17 @@ function Edit-Dotfiles {
 }
 
 function Update-Dotfiles {
-    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chelnak/dotfiles/master/install.ps1'))
+    Param(
+        [Parameter()]
+        [ValidateSet("core", "vscode", "powershell", "azcli", "terminal", "git")]
+        [String]$Task
+    )
+
+    if ($Task){
+        Invoke-Expression "& { $(Invoke-RestMethod 'https://raw.githubusercontent.com/chelnak/dotfiles/master/install.ps1') } -Task $Task"
+    } else {
+        Invoke-Expression "& { $(Invoke-RestMethod 'https://raw.githubusercontent.com/chelnak/dotfiles/master/install.ps1') }"
+    }
 }
 
 function Get-DotFilesUpdateStatus {
