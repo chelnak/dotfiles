@@ -16,6 +16,5 @@
     "Keybase.Keybase",
     "gnupg.Gpg4win",
     "Python.Python",
-    "Amazon.AWSCLI",
-    "Microsoft.VisualStudio.Enterprise"
+    "Amazon.AWSCLI"
 ]

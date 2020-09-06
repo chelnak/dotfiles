@@ -3,7 +3,7 @@ properties {
     $ConfigDirectory = "$PSScriptRoot\config"
 }
 
-task default -depends core, vscode, powershell, azcli, terminal, git, jcat
+task default -depends core, vscode, powershell, azcli, terminal, git
 
 task core -description "Configure core services" {
 
@@ -95,30 +95,10 @@ task terminal -description "Configure Windows Terminal" {
     cmd /c mklink "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\party_parrot.json" "$ConfigDirectory\terminal\party_parrot.json"
 }
 
-task keybase -description "Configure gpg" {
-
-    keybase login
-    keybase pgp export | gpg --import
-    keybase pgp export --secret --unencrypted | gpg --allow-secret-key-import --import
-}
-
 task git -description "Configure Git" {
 
     Get-Content -Raw $ConfigDirectory\.gitconfig | keybase pgp decrypt | Set-Content -Path $ENV:USERPROFILE\.gitconfig
     git config --global credential.helper manager
     git config --global gpg.program "C:/Program Files (x86)/GnuPG/bin/gpg.exe"
     git config --global core.editor "code -w -n"
-}
-
-task jcat -description "Configure jcat" {
-
-    $JcatPath = "$ENV:USERPROFILE\AppData\Local\Programs\jcat"
-    $ENV:PATH="$ENV:PATH;$JcatPath"
-
-    $LatestRelease = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/chelnak/jcat/releases/latest"
-    $LatestAsset = $LatestRelease.assets.Where{$_.name -Like "*.msi"}
-
-    Invoke-RestMethod -Method Get -Uri $LatestAsset.browser_download_url -OutFile $ENV:TEMP/$LatestAsset.name -FollowRelLink
-
-    & msiexec /i $ENV:TEMP\$LatestAsset.name /passive
 }
