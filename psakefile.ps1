@@ -41,7 +41,7 @@ task vscode -description "Configure vscode" {
     $Extensions = Get-Content -Path $ConfigDirectory/vscode/plugins.json | ConvertFrom-Json
     $ExtensionsFormatted = ($Extensions | ForEach-Object {"--install-extension $_"}) -join " "
 
-    code $ExtensionsFormatted --force
+    & "code $ExtensionsFormatted --force"
 }
 
 task powershell -description "Configure PowerShell" {
