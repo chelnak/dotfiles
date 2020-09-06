@@ -21,6 +21,7 @@
       "defaults": {
           // Put settings here that you want to apply to all profiles.
           "fontSize": 9,
+          "fontFace": "CaskaydiaCove NF",
           "colorScheme": "GitHub"
       },
       "list": [
