@@ -34,6 +34,8 @@ try {
         Invoke-Psake -NoLogo -buildFile $DotFilesPath/psakefile.ps1
     }
 
+    . $PROFILE
+
     Write-Host -Message "Set latest sha to: $($LatestCommit.sha)"
 
 } catch {
