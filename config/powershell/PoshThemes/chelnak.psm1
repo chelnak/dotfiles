@@ -7,6 +7,11 @@ function Get-Terraform {
 
     if ($Files -and $Bin) {
         $Version = (terraform version).Split(" ")[1]
+
+        if (!$Version.StartsWith("v")){
+            $Version = "$((terraform version)[3].Split(" ")[1]) $($Sl.GitSymbols.BranchBehindStatusSymbol)"
+        }
+
         return $Version
     }
 }
