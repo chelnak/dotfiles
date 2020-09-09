@@ -101,4 +101,5 @@ task git -description "Configure Git" {
     git config --global gpg.program "C:/Program Files (x86)/GnuPG/bin/gpg.exe"
     git config --global core.editor "code -w -n"
     git config --global pull.rebase true
+    git config --global core.autocrlf false
 }
