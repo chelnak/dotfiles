@@ -148,7 +148,7 @@ $Sl.Colors.VirtualEnvForegroundColor = [ConsoleColor]::DarkYellow
 $Sl.PromptSymbols.TerraformSymbol = [char]::ConvertFromUtf32(0xe5fc)
 $SL.Colors.TerraformForegroundColor = [ConsoleColor]::DarkYellow
 
-$Sl.PromptSymbols.KubernetesSymbol = "☸️"
+$Sl.PromptSymbols.KubernetesSymbol = [char]::ConvertFromUtf32(0xfd31)
 $Sl.Colors.KubernetesSymbolForegroundColor = [ConsoleColor]::White
 $Sl.Colors.KubernetesSymbolBackgroundColor = [ConsoleColor]::Blue
 $SL.Colors.KubernetesForegroundColor = [ConsoleColor]::DarkYellow
