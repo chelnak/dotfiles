@@ -21,7 +21,6 @@ function Get-CustomGitStatus {
         [PSCustomObject]$Status
     )
 
-    $BranchSymbol = $ThemeSettings.GitSymbols.BranchSymbol
     $BranchName = $Status.Branch
 
     if ($Status.BehindBy -gt 0) {
@@ -36,7 +35,36 @@ function Get-CustomGitStatus {
         $IdenticalSymbol = $ThemeSettings.GitSymbols.BranchIdenticalStatusToSymbol
     }
 
-    return "$BranchSymbol $BranchName $($BehindSymbol)$($AheadSymbol)$($IdenticalSymbol)".TrimEnd()
+    return "$BranchName $($BehindSymbol)$($AheadSymbol)$($IdenticalSymbol)".TrimEnd()
+}
+
+function Get-Kubernetes {
+    $Bin = Get-Command -Name "kubectl" -ErrorAction SilentlyContinue
+
+    if ($Bin) {
+        $Namespace = kubectl config view --output 'jsonpath={..namespace}'
+        return $Namespace
+    }
+}
+
+function New-Block {
+    Param(
+        [Parameter()]
+        [string]$Icon,
+        [Parameter()]
+        [string]$IconForegroudColor = $Sl.Colors.PromptForegroundColor,
+        [Parameter()]
+        [string]$Content,
+        [Parameter()]
+        [string]$ContentForegroundColor = $Sl.Colors.PromptForegroundColor
+    )
+
+    $Block += Write-Prompt -Object " [" -ForegroundColor $Sl.Colors.PromptHighlightColor
+    $Block += Write-Prompt -Object "$($Icon)" -ForegroundColor $IconForegroudColor
+    $Block += Write-Prompt -Object " $($Content)" -ForegroundColor $ContentForegroundColor
+    $Block += Write-Prompt -Object "]" -ForegroundColor $Sl.Colors.PromptHighlightColor
+
+    return $Block
 }
 
 function Write-Theme {
@@ -55,31 +83,29 @@ function Write-Theme {
     # Writes the drive portion
     $Drive = "$($Sl.PromptSymbols.HomeSymbol) home"
     if ($Pwd.Path -ne $HOME) {
-        $FullPath = (Get-FullPath -dir $pwd).Remove(0,3)
+        $FullPath = (Get-FullPath -dir $pwd).Trim("$($Sl.PromptSymbols.HomeSymbol)$([System.IO.Path]::DirectorySeparatorChar)")
         $Drive = "$($Sl.PromptSymbols.HomeSymbol) $FullPath"
     }
+
     $Prompt += Write-Prompt -Object $Drive -ForegroundColor $Sl.Colors.DriveForegroundColor
 
     $Status = Get-VCSStatus
     if ($Status) {
-        $Prompt += Write-Prompt -Object " [" -ForegroundColor $Sl.Colors.PromptHighlightColor
-        $prompt += Write-Prompt -Object (Get-CustomGitStatus -Status $Status) -ForegroundColor $Sl.Colors.GitDefaultColor
-        $prompt += Write-Prompt -Object "]" -ForegroundColor $Sl.Colors.PromptHighlightColor
+        $Prompt += New-Block -Icon $Sl.GitSymbols.BranchSymbol -Content (Get-CustomGitStatus -Status $Status)
     }
 
     if (Test-VirtualEnv) {
-        $Prompt += Write-Prompt -Object " [" -ForegroundColor $Sl.Colors.PromptHighlightColor
-        $Prompt += Write-Prompt -Object "$($Sl.PromptSymbols.VirtualEnvSymbol)" -ForegroundColor $Sl.Colors.VirtualEnvForegroundColor
-        $Prompt += Write-Prompt -Object " $(Get-VirtualEnvName)" -ForegroundColor $Sl.Colors.VirtualEnvForegroundColor
-        $Prompt += Write-Prompt -Object "]" -ForegroundColor $Sl.Colors.PromptHighlightColor
+        $Prompt += New-Block -Icon $Sl.PromptSymbols.VirtualEnvSymbol -Content (Get-VirtualEnvName)
     }
 
     $TerraformVersion = Get-Terraform
     if ($TerraformVersion) {
-        $Prompt += Write-Prompt -Object " [" -ForegroundColor $Sl.Colors.PromptHighlightColor
-        $Prompt += Write-Prompt -Object "$($Sl.PromptSymbols.TerraformSymbol)" -ForegroundColor $Sl.Colors.PromptForegroundColor
-        $Prompt += Write-Prompt -Object " $TerraformVersion" -ForegroundColor $Sl.Colors.PromptForegroundColor
-        $Prompt += Write-Prompt -Object "]" -ForegroundColor $Sl.Colors.PromptHighlightColor
+        $Prompt += New-Block -Icon $Sl.PromptSymbols.TerraformSymbol -Content $TerraformVersion
+    }
+
+    $Kubernetes = Get-Kubernetes
+    if ($Kubernetes) {
+        $Prompt += New-Block -Icon $Sl.PromptSymbols.KubernetesSymbol -Content $Kubernetes
     }
 
     $TimeStamp = Get-Date -Format T
@@ -98,25 +124,31 @@ function Write-Theme {
     $Prompt
 }
 
-$Sl = $GLOBAL:ThemeSettings #local settings
+$Sl = $GLOBAL:ThemeSettings
 
-# # General
-$Sl.PromptSymbols.PromptIndicator = [char]::ConvertFromUtf32(0x279C) #[char]::ConvertFromUtf32(0x26A1)
-$Sl.PromptSymbols.HomeSymbol = '🏠'
+# --- General
+$Sl.PromptSymbols.PromptIndicator = [char]::ConvertFromUtf32(0x279C)
+$Sl.PromptSymbols.HomeSymbol = "💀"
 $Sl.Colors.PromptTimeColor = [ConsoleColor]::Gray
 
-# $Sl.Colors.PromptForegroundColor = [ConsoleColor]::DarkYellow
+$Sl.Colors.PromptForegroundColor = [ConsoleColor]::DarkYellow
 $Sl.Colors.PromptSymbolColor = [ConsoleColor]::Green
 $Sl.Colors.PromptHighlightColor = [ConsoleColor]::Blue
 $Sl.Colors.DriveForegroundColor = [ConsoleColor]::Cyan
 $Sl.Colors.WithForegroundColor = [ConsoleColor]::Red
 
-# # Git
+# --- Git
 $Sl.PromptSymbols.GitDirtyIndicator = [char]::ConvertFromUtf32(10007)
 $Sl.Colors.GitDefaultColor = [ConsoleColor]::DarkYellow
 
-# # Virtual Env
+# --- Virtual Env
 $Sl.Colors.VirtualEnvForegroundColor = [ConsoleColor]::DarkYellow
 
-# Terraform
-$Sl.PromptSymbols.TerraformSymbol = [char]::ConvertFromUtf32(0xf668)
+# ---Terraform
+$Sl.PromptSymbols.TerraformSymbol = [char]::ConvertFromUtf32(0xe5fc)
+$SL.Colors.TerraformForegroundColor = [ConsoleColor]::DarkYellow
+
+$Sl.PromptSymbols.KubernetesSymbol = "☸️"
+$Sl.Colors.KubernetesSymbolForegroundColor = [ConsoleColor]::White
+$Sl.Colors.KubernetesSymbolBackgroundColor = [ConsoleColor]::Blue
+$SL.Colors.KubernetesForegroundColor = [ConsoleColor]::DarkYellow
