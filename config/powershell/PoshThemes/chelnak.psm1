@@ -67,6 +67,16 @@ function New-Block {
     return $Block
 }
 
+function Get-PromptSpacing {
+    if ($ENV:TERM_PROGRAM -eq "vscode"){
+        $Spacing = "  "
+    } else {
+        $Spacing = " "
+    }
+
+    return $Spacing
+}
+
 function Write-Theme {
     param(
         [bool]$LastCommandFailed,
@@ -115,11 +125,7 @@ function Write-Theme {
     $Prompt += Set-Newline
     $Prompt += Write-Prompt -Object $Sl.PromptSymbols.PromptIndicator -ForegroundColor $PromtSymbolColor
 
-    if ($ENV:TERM_PROGRAM -eq "vscode"){
-        $Prompt += "  "
-    } else {
-        $Prompt += " "
-    }
+    $Prompt += Get-PromptSpacing
 
     $Prompt
 }
