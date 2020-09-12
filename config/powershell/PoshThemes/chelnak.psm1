@@ -52,11 +52,11 @@ function New-Block {
         [Parameter()]
         [string]$Icon,
         [Parameter()]
-        [string]$IconForegroudColor = $Sl.Colors.PromptForegroundColor,
+        [Object]$IconForegroudColor = $Sl.Colors.PromptForegroundColor,
         [Parameter()]
         [string]$Content,
         [Parameter()]
-        [string]$ContentForegroundColor = $Sl.Colors.PromptForegroundColor
+        [Object]$ContentForegroundColor = $Sl.Colors.PromptForegroundColor
     )
 
     $Block += Write-Prompt -Object " [" -ForegroundColor $Sl.Colors.PromptHighlightColor
