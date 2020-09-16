@@ -1,14 +1,5 @@
 #requires -Version 2 -Modules posh-git
 
-function Enable-KubernetesPrompt {
-
-    Remove-Item -Path Env:/HIDE_K8S_PROMPT -ErrorAction SilentlyContinue
-}
-
-function Disable-KubernetesPrompt {
-    $ENV:HIDE_K8S_PROMPT = 1
-}
-
 function Get-Terraform {
 
     $Files = Get-ChildItem -Path $PWD -Filter "*.tf" -File -ErrorAction SilentlyContinue
@@ -57,6 +48,7 @@ function Get-Kubernetes {
             return $Namespace
         }
     }
+
 }
 
 function New-Block {

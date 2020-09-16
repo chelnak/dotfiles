@@ -92,6 +92,14 @@ function Invoke-AwsVaultExecCmd {
     }
 }
 
+function Enable-KubernetesPrompt {
+    Remove-Item -Path Env:/HIDE_K8S_PROMPT -ErrorAction SilentlyContinue
+}
+
+function Disable-KubernetesPrompt {
+    $ENV:HIDE_K8S_PROMPT = 1
+}
+
 Set-PSReadLineOption -PredictionSource History
 Set-Theme -Name chelnak
 
