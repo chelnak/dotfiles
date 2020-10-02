@@ -17,7 +17,8 @@ function Edit-Dotfiles {
         try {
             Remove-Item "$ENV:USERPROFILE/code/dotfiles" -Recurse -Force
             & git clone "https://github.com/chelnak/dotfiles" "$ENV:USERPROFILE/code/dotfiles"
-        } catch {
+        }
+        catch {
             Write-Error -Message "Could not clean dotfiles: $_"
         }
     }
@@ -32,9 +33,10 @@ function Update-Dotfiles {
         [String]$Task
     )
 
-    if ($Task){
+    if ($Task) {
         Invoke-Expression "& { $(Invoke-RestMethod 'https://raw.githubusercontent.com/chelnak/dotfiles/master/install.ps1') } -Task $Task"
-    } else {
+    }
+    else {
         Invoke-Expression "& { $(Invoke-RestMethod 'https://raw.githubusercontent.com/chelnak/dotfiles/master/install.ps1') }"
     }
 }
@@ -51,7 +53,7 @@ function Get-DotFilesUpdateStatus {
 }
 
 function Invoke-AwsVaultExecCmd {
-<#
+    <#
     .SYNOPSIS
     A wrapper for aws-vault exec
 
@@ -87,13 +89,18 @@ function Invoke-AwsVaultExecCmd {
         $CurentLocation = Get-Location
         & aws-vault exec $Profile -- pwsh -WorkingDirectory $CurentLocation.Path -Command $Command.ToString()
 
-    } catch {
+    }
+    catch {
         Write-Error -Message "$_"
     }
 }
 
 function Enable-KubernetesPrompt {
     Remove-Item -Path Env:/HIDE_K8S_PROMPT -ErrorAction SilentlyContinue
+}
+
+function Get-PublicIPAddress {
+    (Invoke-WebRequest ifconfig.me/ip).Content.Trim()
 }
 
 function Disable-KubernetesPrompt {
@@ -107,5 +114,6 @@ Set-Alias -Name touch -Value New-Item
 Set-Alias -Name env -Value Get-EnvironmentVariable
 Set-Alias -Name tf -Value terraform
 Set-Alias -Name tg -Value terragrunt
+Set-Alias -Name ip -Value Get-PublicIPAddress
 
 Get-DotFilesUpdateStatus
