@@ -26,14 +26,11 @@ task install -description "Install applications" {
 
 task wsl -description "Configure WSL" {
 
-    $Features = @(
-        "Microsoft-Windows-Subsystem-Linux",
-        "VirtualMachinePlatform"
-    )
-    Enable-WindowsOptionalFeature -Online -FeatureName $Features
+    Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -Online -All -LimitAccess -NoRestart
+
     # Invoke-WebRequest -Uri "https://aka.ms/wsl-ubuntu-1804" -OutFile "$ENV:TEMP\Ubuntu.appx" -UseBasicParsing
     wsl --set-default-version 2
-    Add-AppxPackage -Path "$ENV:TEMP\Ubuntu.appx" -Confirm:$false
+    # Add-AppxPackage -Path "$ENV:TEMP\Ubuntu.appx" -Confirm:$false
 }
 
 task vscode -description "Configure vscode" {
