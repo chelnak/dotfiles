@@ -8,13 +8,14 @@
     "Microsoft.AzureCLI",
     "Microsoft.GitCredentialManagerforWindows",
     "Microsoft.PowerToys",
-    "Microsoft.Powershell",
-    "Microsoft.SQLServerManagementStudio",
+    "Microsoft.PowerShell",
     "Microsoft.WindowsTerminal",
     "Microsoft.dotnet",
     "Postman.Postman",
     "Keybase.Keybase",
     "gnupg.Gpg4win",
     "Python.Python",
-    "Amazon.AWSCLI"
+    "Amazon.AWSCLI",
+    "Docker.DockerDesktop",
+    "Microsoft.AzureDataStudio"
 ]
