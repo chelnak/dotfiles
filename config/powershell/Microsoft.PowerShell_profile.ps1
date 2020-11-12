@@ -107,7 +107,9 @@ function Disable-KubernetesPrompt {
     $ENV:HIDE_K8S_PROMPT = 1
 }
 
-Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+Set-PSReadLineOption -PredictionViewStyle ListView
+
 Set-Theme -Name chelnak
 
 Set-Alias -Name touch -Value New-Item
