@@ -1,0 +1,18 @@
+[prompt]
+add_newline = false
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol	= "[➜](bold red)"
+
+[directory]
+format = "💀 [$path]($style)[$read_only]($read_only_style) "
+
+
+[git_status]
+style = "bold purple"
+format = '([$all_status$ahead_behind\]]($style) )'
+
+[git_branch]
+format = '([\[$symbol$branch]($style) )'
+symbol = "🌱 "

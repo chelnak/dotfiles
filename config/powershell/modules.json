@@ -4,19 +4,7 @@
     "prerelease": false
   },
   {
-    "name":"posh-git",
-    "prerelease": true
-  },
-  {
-    "name":"oh-my-posh",
-    "prerelease": false
-  },
-  {
     "name":"psreadline",
     "prerelease": true
-  },
-  {
-    "name":"PSColor",
-    "prerelease": false
   }
 ]

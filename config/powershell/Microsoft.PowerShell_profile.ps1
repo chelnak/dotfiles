@@ -1,7 +1,4 @@
-Import-Module -Name oh-my-posh
-Import-Module -Name posh-git
-Import-Module -Name PSColor
-
+$ENV:STARSHIP_CONFIG = "$HOME/.dotfiles/config/prompt/.starship"
 $ErrorView = 'ConciseView'
 
 function Get-EnvironmentVariable {
@@ -53,28 +50,7 @@ function Get-DotFilesUpdateStatus {
 }
 
 function Invoke-AwsVaultExecCmd {
-    <#
-    .SYNOPSIS
-    A wrapper for aws-vault exec
 
-    .DESCRIPTION
-    A wrapper for aws-vault exec that enables use with PowerShell. This function assumes that aws-vault.exe is available in $ENV:\PATH
-
-    .PARAMETER Profile
-    The name of the profile to use for the command execution
-
-    .PARAMETER Command
-    A script block containing the command that will be executed with the given context
-
-    .EXAMPLE
-    Invoke-AwsVaultExecCmd -Profile hmpps-sl -Command {aws sts get-caller-identity}
-
-    .EXAMPLE
-    Invoke-AwsVaultExecCmd hmpps-sl {aws sts get-caller-identity}
-
-    .EXAMPLE
-    awsv hmpps-sl {aws sts get-caller-identity}
-#>
     [CmdletBinding()]
     [Alias("awsv")]
     param(
@@ -95,16 +71,8 @@ function Invoke-AwsVaultExecCmd {
     }
 }
 
-function Enable-KubernetesPrompt {
-    Remove-Item -Path Env:/HIDE_K8S_PROMPT -ErrorAction SilentlyContinue
-}
-
 function Get-PublicIPAddress {
     (Invoke-WebRequest ifconfig.me/ip).Content.Trim()
-}
-
-function Disable-KubernetesPrompt {
-    $ENV:HIDE_K8S_PROMPT = 1
 }
 
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin
@@ -117,5 +85,7 @@ Set-Alias -Name env -Value Get-EnvironmentVariable
 Set-Alias -Name tf -Value terraform
 Set-Alias -Name tg -Value terragrunt
 Set-Alias -Name ip -Value Get-PublicIPAddress
+
+Invoke-Expression (&starship init powershell)
 
 Get-DotFilesUpdateStatus
