@@ -78,8 +78,6 @@ function Get-PublicIPAddress {
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin
 Set-PSReadLineOption -PredictionViewStyle ListView
 
-Set-Theme -Name chelnak
-
 Set-Alias -Name touch -Value New-Item
 Set-Alias -Name env -Value Get-EnvironmentVariable
 Set-Alias -Name tf -Value terraform

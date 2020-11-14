@@ -1,18 +1,48 @@
-[prompt]
 add_newline = false
+
+format = """
+$kubernetes\
+$directory\
+$git_branch\
+$git_status\
+$terraform\
+${custom.powershell}\
+$line_break\
+$character"""
+
 
 [character]
 success_symbol = "[➜](bold green)"
 error_symbol	= "[➜](bold red)"
 
 [directory]
-format = "💀 [$path]($style)[$read_only]($read_only_style) "
-
-
-[git_status]
-style = "bold purple"
-format = '([$all_status$ahead_behind\]]($style) )'
+format = "💀 [$path]($style) "
 
 [git_branch]
-format = '([\[$symbol$branch]($style) )'
 symbol = "🌱 "
+format = "| [$symbol$branch]($style) "
+
+[git_status]
+format = "[$all_status$ahead_behind]($style) "
+conflicted = "🏳"
+ahead = "🏎💨"
+behind = "😰"
+diverged = "😵"
+untracked = "🤷‍"
+stashed = "📦"
+modified = "📝"
+staged = '[++\($count\)](green)'
+renamed = "👅"
+deleted = "🗑"
+
+[terraform]
+format = "| [$symbol\\($version\\)]($style) "
+
+[custom.powershell]
+symbol = "pwsh "
+style = "bold blue"
+extensions = ["ps1"]
+command = "echo $PSVersionTable.PSVersion.ToString()"
+shell = ["pwsh", "-NoProfile", "-NoLogo", "-Command", "-"]
+format = "| [$symbol$output]($style) "
+disabled = true
