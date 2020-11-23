@@ -4,7 +4,11 @@
     "prerelease": false
   },
   {
-    "name":"psreadline",
+    "name": "psreadline",
     "prerelease": true
+  },
+  {
+    "name": "Microsoft.PowerShell.ConsoleGuiTools",
+    "prerelease": false
   }
 ]
