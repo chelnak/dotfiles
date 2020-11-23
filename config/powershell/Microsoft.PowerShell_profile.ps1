@@ -75,6 +75,14 @@ function Get-PublicIPAddress {
     (Invoke-WebRequest ifconfig.me/ip).Content.Trim()
 }
 
+function Select-AzContextConsole {
+    Get-AzContext -ListAvailable | Out-ConsoleGridView | Select-AzContext
+}
+
+function Remove-AzContextConsole {
+    Get-AzContext -ListAvailable | Out-ConsoleGridView | Remove-AzContext
+}
+
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin
 Set-PSReadLineOption -PredictionViewStyle ListView
 
