@@ -1,0 +1,13 @@
+{
+    "git.confirmSync": false,
+    "workbench.colorTheme": "GitHub Dark",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "python.jediEnabled": false,
+    "editor.fontFamily": "'CaskaydiaCove NF', Consolas, 'Courier New', monospace",
+    "terminal.integrated.shell.windows": "C:/Program Files/PowerShell/7/pwsh.exe",
+    "explorer.confirmDragAndDrop": false,
+    "python.languageServer": "Pylance",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always"
+}

@@ -1,10 +1,8 @@
 $ENV:STARSHIP_CONFIG = "$HOME/.dotfiles/config/prompt/.starship"
-$ErrorView = 'ConciseView'
+$ErrorView = "ConciseView"
+$ProgressPreference = "SilentlyContinue"
 
-function Get-EnvironmentVariable {
-    Get-Item -Path Env:\
-}
-
+# --- Dotfile helpers
 function Edit-Dotfiles {
     Param(
         [Switch]$Clean
@@ -26,7 +24,7 @@ function Edit-Dotfiles {
 function Update-Dotfiles {
     Param(
         [Parameter()]
-        [ValidateSet("core", "vscode", "powershell", "azcli", "terminal", "git")]
+        [ValidateSet("init", "vscode", "powershell", "azcli", "terminal", "git")]
         [String]$Task
     )
 
@@ -49,6 +47,12 @@ function Get-DotFilesUpdateStatus {
     }
 }
 
+
+function Get-EnvironmentVariable {
+    Get-Item -Path Env:\
+}
+
+# --- Helper functions
 function Invoke-AwsVaultExecCmd {
 
     [CmdletBinding()]
@@ -76,22 +80,29 @@ function Get-PublicIPAddress {
 }
 
 function Select-AzContextConsole {
-    Get-AzContext -ListAvailable | Out-ConsoleGridView | Select-AzContext
+    Get-AzContext -ListAvailable | 
+    Out-ConsoleGridView -Title "Select-AzContextConsole" | 
+    Select-AzContext
 }
 
 function Remove-AzContextConsole {
-    Get-AzContext -ListAvailable | Out-ConsoleGridView | Remove-AzContext
+    Get-AzContext -ListAvailable | 
+    Out-ConsoleGridView -Title "Remove-AzContextConsole" | 
+    Remove-AzContext
 }
 
+# --- PSReadLine config
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin
 Set-PSReadLineOption -PredictionViewStyle ListView
 
+# --- Alias config
 Set-Alias -Name touch -Value New-Item
 Set-Alias -Name env -Value Get-EnvironmentVariable
 Set-Alias -Name tf -Value terraform
 Set-Alias -Name tg -Value terragrunt
 Set-Alias -Name ip -Value Get-PublicIPAddress
 
+# --- Init
 Invoke-Expression (&starship init powershell)
 
 Get-DotFilesUpdateStatus

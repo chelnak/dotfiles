@@ -1,6 +1,6 @@
 Param(
     [Parameter()]
-    [ValidateSet("core", "vscode", "powershell", "azcli", "terminal", "git")]
+    [ValidateSet("init", "vscode", "powershell", "azcli", "terminal", "git")]
     [String]$Task
 )
 
