@@ -1,101 +1,78 @@
 properties {
     $ErrorActionPreference = "Stop"
-    $ConfigDirectory = "$PSScriptRoot\config"
+    $ConfigDirectory = "$PSScriptRoot/config"
+    $DocumentsPath = "$ENV:USERPROFILE/Documents"
 }
 
-task default -depends core, vscode, powershell, azcli, terminal, git
+task default -depends init, vscode, powershell, azcli, terminal, git
 
-task core -description "Configure core services" {
+task init -description "Init" {
 
     Write-Host -Message "Trusting PSRepository 'PSGallery'"
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-
-    Write-Host -Message "Setting global editorconfig"
-    cmd /c mklink "$ENV:USERPROFILE\.editorconfig" "$PSScriptRoot\.editorconfig"
 
 }
 
 task install -description "Install applications" {
 
-    $Apps | Get-Content -Path $ConfigDirectory/apps/apps.json | ConvertFrom-Json
-    $Apps | Foreach-Object {
-        winget install -e -h $_
+    if (Get-Command -Name winget -ErrorAction SilentlyContinue) {
+        $Apps | Get-Content -Path $ConfigDirectory/apps/apps.json | ConvertFrom-Json
+        $Apps | Foreach-Object {
+            winget install -e -h $_
+        }
     }
-
-}
-
-task wsl -description "Configure WSL" {
-
-    Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -Online -All -LimitAccess -NoRestart
-
-    # Invoke-WebRequest -Uri "https://aka.ms/wsl-ubuntu-1804" -OutFile "$ENV:TEMP\Ubuntu.appx" -UseBasicParsing
-    wsl --set-default-version 2
-    # Add-AppxPackage -Path "$ENV:TEMP\Ubuntu.appx" -Confirm:$false
 }
 
 task vscode -description "Configure vscode" {
 
-    $Extensions = Get-Content -Path $ConfigDirectory/vscode/plugins.json | ConvertFrom-Json
-    $Command = "code $(($Extensions | ForEach-Object {"--install-extension $_"}) -join " ") --force"
-    Invoke-Expression -Command $Command
+    if (Get-Command -Name code -ErrorAction SilentlyContinue) {
+        $Extensions = Get-Content -Path $ConfigDirectory/vscode/plugins.json | ConvertFrom-Json
+        $Command = "code $(($Extensions | ForEach-Object {"--install-extension $_"}) -join " ") --force"
+        Invoke-Expression -Command $Command
+
+        $null = New-Item -Path "$ENV:APPDATA/Code/User/settings.json" -ItemType SymbolicLink -Value "$ConfigDirectory/vscode/settings.json" -Force
+    }
+
 }
 
 task powershell -description "Configure PowerShell" {
 
-    $Modules =  Get-Content -Path $ConfigDirectory/powershell/modules.json | ConvertFrom-Json
-    Write-Host -Message "Installing/updating $($Modules.Count) module(s)"
-    $Modules | ForEach-Object {
-        [bool]$PreRelease = $_.prerelease
-
-        pwsh -NoProfile -Command "& {
-            if (Get-Module -Name $($_.name) -ListAvailable) {
-                Write-Host '    -> Updating module [$($_.name)]'
-                Update-Module -Name $($_.name) -AllowPrerelease:`$PreRelease -Scope CurrentUser -Confirm:`$False
-            } else {
-                Write-Host '    -> Installing module [$($_.name)]'
-                Install-Module $($_.name) -AllowPrerelease:`$PreRelease -Scope CurrentUser -Confirm:`$False -AllowClobber
-            }
-        }"
-
+    if (!(Get-Module -Name PSDepend -ListAvailable)) {
+        Write-Host "Installing PSDepend"
+        Install-Module -Name PSDepend -Scope CurrentUser -Force
     }
 
-    Write-Host "Configuring PowerShell Profile"
-    $DocumentsPath = "$ENV:USERPROFILE\Documents"
-    Remove-Item -Path "$DocumentsPath\PowerShell\Microsoft.PowerShell_profile.ps1" -Force -ErrorAction SilentlyContinue
-    Remove-Item -Path "$DocumentsPath\\PowerShell\Microsoft.VSCode_profile.ps1" -Force -ErrorAction SilentlyContinue
-    Remove-Item -Path "$DocumentsPath\\PowerShell\PoshThemes" -Recurse -Force -ErrorAction SilentlyContinue
-    cmd /c mklink "$DocumentsPath\PowerShell\Microsoft.PowerShell_profile.ps1" "$ConfigDirectory\powershell\Microsoft.PowerShell_profile.ps1"
-    cmd /c mklink "$DocumentsPath\PowerShell\Microsoft.VSCode_profile.ps1" "$ConfigDirectory\powershell\Microsoft.VSCode_profile.ps1"
-    cmd /c mklink /D "$DocumentsPath\\PowerShell\PoshThemes" "$ConfigDirectory\powershell\PoshThemes"
+    Invoke-PSDepend -Path "$ConfigDirectory/powershell/requirements.psd1" -Force
 
-    . $PROFILE
+    $null = New-Item -Path "$DocumentsPath/PowerShell/Microsoft.PowerShell_profile.ps1" -ItemType SymbolicLink -Value "$ConfigDirectory/powershell/Microsoft.PowerShell_profile.ps1" -Force
+    $null = New-Item -Path "$DocumentsPath/PowerShell/Microsoft.VSCode_profile.ps1" -ItemType SymbolicLink -Value "$ConfigDirectory/powershell/Microsoft.VSCode_profile.ps1" -Force
+
+}
+
+task terminal -description "Configure Windows Terminal" {
+    $null = New-Item -Path "$ENV:USERPROFILE/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json" -ItemType SymbolicLink -Value "$ConfigDirectory/terminal/settings.json" -Force
 }
 
 task azcli -description "Configure Azure Cli" {
 
-    $Extensions =  Get-Content -Path $ConfigDirectory/az-cli/extensions.json | ConvertFrom-Json
+    $Extensions = Get-Content -Path $ConfigDirectory/az-cli/extensions.json | ConvertFrom-Json
     $Extensions | ForEach-Object {
         Write-Host "Adding az-cli extension $_"
         az extension add --name $_
     }
-    Remove-Item -Path "$ENV:USERPROFILE\.azure\config" -Force -ErrorAction SilentlyContinue
-    cmd /c mklink "$ENV:USERPROFILE\.azure\config" "$ConfigDirectory\az-cli\config"
-}
 
-task terminal -description "Configure Windows Terminal" {
+    $null = New-Item -Path "$ENV:USERPROFILE/.azure/config" -ItemType SymbolicLink -Value "$ConfigDirectory/az-cli/config" -Force
 
-    $TerminalAppDataPath = "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
-    Write-Host "Configuring Terminal profile"
-    Remove-Item -Path $TerminalAppDataPath\* -Force -Recurse -ErrorAction SilentlyContinue
-    cmd /c mklink "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" "$ConfigDirectory\terminal\settings.json"
-    cmd /c mklink "$ENV:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\party_parrot.json" "$ConfigDirectory\terminal\party_parrot.json"
 }
 
 task git -description "Configure Git" {
 
-    Get-Content -Raw $ConfigDirectory\.gitconfig | keybase pgp decrypt | Set-Content -Path $ENV:USERPROFILE\.gitconfig
+    Get-Content -Raw $ConfigDirectory/.gitconfig | keybase pgp decrypt | Set-Content -Path $ENV:USERPROFILE/.gitconfig
+
+    $GPG = Get-Command -Name gpg -ErrorAction SilentlyContinue
+
     git config --global credential.helper manager
-    git config --global gpg.program "C:/Program Files (x86)/GnuPG/bin/gpg.exe"
+    git config --global gpg.program $GPG.Source
     git config --global core.editor "code -w -n"
     git config --global pull.rebase true
     git config --global core.autocrlf false
