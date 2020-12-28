@@ -42,11 +42,11 @@ function Get-DotFilesUpdateStatus {
         $Response = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/chelnak/dotfiles/compare/$CurrentSha...master" -TimeoutSec 1
         if ($Response.status -eq "ahead") {
             Write-Host -Message "Your dotfiles configuration is behind by $($Response.ahead_by) commit(s)."
-            Write-Host -Message "Run Update-DotFiles to get the latest configuration" -ForegroundColor Yellow
         }
+
+        $Response.status -eq "ahead" ? $true : $false
     }
 }
-
 
 function Get-EnvironmentVariable {
     Get-Item -Path Env:\
@@ -101,6 +101,25 @@ Set-Alias -Name env -Value Get-EnvironmentVariable
 Set-Alias -Name tf -Value terraform
 Set-Alias -Name tg -Value terragrunt
 Set-Alias -Name ip -Value Get-PublicIPAddress
+
+
+if (Get-DotFilesUpdateStatus) {
+    $updateJob = Start-ThreadJob -ScriptBlock {
+        Invoke-Expression "& { $(Invoke-RestMethod 'https://raw.githubusercontent.com/chelnak/dotfiles/master/install.ps1') }"
+    }
+
+    Get-Job
+    
+    $eventJob = Register-ObjectEvent -InputObject $updateJob -EventName StateChanged -Action {
+        if($Event.Sender.State -eq [System.Management.Automation.JobState]::Completed) {
+            Get-EventSubscriber $eventJob.Name | Unregister-Event
+            Remove-Job $eventJob -ErrorAction SilentlyContinue
+            Receive-Job $updateJob -Wait -AutoRemoveJob -ErrorAction SilentlyContinue
+        }
+    }
+}
+
+
 
 # --- Init
 Invoke-Expression (&starship init powershell)
