@@ -106,7 +106,7 @@ Set-Alias -Name cat -Value catz -Force
 
 if (Get-DotFilesUpdateStatus) {
     $updateJob = Start-ThreadJob -ScriptBlock {
-        Invoke-Expression "& { $(Invoke-RestMethod 'https://raw.githubusercontent.com/chelnak/dotfiles/master/install.ps1') }"
+        Invoke-Expression "& { $(Invoke-RestMethod 'https://raw.githubusercontent.com/chelnak/dotfiles/master/install.ps1') }" 6>$null
     }
 
     $eventJob = Register-ObjectEvent -InputObject $updateJob -EventName StateChanged -Action {
