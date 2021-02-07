@@ -58,9 +58,12 @@ task terminal -description "Configure Windows Terminal" {
 task azcli -description "Configure Azure Cli" {
 
     $Extensions = Get-Content -Path $ConfigDirectory/az-cli/extensions.json | ConvertFrom-Json
+    $InstalledExtensions = @(az extension list -o json --query '[].name' | ConvertFrom-Json)
     $Extensions | ForEach-Object {
-        Write-Host "Adding az-cli extension $_"
-        az extension add --name $_ 2>$null
+        if (!($InstalledExtensions -contains $_)) {
+            Write-Host "Adding az-cli extension $_"
+            az extension add --name $_ 2>$null
+        }
     }
 
     $null = New-Item -Path "$ENV:USERPROFILE/.azure/config" -ItemType SymbolicLink -Value "$ConfigDirectory/az-cli/config" -Force
