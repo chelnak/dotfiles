@@ -4,6 +4,7 @@ Param(
     [String]$Task
 )
 
+$ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 $TempFile = New-TemporaryFile
 $Uri = "https://github.com/chelnak/dotfiles/archive/master.zip"

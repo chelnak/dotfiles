@@ -69,7 +69,9 @@ task azcli -description "Configure Azure Cli" {
 
 task git -description "Configure Git" {
 
-    Get-Content -Raw $ConfigDirectory/.gitconfig | keybase pgp decrypt | Set-Content -Path $ENV:USERPROFILE/.gitconfig
+    if (!(Test-Path -Path $ENV:USERPROFILE/.gitconfig)) {
+        Get-Content -Raw $ConfigDirectory/.gitconfig | keybase pgp decrypt | Set-Content -Path $ENV:USERPROFILE/.gitconfig
+    }
 
     $GPG = Get-Command -Name gpg -ErrorAction SilentlyContinue
 
