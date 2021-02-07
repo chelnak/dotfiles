@@ -109,8 +109,6 @@ if (Get-DotFilesUpdateStatus) {
         Invoke-Expression "& { $(Invoke-RestMethod 'https://raw.githubusercontent.com/chelnak/dotfiles/master/install.ps1') }"
     }
 
-    Get-Job
-
     $eventJob = Register-ObjectEvent -InputObject $updateJob -EventName StateChanged -Action {
         if($Event.Sender.State -eq [System.Management.Automation.JobState]::Completed) {
             Get-EventSubscriber $eventJob.Name | Unregister-Event
@@ -122,5 +120,3 @@ if (Get-DotFilesUpdateStatus) {
 
 # --- Init
 Invoke-Expression (&starship init powershell)
-
-Get-DotFilesUpdateStatus
