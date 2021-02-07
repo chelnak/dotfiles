@@ -39,7 +39,7 @@ function Update-Dotfiles {
 function Get-DotFilesUpdateStatus {
     $CurrentSha = Get-Content -Path $ENV:USERPROFILE/.dotfiles/.latest -ErrorAction SilentlyContinue
     if ($CurrentSha) {
-        $Response = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/chelnak/dotfiles/compare/$CurrentSha...master" -TimeoutSec 1
+        $Response = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/chelnak/dotfiles/compare/$CurrentSha...master" -TimeoutSec 1 -ErrorAction SilentlyContinue
         if ($Response.status -eq "ahead") {
             Write-Host -Message "Your dotfiles configuration is behind by $($Response.ahead_by) commit(s)."
         }
@@ -80,14 +80,14 @@ function Get-PublicIPAddress {
 }
 
 function Select-AzContextConsole {
-    Get-AzContext -ListAvailable | 
-    Out-ConsoleGridView -Title "Select-AzContextConsole" | 
+    Get-AzContext -ListAvailable |
+    Out-ConsoleGridView -Title "Select-AzContextConsole" |
     Select-AzContext
 }
 
 function Remove-AzContextConsole {
-    Get-AzContext -ListAvailable | 
-    Out-ConsoleGridView -Title "Remove-AzContextConsole" | 
+    Get-AzContext -ListAvailable |
+    Out-ConsoleGridView -Title "Remove-AzContextConsole" |
     Remove-AzContext
 }
 
@@ -101,6 +101,7 @@ Set-Alias -Name env -Value Get-EnvironmentVariable
 Set-Alias -Name tf -Value terraform
 Set-Alias -Name tg -Value terragrunt
 Set-Alias -Name ip -Value Get-PublicIPAddress
+Set-Alias -Name cat -Value catz -Force
 
 
 if (Get-DotFilesUpdateStatus) {
@@ -109,7 +110,7 @@ if (Get-DotFilesUpdateStatus) {
     }
 
     Get-Job
-    
+
     $eventJob = Register-ObjectEvent -InputObject $updateJob -EventName StateChanged -Action {
         if($Event.Sender.State -eq [System.Management.Automation.JobState]::Completed) {
             Get-EventSubscriber $eventJob.Name | Unregister-Event
@@ -118,8 +119,6 @@ if (Get-DotFilesUpdateStatus) {
         }
     }
 }
-
-
 
 # --- Init
 Invoke-Expression (&starship init powershell)

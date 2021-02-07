@@ -21,6 +21,8 @@ task install -description "Install applications" {
             winget install -e -h $_
         }
     }
+
+    python -m pip install catz
 }
 
 task vscode -description "Configure vscode" {
@@ -76,4 +78,5 @@ task git -description "Configure Git" {
     git config --global core.editor "code -w -n"
     git config --global pull.rebase true
     git config --global core.autocrlf false
+    git config --global init.defaultBranch main
 }
