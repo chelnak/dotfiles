@@ -39,7 +39,10 @@ function Update-Dotfiles {
 function Get-DotFilesUpdateStatus {
     $CurrentSha = Get-Content -Path $ENV:USERPROFILE/.dotfiles/.latest -ErrorAction SilentlyContinue
     if ($CurrentSha) {
-        $Response = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/chelnak/dotfiles/compare/$CurrentSha...master" -TimeoutSec 1 -ErrorAction SilentlyContinue
+        trap {
+            $Response = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/chelnak/dotfiles/compare/$CurrentSha...master" -TimeoutSec 2 -ErrorAction SilentlyContinue
+            Continue
+        }
         if ($Response.status -eq "ahead") {
             Write-Host -Message "Your dotfiles configuration is behind by $($Response.ahead_by) commit(s)."
         }
