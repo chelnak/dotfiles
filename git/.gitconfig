@@ -1,0 +1,12 @@
+[user]
+	signingkey = AC2291CF29056C5C
+	name = Craig Gumbley
+	email = craiggumbley@gmail.com
+[commit]
+	gpgsign = true
+[pull]
+	rebase = true
+[core]
+	editor = code -w -n
+[init]
+	defaultBranch = main

@@ -1,0 +1,40 @@
+add_newline = false
+
+format = """
+$python\
+$golang\
+$line_break\
+$directory\
+$git_branch\
+$git_status\
+$time\
+$line_break\
+$character"""
+
+[character]
+success_symbol  = "[](green)"
+error_symbol    = "[](red)"
+
+[directory]
+format  = " [$path]($style) "
+
+[git_branch]
+symbol = " "
+format  = "on [$symbol$branch ]($style)"
+
+[git_status]
+format  = "[$all_status$ahead_behind](red)"
+conflicted = "⚔️ "
+staged  = "~$count"
+ahead   = "⇡${count}"
+behind  = "⇣${count}"
+diverged    = "⇡${ahead_count}⇣${behind_count}"
+stashed = "≡"
+
+[python]
+symbol = "[]($style)"
+format  = '[\[[$symbol $version $virtualenv](dimmed)\]](dimmed)'
+
+[golang]
+symbol = "[]($style)"
+format = '[\[[$symbol $version](dimmed)\]](dimmed)'
