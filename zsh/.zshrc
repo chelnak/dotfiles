@@ -14,5 +14,6 @@ alias docker="nerdctl"
 alias tf="terraform"
 
 eval "$(pyenv init -)"
+eval "$(pyenv init --path)"
 eval "$(starship init zsh)"
 
