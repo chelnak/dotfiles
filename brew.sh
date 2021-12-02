@@ -21,6 +21,7 @@ brew install \
     coreutils \
     stow \
     tfenv \
+    rbenv \
     --quiet
 
 echo "  -> installing cask apps"

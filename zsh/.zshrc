@@ -1,5 +1,6 @@
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+export PATH="$HOME/.rbenv/bin:$PATH"
 
 precmd() {
   # sets the tab title to current dir
