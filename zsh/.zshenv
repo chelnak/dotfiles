@@ -7,8 +7,3 @@ gitWrapper() {
 
     git "$@"
 }
-
-precmd() {
-    # Sets the tab title to current dir
-    echo -ne "\e]1;${PWD##*/}\a"
-}
