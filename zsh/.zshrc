@@ -16,5 +16,6 @@ alias tf="terraform"
 
 eval "$(pyenv init -)"
 eval "$(pyenv init --path)"
+eval "$(rbenv init -)"
 eval "$(starship init zsh)"
 
