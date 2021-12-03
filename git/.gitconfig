@@ -4,6 +4,8 @@
 	email = craiggumbley@gmail.com
 [commit]
 	gpgsign = true
+[push]
+	default = current
 [pull]
 	rebase = true
 [core]
