@@ -2,6 +2,7 @@ SHELL := /bin/bash
 
 .PHONY: bootstrap
 bootstrap: link brew
+	@stty sane
 
 .PHONY: link
 link:
@@ -36,6 +37,8 @@ brew:
 		tfenv \
 		rbenv \
 		cf-cli@7 \
+		jq \
+		postgresql@12 \
 		--quiet
 
 	@echo "  -> installing cask apps"
