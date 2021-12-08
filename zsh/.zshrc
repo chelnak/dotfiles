@@ -1,6 +1,8 @@
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
-export PATH="$HOME/.rbenv/bin:/usr/local/opt/postgresql@12/bin:$PATH"
+export PATH=$HOME/.rbenv/bin:
+export PATH="/usr/local/opt/postgresql@12/bin:$PATH"
+export PATH="/usr/local/opt/node@16/bin:$PATH"
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh

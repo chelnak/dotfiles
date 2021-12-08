@@ -39,6 +39,7 @@ brew:
 		cf-cli@7 \
 		jq \
 		postgresql@12 \
+		brew install node@16 \
 		--quiet
 
 	@echo "  -> installing cask apps"
