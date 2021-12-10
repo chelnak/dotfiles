@@ -1,6 +1,6 @@
 export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-export PATH=$HOME/.rbenv/bin:
+export PATH="$PATH:$GOPATH/bin"
+export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="/usr/local/opt/postgresql@12/bin:$PATH"
 export PATH="/usr/local/opt/node@16/bin:$PATH"
 
