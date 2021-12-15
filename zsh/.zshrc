@@ -9,7 +9,6 @@ source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 alias git="gitWrapper"
 alias cat="catz"
-alias docker="nerdctl"
 alias tf="terraform"
 
 eval "$(pyenv init -)"
