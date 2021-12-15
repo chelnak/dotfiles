@@ -41,6 +41,8 @@ brew:
 		postgresql@12 \
 		install node@16 \
 		gh \
+		shared-mime-info \
+		asciinema \
 		--quiet
 
 	@echo "  -> installing cask apps"
