@@ -8,7 +8,7 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 alias git="gitWrapper"
-alias cat="catz"
+alias cat="bat"
 alias tf="terraform"
 
 eval "$(pyenv init -)"
