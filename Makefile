@@ -43,6 +43,7 @@ brew:
 		gh \
 		shared-mime-info \
 		asciinema \
+		bat \
 		--quiet
 
 	@echo "  -> installing cask apps"
