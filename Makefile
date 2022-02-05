@@ -37,6 +37,7 @@ brew:
 		tfenv \
 		rbenv \
 		jq \
+		jo \
 		install node@16 \
 		gh \
 		shared-mime-info \
