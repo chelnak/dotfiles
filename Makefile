@@ -36,9 +36,7 @@ brew:
 		stow \
 		tfenv \
 		rbenv \
-		cf-cli@7 \
 		jq \
-		postgresql@12 \
 		install node@16 \
 		gh \
 		shared-mime-info \
@@ -53,7 +51,6 @@ brew:
 		visual-studio-code \
 		google-chrome \
 		keybase \
-		1password \
 		slack \
 		--quiet
 
