@@ -38,7 +38,7 @@ brew:
 		rbenv \
 		jq \
 		jo \
-		install node@16 \
+		node@16 \
 		gh \
 		shared-mime-info \
 		asciinema \
@@ -50,10 +50,14 @@ brew:
 		iterm2 \
 		powershell \
 		visual-studio-code \
-		google-chrome \
 		keybase \
-		slack \
 		--quiet
 
 	@echo "  -> cleaning up"
 	@brew cleanup
+
+.PHONY: configure-gpg
+configure-gpg:
+	@keybase login
+	@keybase pgp export | gpg --import
+	@keybase pgp export --secret --unencrypted | gpg --allow-secret-key-import --import
