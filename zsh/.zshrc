@@ -14,3 +14,6 @@ eval "$(pyenv init -)"
 eval "$(pyenv init --path)"
 eval "$(rbenv init -)"
 eval "$(starship init zsh)"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
