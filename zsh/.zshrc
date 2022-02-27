@@ -9,6 +9,9 @@ source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 alias git="gitWrapper"
 alias cat="bat"
 alias tf="terraform"
+alias ls="exa --icons --all"
+alias ll="ls --long --group"
+alias tree="ll --tree --level=4"
 
 eval "$(pyenv init -)"
 eval "$(pyenv init --path)"
