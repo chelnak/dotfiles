@@ -7,10 +7,11 @@ bootstrap: link brew
 .PHONY: link
 link:
 	@echo "Linking..."
-	@stow -v -S \
+	@stow --no-folding -S \
 		zsh \
 		git \
-		starship
+		starship \
+		neovim
 
 .PHONY: brew
 brew:
@@ -38,11 +39,18 @@ brew:
 		rbenv \
 		jq \
 		jo \
+		yq \
 		node@16 \
 		gh \
 		shared-mime-info \
 		asciinema \
 		bat \
+		exa \
+		golang \
+		golanglint-ci \
+		libomp \
+		wget \
+		neovim
 		--quiet
 
 	@echo "  -> installing cask apps"
