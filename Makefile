@@ -50,7 +50,8 @@ brew:
 		golanglint-ci \
 		libomp \
 		wget \
-		neovim
+		neovim \
+		watch
 		--quiet
 
 	@echo "  -> installing cask apps"
