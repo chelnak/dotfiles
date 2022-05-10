@@ -32,7 +32,11 @@ call plug#begin()
     Plug 'sheerun/vim-polyglot'
     Plug 'jiangmiao/auto-pairs'
     Plug 'ap/vim-css-color'
+
+    " NERDTree
     Plug 'preservim/nerdtree'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
     " Completion / linters / formatters
     Plug 'plasticboy/vim-markdown'
