@@ -9,7 +9,7 @@
 [pull]
 	rebase = true
 [core]
-	editor = code -w -n
+	editor = vim
 [init]
 	defaultBranch = main
 [diff]
