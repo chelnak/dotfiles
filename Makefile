@@ -51,7 +51,10 @@ brew:
 		libomp \
 		wget \
 		neovim \
-		watch
+		watch \
+		ripgrep \
+		fd \
+		tree-sitter
 		--quiet
 
 	@echo "  -> installing cask apps"
