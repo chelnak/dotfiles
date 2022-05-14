@@ -54,6 +54,7 @@ brew:
 		watch \
 		ripgrep \
 		fd \
+		luajit \
 		tree-sitter
 		--quiet
 
