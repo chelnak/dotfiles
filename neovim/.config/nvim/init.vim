@@ -52,3 +52,5 @@ autocmd FileChangedShellPost *
 
 " Set the color for extra whitespace
 let g:better_whitespace_ctermcolor='219'
+
+command! GHChangelog execute('!gh changelog new') 
