@@ -6,10 +6,26 @@ export PATH="$PATH:/opt/puppetlabs/bin"
 export PATH="$PATH:/Users/craig.gumbley/.puppetlabs/pct"
 export PATH="$PATH:/Users/craig.gumbley/.puppetlabs/prm"
 
-set -o vi
+# ZSH
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+plugins=(
+    #git
+    copybuffer
+    copypath
+    dirhistory
+    jsontools
+    history
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+)
+
+source $ZSH/oh-my-zsh.sh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+set -o vi
 
 alias git="gitWrapper"
 alias cat="bat"
