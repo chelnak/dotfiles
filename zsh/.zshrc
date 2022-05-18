@@ -11,21 +11,17 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 
 plugins=(
-    #git
+    gitfast
     copybuffer
     copypath
     dirhistory
     jsontools
-    history
     zsh-syntax-highlighting
     zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-set -o vi
 
 alias git="gitWrapper"
 alias cat="bat"
@@ -42,5 +38,8 @@ eval "$(rbenv init -)"
 eval "$(starship init zsh)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+test -e "${HOME}/.fzf.zsh" && source "${HOME}/.fzf.zsh"
+
+set -o vi
 
 autoload -U compinit; compinit
