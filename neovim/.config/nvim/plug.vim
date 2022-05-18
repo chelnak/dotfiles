@@ -13,10 +13,12 @@ call plug#begin()
     Plug 'Pocco81/AutoSave.nvim'
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-telescope/telescope.nvim'
+    Plug 'nvim-lua/plenary.nvim'
     Plug 'windwp/nvim-autopairs'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
     Plug 'numToStr/Comment.nvim'
+    Plug 'kien/ctrlp.vim'
 
     " Git
     Plug 'tveskag/nvim-blame-line'

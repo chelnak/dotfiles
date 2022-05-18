@@ -6,6 +6,8 @@ export PATH="$PATH:/opt/puppetlabs/bin"
 export PATH="$PATH:/Users/craig.gumbley/.puppetlabs/pct"
 export PATH="$PATH:/Users/craig.gumbley/.puppetlabs/prm"
 
+set -o vi
+
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
