@@ -55,7 +55,8 @@ brew:
 		ripgrep \
 		fd \
 		luajit \
-		tree-sitter
+		tree-sitter \
+		fzf
 		--quiet
 
 	@echo "  -> installing cask apps"
