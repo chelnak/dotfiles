@@ -32,8 +32,10 @@ vnoremap <silent> # :<C-U>
 
 "-----------------------------
 " Tabs
-
-" Open current directory
-nmap te :tabedit 
+nmap te :tabedit
 nmap <S-Tab> :tabprev<Return>
 nmap <Tab> :tabnext<Return>
+
+" Buffers
+nmap <leader>bn :bn<CR>
+nmap <leader>bp :bp<CR>

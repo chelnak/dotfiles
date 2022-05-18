@@ -19,13 +19,23 @@ runtime maps.vim
 " Set cursor line color on visual mode
 highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
 
-" Set line number color on vis
+" Set line number color
 highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000
 
 " enable color scheme
+lua << EOF
+    require("nightfox").setup({
+        palettes = {
+            nordfox = {
+                comment = "#b0c0d6", -- "#60728a",
+            },
+        }
+    })
+EOF
+
 colorscheme nordfox
 
-" turns on "detection", "plugin" and "indent" at once. 
+" turns on "detection", "plugin" and "indent" at once.
 filetype plugin indent on
 
 " Turn off paste mode when leaving insert
@@ -53,4 +63,4 @@ autocmd FileChangedShellPost *
 " Set the color for extra whitespace
 let g:better_whitespace_ctermcolor='219'
 
-command! GHChangelog execute('!gh changelog new') 
+command! GHChangelog execute('!gh changelog new')

@@ -37,6 +37,7 @@ call plug#begin()
     Plug 'github/copilot.vim'
     Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'rodjek/vim-puppet'
 
     " LSP
     Plug 'tami5/lspsaga.nvim'
