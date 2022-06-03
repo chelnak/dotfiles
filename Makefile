@@ -11,65 +11,13 @@ link:
 		zsh \
 		git \
 		starship \
-		neovim
+		neovim \
+		hushlogin
 
 .PHONY: brew
 brew:
 	@echo "brewing..."
-	@echo "  -> updating"
-	@brew update
-	@brew upgrade
-
-	@echo "  -> installing apps"
-	@brew install \
-		zsh \
-		bash \
-		azure-cli \
-		pyenv \
-		starship \
-		gnupg \
-		httpie \
-		git \
-		zsh-syntax-highlighting \
-		zsh-autosuggestions \
-		tree \
-		coreutils \
-		stow \
-		tfenv \
-		rbenv \
-		jq \
-		jo \
-		yq \
-		node@16 \
-		gh \
-		shared-mime-info \
-		asciinema \
-		bat \
-		exa \
-		golang \
-		golanglint-ci \
-		libomp \
-		wget \
-		neovim \
-		watch \
-		ripgrep \
-		fd \
-		luajit \
-		tree-sitter \
-		fzf
-		--quiet
-
-	@echo "  -> installing cask apps"
-	@brew install --cask \
-		iterm2 \
-		powershell \
-		visual-studio-code \
-		keybase \
-		--quiet
-
-	@echo "  -> cleaning up"
-	@brew cleanup
-
+	@brew bundle
 .PHONY: configure-gpg
 configure-gpg:
 	@keybase login
