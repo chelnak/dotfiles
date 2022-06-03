@@ -1,6 +1,10 @@
 # Fig pre block. Keep at the top of this file.
 . "$HOME/.fig/shell/zshrc.pre.zsh"
 
+autoload -Uz compinit && compinit
+zmodload -i zsh/complist
+setopt complete_aliases
+
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:/usr/local/opt/node@16/bin"
@@ -14,7 +18,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # ZSH_THEME="robbyrussell"
 
 plugins=(
-    gitfast
+    git
     copybuffer
     copypath
     dirhistory
@@ -41,8 +45,6 @@ eval "$(starship init zsh)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 test -e "${HOME}/.fzf.zsh" && source "${HOME}/.fzf.zsh"
-
-autoload -U compinit; compinit
 
 # Fig post block. Keep at the bottom of this file.
 . "$HOME/.fig/shell/zshrc.post.zsh"
