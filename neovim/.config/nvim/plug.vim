@@ -4,13 +4,13 @@ call plug#begin()
     " Appearance
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'kyazdani42/nvim-web-devicons'
     Plug 'ryanoasis/vim-devicons'
     Plug 'ntpeters/vim-better-whitespace'
 
     " Utilities
     Plug 'lukas-reineke/indent-blankline.nvim'
-    Plug 'plasticboy/vim-markdown'
-    Plug 'Pocco81/AutoSave.nvim'
+    Plug 'Pocco81/auto-save.nvim'
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-lua/plenary.nvim'
@@ -20,17 +20,24 @@ call plug#begin()
     Plug 'numToStr/Comment.nvim'
     Plug 'kien/ctrlp.vim'
 
+
+    " Markdown
+    Plug 'godlygeek/tabular'
+    Plug 'elzr/vim-json'
+    Plug 'plasticboy/vim-markdown'
+    Plug 'vim-pandoc/vim-pandoc-syntax'
+
     " Git
     Plug 'tveskag/nvim-blame-line'
     Plug 'airblade/vim-gitgutter'
+    Plug 'kdheepak/lazygit.nvim'
 
     " NERDTree
     Plug 'preservim/nerdtree'
     Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
     " Theme
-    Plug 'EdenEast/nightfox.nvim'
+    Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 
     " Language support
     Plug 'sheerun/vim-polyglot'
@@ -38,21 +45,26 @@ call plug#begin()
     Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'rodjek/vim-puppet'
+    Plug 'mfussenegger/nvim-dap'
 
     " LSP
-    Plug 'tami5/lspsaga.nvim'
-    Plug 'folke/lsp-colors.nvim'
+    Plug 'williamboman/mason.nvim'
+    Plug 'williamboman/mason-lspconfig.nvim'
     Plug 'neovim/nvim-lspconfig'
-    Plug 'onsails/lspkind-nvim'
-    Plug 'williamboman/nvim-lsp-installer'
+    Plug 'folke/trouble.nvim'
+    Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 
     " Completion
-    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/nvim-cmp'
     Plug 'hrsh7th/cmp-buffer'
     Plug 'hrsh7th/cmp-path'
-    Plug 'hrsh7th/cmp-cmdline'
-    Plug 'hrsh7th/nvim-cmp'
-    Plug 'L3MON4D3/LuaSnip'
     Plug 'saadparwaiz1/cmp_luasnip'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-nvim-lua'
 
+    "  Snippets
+    Plug 'L3MON4D3/LuaSnip'
+    Plug 'rafamadriz/friendly-snippets'
+
+    Plug 'VonHeikemen/lsp-zero.nvim'
 call plug#end()
