@@ -1,6 +1,5 @@
 # Fig pre block. Keep at the top of this file.
-. "$HOME/.fig/shell/zshrc.pre.zsh"
-
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 autoload -Uz compinit && compinit
 zmodload -i zsh/complist
 setopt complete_aliases
@@ -8,6 +7,7 @@ setopt complete_aliases
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:/usr/local/opt/node@16/bin"
+export PATH="$PATH:$HOME/.rbenv/shims"
 export PATH="$PATH:$HOME/.rbenv/bin"
 export PATH="$PATH:/opt/puppetlabs/bin"
 export PATH="$PATH:/Users/craig.gumbley/.puppetlabs/pct"
@@ -41,10 +41,11 @@ alias vim="nvim"
 
 eval "$(pyenv init -)"
 eval "$(pyenv init --path)"
+eval "$(rbenv init -)"
 eval "$(starship init zsh)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 test -e "${HOME}/.fzf.zsh" && source "${HOME}/.fzf.zsh"
 
 # Fig post block. Keep at the bottom of this file.
-. "$HOME/.fig/shell/zshrc.post.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"

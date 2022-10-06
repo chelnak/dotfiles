@@ -49,3 +49,6 @@ set winblend=0
 set wildoptions=pum
 set pumblend=5
 set suffixesadd=.js,.es,.jsx,.json,.css,.less,.sass,.styl,.php,.py,.md,.go
+" set foldmethod=indent
+" set foldlevel=1
+" set foldclose=all

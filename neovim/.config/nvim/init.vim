@@ -22,18 +22,7 @@ highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
 " Set line number color
 highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000
 
-" enable color scheme
-lua << EOF
-    require("nightfox").setup({
-        palettes = {
-            nordfox = {
-                comment = "#b0c0d6", -- "#60728a",
-            },
-        }
-    })
-EOF
-
-colorscheme nordfox
+colorscheme catppuccin
 
 " turns on "detection", "plugin" and "indent" at once.
 filetype plugin indent on
@@ -64,3 +53,7 @@ autocmd FileChangedShellPost *
 let g:better_whitespace_ctermcolor='219'
 
 command! GHChangelog execute('!gh changelog new')
+
+augroup pandoc_syntax
+    au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+augroup END
