@@ -1,3 +1,6 @@
+let g:loaded=1
+let g:loaded_netrwPlugin=1
+
 " init autocmd
 autocmd!
 
@@ -7,11 +10,10 @@ scriptencoding utf-8
 " enable syntax highlighting
 syntax enable
 
+lua require('plugins')
+
 " load settings
 runtime settings.vim
-
-" load plugins
-runtime plug.vim
 
 " load keybindings
 runtime maps.vim
@@ -54,6 +56,28 @@ let g:better_whitespace_ctermcolor='219'
 
 command! GHChangelog execute('!gh changelog new')
 
-augroup pandoc_syntax
-    au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
-augroup END
+" Fugitive
+" Status line
+if !exists('*fugitive#statusline')
+  set statusline=%F\ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'}[L%l/%L,C%03v]
+  set statusline+=%=
+  set statusline+=%{fugitive#statusline()}
+endif
+
+cnoreabbrev g Git
+cnoreabbrev gopen GBrowse
+
+" Blame line
+"  autocmd BufEnter * EnableBlameLine
+
+" Airline
+let g:airline_theme='deus'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+
+" Packer
+augroup packer_user_config
+  autocmd!
+  autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+augroup end
