@@ -10,5 +10,8 @@ lsp.configure('solargraph', {
     }
 })
 
+lsp.set_preferences({
+    manage_nvim_cmp = false,
+})
 
 lsp.setup()

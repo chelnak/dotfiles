@@ -32,15 +32,14 @@ vnoremap <silent> # :<C-U>
 
 "-----------------------------
 " Tabs
-nmap te :tabedit
-nmap <S-Tab> :tabprev<Return>
-nmap <Tab> :tabnext<Return>
+" nmap te :tabedit
+" nmap <S-Tab> :tabprev<Return>
+" nmap <Tab> :tabnext<Return>
 
 " Buffers
-nmap <leader>bn :bn<CR>
-nmap <leader>bp :bp<CR>
+nmap <leader>] :bn<CR>
+nmap <leader>[ :bp<CR>
 
-nnoremap <M-m> :MarkdownPreview<CR>
 
 " Trouble
 nnoremap <leader>xx <cmd>TroubleToggle<cr>
@@ -49,3 +48,12 @@ nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
 nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
 nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
+
+" Telescope
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Nerdtree
+nnoremap <leader>n :NvimTreeToggle<CR>
