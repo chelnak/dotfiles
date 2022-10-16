@@ -37,12 +37,10 @@ alias bolt="/opt/puppetlabs/bin/bolt"
 alias vim="nvim"
 alias dotfiles="cd $HOME/.dotfiles"
 
-
 eval "$(pyenv init -)"
 eval "$(rbenv init -)"
 eval "$(starship init zsh)"
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 test -e "${HOME}/.fzf.zsh" && source "${HOME}/.fzf.zsh"
 
 # Fig post block. Keep at the bottom of this file.
