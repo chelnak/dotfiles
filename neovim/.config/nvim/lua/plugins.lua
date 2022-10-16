@@ -12,13 +12,13 @@ return require('packer').startup(function(use)
     use 'vim-airline/vim-airline-themes'
     use 'kyazdani42/nvim-web-devicons'
     use 'ryanoasis/vim-devicons'
-    -- use 'ntpeters/vim-better-whitespace'
     use { 'catppuccin/nvim', as = 'catppuccin' }
 
     -- Utilities
     use { 'lukas-reineke/indent-blankline.nvim', config = [[require('config.indentblankline')]] }
     use { 'Pocco81/auto-save.nvim', config = [[require('config.autosave')]] }
     use { 'nvim-telescope/telescope.nvim', config = [[require('config.telescope')]] }
+    use 'ntpeters/vim-better-whitespace'
 
     use { 'nvim-lua/popup.nvim',
         requires = {
@@ -59,7 +59,7 @@ return require('packer').startup(function(use)
         },
         run = ':TSUpdate',
         config = [[require('config.nvim-treesitter')]]
-    }    
+    }
 
     use 'rodjek/vim-puppet'
     -- use 'mfussenegger/nvim-dap'
@@ -92,5 +92,4 @@ return require('packer').startup(function(use)
         requires = "kyazdani42/nvim-web-devicons",
         config = [[require('config.trouble')]]
     }
-
 end)
