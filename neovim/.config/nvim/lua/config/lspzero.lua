@@ -15,3 +15,13 @@ lsp.set_preferences({
 })
 
 lsp.setup()
+
+-- Reset diagnostic config
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = true,
+  update_in_insert = true,
+  underline = true,
+  severity_sort = false,
+  float = true,
+})

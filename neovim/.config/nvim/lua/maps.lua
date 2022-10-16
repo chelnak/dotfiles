@@ -25,4 +25,3 @@ set('n', '<leader>fh', '<cmd>Telescope help_tags<CR>')
 
 -- Tree
 set('n', '<leader>n', '<cmd>NvimTreeToggle<CR>')
-

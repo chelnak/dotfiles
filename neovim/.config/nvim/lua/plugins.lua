@@ -2,64 +2,11 @@ return require('packer').startup(function(use)
     -- Packer
     use 'wbthomason/packer.nvim'
 
-    -- Simple plugins can be specified as strings
-    use 'rstacruz/vim-closer'
-
     -- Appearance
-    use 'vim-airline/vim-airline'
-    use 'vim-airline/vim-airline-themes'
-    use 'kyazdani42/nvim-web-devicons'
-    use 'ryanoasis/vim-devicons'
-    use { 'catppuccin/nvim', as = 'catppuccin' }
-
-    -- Utilities
-    use { 'lukas-reineke/indent-blankline.nvim', config = [[require('config.indentblankline')]] }
-    use { 'Pocco81/auto-save.nvim', config = [[require('config.autosave')]] }
-    use { 'nvim-telescope/telescope.nvim', config = [[require('config.telescope')]] }
-    use 'ntpeters/vim-better-whitespace'
-
-    use { 'nvim-lua/popup.nvim',
-        requires = {
-            'nvim-lua/plenary.nvim'
-        }
-    }
-
-    use {
-        'nvim-tree/nvim-tree.lua',
-        requires = {
-            'nvim-tree/nvim-web-devicons',
-        },
-        config = [[require('config.nvim-tree')]]
-    }
-
-    use { 'numToStr/Comment.nvim', config = [[require('config.comment')]] }
-
-    use 'kien/ctrlp.vim'
-
-    -- Git
-    use 'tveskag/nvim-blame-line'
-    use 'airblade/vim-gitgutter'
-    use 'kdheepak/lazygit.nvim'
-    use 'tpope/vim-fugitive'
-    use 'tpope/vim-rhubarb'
-
-    -- Language Support
-    use 'sheerun/vim-polyglot'
-    use 'github/copilot.vim'
-    use { 'fatih/vim-go', run = ':GoUpdateBinaries' }
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        requires = {
-            'nvim-treesitter/nvim-treesitter-refactor',
-            'RRethy/nvim-treesitter-textsubjects',
-        },
-        run = ':TSUpdate',
-        config = [[require('config.nvim-treesitter')]]
-    }
-
-    use 'rodjek/vim-puppet'
-    -- use 'mfussenegger/nvim-dap'
-
+    use { 'catppuccin/nvim', as = 'catppuccin', config = [[require('config.catppuccin-theme')]] }
+    use { 'nvim-tree/nvim-web-devicons', config = [[require('config.web-devicons')]] }
+    use { 'nvim-lualine/lualine.nvim', requires = { 'nvim-tree/nvim-web-devicons', opt = true }, config = [[require('config.lualine-theme')]] }
+    -- LSP
     use {
         'VonHeikemen/lsp-zero.nvim',
         requires = {
@@ -83,9 +30,45 @@ return require('packer').startup(function(use)
         config = [[require('config.lspzero')]]
     }
 
+    -- Utilities
+    use { 'lukas-reineke/indent-blankline.nvim', config = [[require('config.indentblankline')]] }
+    use { 'Pocco81/auto-save.nvim', config = [[require('config.autosave')]] }
+    use { 'nvim-telescope/telescope.nvim', config = [[require('config.telescope')]] }
+    use { 'nvim-lua/popup.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+    use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons', }, config = [[require('config.nvim-tree')]] }
+    use { 'numToStr/Comment.nvim', config = [[require('config.comment')]] }
+    use 'ntpeters/vim-better-whitespace'
+    use { 'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
+
+    -- Git
+    use 'tveskag/nvim-blame-line'
+    use 'airblade/vim-gitgutter'
+    use 'kdheepak/lazygit.nvim'
+    use 'tpope/vim-fugitive'
+
+    -- Language Support
+    use 'sheerun/vim-polyglot'
+    use 'github/copilot.vim'
+    use { 'fatih/vim-go', run = ':GoUpdateBinaries' }
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        requires = {
+            'nvim-treesitter/nvim-treesitter-refactor',
+            'RRethy/nvim-treesitter-textsubjects',
+        },
+        run = ':TSUpdate',
+        config = [[require('config.nvim-treesitter')]]
+    }
+    use 'nvim-treesitter/nvim-treesitter-context'
+
+    use 'rodjek/vim-puppet'
+    use 'mfussenegger/nvim-dap'
+
     use {
         "folke/trouble.nvim",
-        requires = "kyazdani42/nvim-web-devicons",
-        config = [[require('config.trouble')]]
+        requires = "nvim-tree/nvim-web-devicons",
+        config = [[require('config.nvim-trouble')]]
     }
+
+    use { 'folke/lsp-colors.nvim', config = function() require('lsp-colors').setup() end }
 end)

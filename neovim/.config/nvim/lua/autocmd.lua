@@ -18,5 +18,4 @@ api.nvim_create_autocmd('FileChangedShellPost', { command='echohl WarningMsg | e
 -- Packer
 local packer_user_config = api.nvim_create_augroup('packer_user_config', {clear = true})
 api.nvim_create_autocmd("BufWritePost", { pattern="plugins.lua", command="source <afile> | PackerCompile", group=packer_user_config })
-
 api.nvim_create_autocmd('BufEnter', { pattern = '*', command = 'EnableBlameLine' })
