@@ -32,8 +32,6 @@ return require('packer').startup(function(use)
         config = [[require('config.nvim-tree')]]
     }
 
-    -- use { 'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup {} end }
-
     use { 'numToStr/Comment.nvim', config = [[require('config.comment')]] }
 
     use 'kien/ctrlp.vim'
