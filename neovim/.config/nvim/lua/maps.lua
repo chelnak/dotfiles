@@ -1,4 +1,4 @@
-vim.g.mapleader = '\\'
+vim.g.mapleader = ' '
 local set = vim.keymap.set
 
 set('n', '<S-C-p>', '"0p')
