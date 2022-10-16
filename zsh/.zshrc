@@ -15,6 +15,11 @@ export PATH="$PATH:/Users/craig.gumbley/.puppetlabs/prm"
 export ZSH="$HOME/.oh-my-zsh"
 export=ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
 
+DISABLE_AUTO_TITLE="true"
+function set_terminal_title() {
+    echo -ne "\033]0;$(basename ${PWD})\007"
+}
+
 plugins=(
     git
     copybuffer
@@ -42,6 +47,8 @@ eval "$(rbenv init -)"
 eval "$(starship init zsh)"
 
 test -e "${HOME}/.fzf.zsh" && source "${HOME}/.fzf.zsh"
+
+set_terminal_title
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"

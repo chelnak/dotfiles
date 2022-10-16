@@ -1,6 +1,7 @@
 local set=vim.opt
 
 -- Settings
+set.title=true
 set.autoindent=true
 set.background='dark'
 set.clipboard='unnamedplus'
