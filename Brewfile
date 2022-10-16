@@ -34,6 +34,7 @@ brew "luajit"
 brew "tree-sitter"
 brew "fzf"
 brew "solargraph"
+brew "kitty"
 
 cask "iterm2"
 cask "powershell"

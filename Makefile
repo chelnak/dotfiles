@@ -12,7 +12,8 @@ link:
 		git \
 		starship \
 		neovim \
-		hushlogin
+		hushlogin \
+		kitty
 
 .PHONY: brew
 brew:
