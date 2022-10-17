@@ -30,5 +30,6 @@ set.statusline:append '%{Fugitive#Statusline()}'
 set.tabstop=2
 set.termguicolors=true
 set.ttimeoutlen=0
+set.timeoutlen=500
 set.wildignore:append'*/node_modules/'
 set.wrap=false
