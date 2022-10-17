@@ -71,4 +71,6 @@ return require('packer').startup(function(use)
     }
 
     use { 'folke/lsp-colors.nvim', config = function() require('lsp-colors').setup() end }
+    use 'fladson/vim-kitty'
+    use { 'folke/which-key.nvim', config = [[require('config.which-key')]] }
 end)
