@@ -1,10 +1,10 @@
 return require('packer').startup(function(use)
     -- Packer
     use 'wbthomason/packer.nvim'
-
     -- Appearance
     use { 'catppuccin/nvim', as = 'catppuccin', config = [[require('config.catppuccin-theme')]] }
     use { 'nvim-tree/nvim-web-devicons', config = [[require('config.web-devicons')]] }
+
     use { 'nvim-lualine/lualine.nvim', requires = { 'nvim-tree/nvim-web-devicons', opt = true }, config = [[require('config.lualine-theme')]] }
     -- LSP
     use {
@@ -39,7 +39,7 @@ return require('packer').startup(function(use)
     use { 'numToStr/Comment.nvim', config = [[require('config.comment')]] }
     use 'ntpeters/vim-better-whitespace'
     use { 'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
-
+    use { 'christoomey/vim-tmux-navigator' }
     -- Git
     use 'tveskag/nvim-blame-line'
     use 'airblade/vim-gitgutter'
@@ -73,4 +73,5 @@ return require('packer').startup(function(use)
     use { 'folke/lsp-colors.nvim', config = function() require('lsp-colors').setup() end }
     use 'fladson/vim-kitty'
     use { 'folke/which-key.nvim', config = [[require('config.which-key')]] }
+    use 'ryanoasis/vim-devicons'
 end)
