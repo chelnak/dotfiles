@@ -8,6 +8,7 @@ bootstrap: link brew
 link:
 	@echo "Linking..."
 	@stow --no-folding -S \
+		tmux \
 		zsh \
 		git \
 		starship \
