@@ -1,5 +1,3 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 autoload -Uz compinit && compinit
 zmodload -i zsh/complist
 setopt complete_aliases
@@ -20,6 +18,8 @@ function set_terminal_title() {
     echo -ne "\033]0;$(basename ${PWD})\007"
 }
 
+ZSH_TMUX_AUTOSTART=true
+
 plugins=(
     git
     copybuffer
@@ -28,6 +28,7 @@ plugins=(
     jsontools
     zsh-syntax-highlighting
     zsh-autosuggestions
+    tmux
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -41,6 +42,13 @@ alias tree="ll --tree --level=4 --ignore-glob='.git'"
 alias bolt="/opt/puppetlabs/bin/bolt"
 alias vim="nvim"
 alias dotfiles="cd $HOME/.dotfiles"
+alias gs="git status"
+alias gco="git checkout"
+alias gcm="git checkout main"
+alias gcb="git checkout -b"
+alias gpl="git pull"
+alias gps="git push"
+
 
 eval "$(pyenv init -)"
 eval "$(rbenv init -)"
@@ -50,5 +58,3 @@ test -e "${HOME}/.fzf.zsh" && source "${HOME}/.fzf.zsh"
 
 set_terminal_title
 
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
