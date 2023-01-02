@@ -1,6 +1,6 @@
-vim.g.catppuccin_flavour = "macchiato"
 local colors = require("catppuccin.palettes").get_palette()
 require("catppuccin").setup {
+    flavour = "macchiato",
     -- term_colors = true,
     integrations = {
         treesitter = true,
@@ -40,7 +40,3 @@ require("catppuccin").setup {
 }
 
 vim.api.nvim_command "colorscheme catppuccin"
---
---  xxx cterm=underline gui=underline guisp=#eed49f
--- LspDiagnosticsUnderlineInformation xxx cterm=underline gui=underline guisp=#91d7e3
--- LspDiagnosticsUnderlineHint xxx cterm=underline gui=underline guisp=#8bd5ca

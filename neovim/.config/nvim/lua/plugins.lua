@@ -1,11 +1,17 @@
 return require('packer').startup(function(use)
     -- Packer
     use 'wbthomason/packer.nvim'
-    -- Appearance
-    use { 'catppuccin/nvim', as = 'catppuccin', config = [[require('config.catppuccin-theme')]] }
-    use { 'nvim-tree/nvim-web-devicons', config = [[require('config.web-devicons')]] }
 
-    use { 'nvim-lualine/lualine.nvim', requires = { 'nvim-tree/nvim-web-devicons', opt = true }, config = [[require('config.lualine-theme')]] }
+    -- Appearance
+    use { 'nvim-tree/nvim-web-devicons', config = [[require('config.web-devicons')]] }
+    use { 'catppuccin/nvim', as = 'catppuccin', config = [[require('config.catppuccin-theme')]] }
+    use { 'feline-nvim/feline.nvim', config = [[require('config.feline-theme')]] }
+    use {
+      'lewis6991/gitsigns.nvim',
+      config = function()
+        require('gitsigns').setup()
+      end
+    }
     -- LSP
     use {
         'VonHeikemen/lsp-zero.nvim',
@@ -39,12 +45,11 @@ return require('packer').startup(function(use)
     use { 'numToStr/Comment.nvim', config = [[require('config.comment')]] }
     use 'ntpeters/vim-better-whitespace'
     use { 'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
-    use { 'christoomey/vim-tmux-navigator' }
+
     -- Git
     use 'tveskag/nvim-blame-line'
     use 'airblade/vim-gitgutter'
     use 'kdheepak/lazygit.nvim'
-    use 'tpope/vim-fugitive'
 
     -- Language Support
     use 'sheerun/vim-polyglot'

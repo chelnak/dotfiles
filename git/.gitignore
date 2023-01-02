@@ -4,3 +4,5 @@
 **/build
 **/__pycache__
 **/*.spec
+*.log
+.DS_Store

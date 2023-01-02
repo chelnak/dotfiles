@@ -3,11 +3,11 @@ add_newline = false
 format = """
 $python\
 $golang\
+$ruby\
 $line_break\
 $directory\
 $git_branch\
 $git_status\
-$time\
 $line_break\
 $character"""
 
@@ -37,4 +37,8 @@ format  = '[\[[$symbol $version $virtualenv](dimmed)\]](dimmed)'
 
 [golang]
 symbol = "[]($style)"
+format = '[\[[$symbol $version](dimmed)\]](dimmed)'
+
+[ruby]
+symbol = "[]($style)"
 format = '[\[[$symbol $version](dimmed)\]](dimmed)'

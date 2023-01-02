@@ -1,6 +1,7 @@
 require('lualine').setup {
     options = {
-        theme = "catppuccin",
-        disabled_filetypes = { 'packer', 'NvimTree' }
+        theme = 'catppuccin',
+        disabled_filetypes = { 'packer' }
     },
+    extensions = {'nvim-tree'}
 }

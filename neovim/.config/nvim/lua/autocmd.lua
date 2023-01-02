@@ -11,8 +11,6 @@ api.nvim_create_autocmd('BufNewFile,BufRead', { pattern='*.rb', command='set fil
 api.nvim_create_autocmd('FileType', { pattern = 'ruby', command='setlocal shiftwidth=2 tabstop=2' })
 api.nvim_create_autocmd('FileType', { pattern = 'yaml', command='setlocal shiftwidth=2 tabstop=2' })
 
-
-api.nvim_create_autocmd('FocusGained,BufEnter,CursorHold,CursorHoldI', { command="if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif" })
 api.nvim_create_autocmd('FileChangedShellPost', { command='echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None'})
 
 -- Packer
