@@ -1,0 +1,3 @@
+{
+  rbenv = import ./rbenv.nix;
+}

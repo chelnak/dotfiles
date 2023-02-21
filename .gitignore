@@ -1,4 +1,3 @@
 .DS_Store
-packer_compiled.lua
-*.log
-
+result
+.vscode

@@ -1,0 +1,10 @@
+# fzf settings
+
+{ config, lib, pkgs, ... }:
+
+{
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+}
