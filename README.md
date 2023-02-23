@@ -1,12 +1,19 @@
+# dotfiles
+
+Nix configs adapted from the starter templates here https://github.com/Misterio77/nix-starter-configs/tree/main/standard
+
+## Setup
 
 
-# https://nix.dev/tutorials/install-nix
-1. Install nix
+1. Install nix: curl -L https://nixos.org/nix/install | sh
 
-curl -L https://nixos.org/nix/install | sh
+2. Enter a nix shell
 
-2. nix shell
+3. Run: home-manager switch --flake .#craig.gumbley
 
-3. home-manager switch --flake .#craig.gumbley
+4. home-manager should now be available outside of the nix shell
 
-https://nix-community.github.io/home-manager/index.html
+## Links
+
+- https://nix.dev/tutorials/install-nix
+- https://nix-community.github.io/home-manager/index.html
