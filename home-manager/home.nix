@@ -43,6 +43,7 @@ with builtins;
     (nerdfonts.override { fonts = [ "FiraCode" ]; })
     nodejs-19_x
     shared-mime-info
+    step-cli
     tree
     wget
     watch
