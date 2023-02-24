@@ -38,6 +38,7 @@ with builtins;
   # Install some misc packages
   home.packages = with pkgs; [
     coreutils
+    gmp
     httpie
     jo
     (nerdfonts.override { fonts = [ "FiraCode" ]; })
