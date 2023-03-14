@@ -38,9 +38,11 @@ with builtins;
   # Install some misc packages
   home.packages = with pkgs; [
     coreutils
+    ffmpeg
     gmp
     httpie
     jo
+    libyaml
     (nerdfonts.override { fonts = [ "FiraCode" ]; })
     nodejs-19_x
     shared-mime-info
