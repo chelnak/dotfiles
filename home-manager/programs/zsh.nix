@@ -22,6 +22,7 @@
       gcb   = "git checkout -b";
       gpl   = "git pull";
       gps   = "git push";
+      ssh   = "TERM='xterm-256color' ssh";
     };
     sessionVariables = rec {
       DISABLE_AUTO_TITLE = "true";
