@@ -23,6 +23,9 @@
       gpl   = "git pull";
       gps   = "git push";
       ssh   = "TERM='xterm-256color' ssh";
+      bx    = "bundle exec";
+      bi    = "bundle install --path .bundle";
+      pdk   = "/opt/puppetlabs/pdk/bin/pdk";
     };
     sessionVariables = rec {
       DISABLE_AUTO_TITLE = "true";
