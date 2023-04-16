@@ -63,8 +63,8 @@ with builtins;
 
   # Copy across neovim configs
   home.file = {
-    ".config/nvim/lua" = {
-      source = ../neovim/lua;
+    ".config/nvim/lua/user" = {
+      source = ../neovim/user;
     };
   };
 
