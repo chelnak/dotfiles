@@ -1,9 +1,9 @@
 # rbenv settings
 
 { outputs, config, lib, pkgs, ... }: {
-  imports = [
-    outputs.homeManagerModules.rbenv
-  ];
+  # imports = [
+  #   outputs.homeManagerModules.rbenv
+  # ];
 
   programs.rbenv = {
     enable = true;

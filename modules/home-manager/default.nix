@@ -1,3 +1,3 @@
 {
-  rbenv = import ./rbenv.nix;
+  # rbenv = import ./rbenv.nix;
 }
