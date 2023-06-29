@@ -2,19 +2,18 @@ with builtins;
 
 { inputs, outputs, lib, config, pkgs, ... }: {
   imports = [
-    ./programs/bat.nix
-    ./programs/exa.nix
-    ./programs/fzf.nix
-    ./programs/gh.nix
-    ./programs/git.nix
-    ./programs/go.nix
-    ./programs/gpg.nix
-    ./programs/jq.nix
-    ./programs/kitty.nix
-    ./programs/neovim.nix
-    ./programs/rbenv.nix
-    ./programs/starship.nix
-    ./programs/zsh.nix
+   ./programs/bat.nix
+   ./programs/exa.nix
+   ./programs/fzf.nix
+   ./programs/gh.nix
+   ./programs/git.nix
+   ./programs/go.nix
+   ./programs/gpg.nix
+   ./programs/jq.nix
+   ./programs/kitty.nix
+   ./programs/neovim.nix
+   ./programs/starship.nix
+   ./programs/zsh.nix
   ];
 
   nixpkgs = {
@@ -25,8 +24,8 @@ with builtins;
   };
 
   home = {
-    username = "craig.gumbley";
-    homeDirectory = "/Users/craig.gumbley";
+    username = "craigg";
+    homeDirectory = "/Users/craigg";
   };
 
   # Enable home-manager
@@ -44,9 +43,8 @@ with builtins;
     jo
     libyaml
     (nerdfonts.override { fonts = [ "FiraCode" ]; })
-    nodejs-19_x
+    nodejs
     shared-mime-info
-    step-cli
     tree
     wget
     watch
@@ -69,5 +67,5 @@ with builtins;
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "22.11";
+  home.stateVersion = "23.11";
 }

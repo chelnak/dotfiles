@@ -13,7 +13,6 @@
     inherit (self) outputs;
     forAllSystems = nixpkgs.lib.genAttrs [
       "aarch64-darwin"
-      "x86_64-darwin"
     ];
   in
   rec {
@@ -31,8 +30,8 @@
 
     homeManagerModules = import ./modules/home-manager;
     homeConfigurations = {
-      "craig.gumbley" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-darwin;
+      "craigg" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         extraSpecialArgs = { inherit inputs outputs; };
         modules = [
           ./home-manager/home.nix

@@ -13,6 +13,21 @@ Nix configs adapted from the starter templates here https://github.com/Misterio7
 
 4. home-manager should now be available outside of the nix shell
 
+## Manual installations
+
+### Web
+* Chrome
+* VS Code
+
+### Homebrew
+
+* Bolt
+* vagrant
+
+### AstroVIM
+
+* https://github.com/AstroNvim/AstroNvim
+
 ## Links
 
 - https://nix.dev/tutorials/install-nix
