@@ -49,7 +49,6 @@ with builtins;
     wget
     watch
     yq
-    # vagrant # out of date
   ];
 
   # Create a hush login file

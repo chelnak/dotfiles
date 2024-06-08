@@ -11,7 +11,7 @@
     };
     shellAliases = {
       cat   = "bat";
-      ls    = "exa --icons --all";
+      ls    = "eza --icons --all";
       ll    = "ls --header --long --git";
       tree  = "ll --tree --level=4 --ignore-glob='.git'";
       bolt  = "/opt/puppetlabs/bin/bolt";
@@ -28,6 +28,7 @@
       DISABLE_AUTO_TITLE = "true";
     };
     initExtra = ''
+      export GITHUB_TOKEN="(gh auth token)"
       export GOPATH=$HOME/go
       export PATH="$PATH:$GOPATH/bin"
       export PATH="$PATH:/usr/local/opt/node@16/bin"

@@ -1,9 +1,9 @@
-# exa settings
+# eza settings
 
 { config, lib, pkgs, ... }:
 
 {
-  programs.exa = {
+  programs.eza = {
     enable = true;
   };
 }

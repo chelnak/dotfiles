@@ -4,6 +4,6 @@
 
 {
   programs.go = {
-    enable = true;
+    enable = false;
   };
 }
