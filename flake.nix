@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -13,7 +13,6 @@
     inherit (self) outputs;
     forAllSystems = nixpkgs.lib.genAttrs [
       "aarch64-darwin"
-      "x86_64-darwin"
     ];
   in
   rec {
@@ -31,8 +30,8 @@
 
     homeManagerModules = import ./modules/home-manager;
     homeConfigurations = {
-      "craig.gumbley" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-darwin;
+      "craigg" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         extraSpecialArgs = { inherit inputs outputs; };
         modules = [
           ./home-manager/home.nix

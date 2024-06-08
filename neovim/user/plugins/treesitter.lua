@@ -3,7 +3,6 @@ return {
   opts = {
     ensure_installed = { 
       "lua",
-      "ruby",
       "python",
       "go",
       "javascript",

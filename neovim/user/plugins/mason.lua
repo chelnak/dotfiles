@@ -7,7 +7,6 @@ return {
     opts = {
       ensure_installed = { 
         "gopls",
-        "solargraph",
       },
       automatic_installation = true,
     },
@@ -20,7 +19,6 @@ return {
       automatic_setup = true,
       ensure_installed = { 
         "goimports",
-        "rubocop",
       },
     },
   },
@@ -28,7 +26,7 @@ return {
     "jay-babu/mason-nvim-dap.nvim",
     -- overrides `require("mason-nvim-dap").setup(...)`
     opts = {
-      -- ensure_installed = { "python" },
+      ensure_installed = { "delve" },
     },
   },
 }

@@ -8,10 +8,10 @@
     enable = true;
     settings = {
       add_newline = false;
-      format = "$python$golang$ruby$line_break$directory$git_branch$git_status$line_break$character";
+      format = "$python$golang$line_break$directory$git_branch$git_status$line_break$character";
       character = {
-        success_symbol  = "[](green)";
-        error_symbol    = "[](red)";
+        success_symbol  = "[➔](green)";
+        error_symbol    = "[➔](red)";
       };
       directory = {
         format  = " [$path]($style) ";
@@ -35,10 +35,6 @@
       };
       golang = {
         symbol = "[]($style)";
-        format = "'[\\[[$symbol $version](dimmed)\\]](dimmed)'";
-      };
-      ruby = {
-        symbol = "[]($style)";
         format = "[\\[[$symbol $version](dimmed)\\]](dimmed)";
       };
     };

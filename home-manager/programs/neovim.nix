@@ -14,9 +14,8 @@ in
       golangci-lint
       lazygit
       luajit
-      nodejs-19_x
+      nodejs
       ripgrep
-      solargraph
       tree-sitter
       yamllint
     ];
