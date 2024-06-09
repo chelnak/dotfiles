@@ -11,6 +11,7 @@ with builtins;
    ./programs/gpg.nix
    ./programs/jq.nix
    ./programs/kitty.nix
+   ./programs/mise.nix
    ./programs/neovim.nix
    ./programs/starship.nix
    ./programs/zsh.nix
