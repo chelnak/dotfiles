@@ -3,7 +3,7 @@ with builtins;
 { inputs, outputs, lib, config, pkgs, ... }: {
   imports = [
    ./programs/bat.nix
-   ./programs/exa.nix
+   ./programs/eza.nix
    ./programs/fzf.nix
    ./programs/gh.nix
    ./programs/git.nix
@@ -24,8 +24,8 @@ with builtins;
   };
 
   home = {
-    username = "craigg";
-    homeDirectory = "/Users/craigg";
+    username = "craig";
+    homeDirectory = "/home/craig";
   };
 
   # Enable home-manager
@@ -64,6 +64,8 @@ with builtins;
       source = ../neovim/user;
     };
   };
+
+  systemd.user.startServices = "sd-switch";
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "23.11";

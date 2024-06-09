@@ -14,15 +14,10 @@
       ls    = "eza --icons --all";
       ll    = "ls --header --long --git";
       tree  = "ll --tree --level=4 --ignore-glob='.git'";
-      bolt  = "/opt/puppetlabs/bin/bolt";
       vim   = "nvim";
       gs    = "git status";
-      gco   = "git checkout";
-      gcm   = "git checkout main";
-      gcb   = "git checkout -b";
-      gpl   = "git pull";
-      gps   = "git push";
       ssh   = "TERM='xterm-256color' ssh";
+      hms   = "home-manager switch --flake ~/code/dotfiles/#$USER";
     };
     sessionVariables = rec {
       DISABLE_AUTO_TITLE = "true";
